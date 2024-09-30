@@ -137,7 +137,19 @@ class Xoo_El_Frontend{
 
 		if( is_user_logged_in() ){
 
+			$user = wp_get_current_user();
+
 			$change_to_text = esc_html( $atts['change_to_text'] );
+
+			$changeToTextsHolders = array(
+				'{firstname}' 	=> $user->first_name,
+				'{lastname}' 	=> $user->last_name,
+				'{username}' 	=> $user->user_login,
+			);
+
+			foreach ($changeToTextsHolders as $holderKey => $holderValue) {
+				$change_to_text = str_replace( $holderKey , $holderValue, $change_to_text );
+			}
 
 			if( $atts['change_to'] === 'myaccount' ) {
 				$change_to_link = wc_get_page_permalink( 'myaccount' );

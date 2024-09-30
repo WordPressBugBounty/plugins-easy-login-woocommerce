@@ -93,8 +93,10 @@ class Xoo_El_User_Profile {
 
 			foreach ( $fields as $field_id => $field_data ) {
 
+				$value = get_user_meta( $user->ID, $field_id, true );
+
 				$args = array(
-					'value' => get_user_meta( $user->ID, $field_id, true ),
+					'value' => $value,
 				);
 
 				$args = xoo_el()->aff->fields->get_field_html_args( $field_id, $args );
@@ -114,7 +116,22 @@ class Xoo_El_User_Profile {
 					$args['description'] = 'Add state code';
 				}
 
-				xoo_el()->aff->fields->get_input_html( $field_id, $args );
+				if( $field_data['input_type'] === 'file' ){
+					$value = (array) $value;
+					
+					$field_html  = '<div class="xoo-aff-file-list">';
+					$field_html .= '<input type="text" name="' . $field_id . '" value="'.implode(',', $value).'"/>';
+					foreach ($value as $attachment_id) {
+						$url = wp_get_attachment_url($attachment_id);
+						$field_html .= '<a target="__blank" href="'.$url.'">'.$url.'</a><br>';
+					}
+					$field_html .= '</div>';
+					echo $field_html;
+					echo '<p class="description">Add attachment IDs here (comma separated)</p>';
+				}
+				else{
+					xoo_el()->aff->fields->get_input_html( $field_id, $args );
+				}
 
 				echo '</td>';
 
@@ -139,6 +156,7 @@ class Xoo_El_User_Profile {
 	public function save_customer_meta_fields( $user_id ) {
 
 		$save_fields = xoo_el_fields()->get_fields( 'register' );
+
 		if( empty( $save_fields ) ) return;
 
 		foreach ( $save_fields as $field_id => $field_data ) {
@@ -150,6 +168,11 @@ class Xoo_El_User_Profile {
 				else{
 					$value = sanitize_text_field( $_POST[ $field_id ] );
 				}
+
+				if( $field_data['input_type'] === 'file' && $_POST[ $field_id ] ){
+					$value = explode(',', $value );
+				}
+
 			}
 			else{
 				$value = '';

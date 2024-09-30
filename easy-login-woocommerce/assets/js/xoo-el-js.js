@@ -141,11 +141,19 @@ jQuery(document).ready(function($){
 
 			$button.html( xoo_el_localize.html.spinner ).addClass('xoo-el-processing');
 
-			var form_data = $form.serialize() + '&action=xoo_el_form_action' + '&display=' + container.display;
+			var form_data = new FormData($form[0]);
+
+			form_data.append( 'action', 'xoo_el_form_action' );
+			form_data.append( 'display', container.display );
+
 
 			$.ajax({
 				url: xoo_el_localize.adminurl,
 				type: 'POST',
+				processData: false,
+    			contentType: false,
+    			cache: false,
+    			enctype: 'multipart/form-data',
 				data: form_data,
 				complete: function( xhr, status ){
 					$button.removeClass('xoo-el-processing').html(buttonTxt);

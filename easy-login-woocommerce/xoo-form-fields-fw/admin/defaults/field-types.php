@@ -114,6 +114,15 @@ $field_types =  array(
 			'icon' => 'fas fa-key',
 		)
 	),
+
+	'xoo_aff_upload' => array(
+		'xoo_aff_upload',
+		'file',
+		'File Upload',
+		array(
+			'icon' => 'fas fa-cloud-upload-alt',
+		)
+	),
 );
 
 

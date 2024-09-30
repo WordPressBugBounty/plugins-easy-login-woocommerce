@@ -936,6 +936,22 @@ class Xoo_Aff_Fields{
 		}
 
 
+
+		if( $args['input_type'] === 'file' ){
+
+			$args['custom_attributes']['accept'] = $args['file_type'];
+
+			if( $args['file_multiple'] === "yes" ){
+				$args['custom_attributes']['multiple'] = 'multiple';
+			}
+
+			if( $args['file_type'] ){
+				$args['custom_attributes']['accept'] = $args['file_type'];
+			}
+			
+		}
+
+
 		if ( ! empty( $args['custom_attributes'] ) && is_array( $args['custom_attributes'] ) ) {
 			foreach ( $args['custom_attributes'] as $attribute => $attribute_value ) {
 				$attribute_value = is_array( $attribute_value ) ? json_encode( $attribute_value ) : $attribute_value;
@@ -1010,6 +1026,11 @@ class Xoo_Aff_Fields{
 
 			case 'textarea':
 				$field_html .= '<textarea class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '" ' . $custom_attributes . '>'. $value .'</textarea>';
+				break;
+
+			case 'file':
+				$field_id = $args['file_multiple'] === "yes" ? $field_id.'[]' : $field_id;
+				$field_html .= '<input type="' . $input_type . '" class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '" ' . $custom_attributes . '/>';
 				break;
 
 
@@ -1271,7 +1292,8 @@ class Xoo_Aff_Fields{
 
 		foreach ( $fields as $field_id => $field_data ) {
 
-			$settings = $field_data[ 'settings' ];
+			$settings 	= $field_data[ 'settings' ];
+			$input_type = $field_data['input_type'];
 
 			if( empty( $settings ) || in_array( $field_id , $do_not_validate_ids ) || $settings['active'] !== "yes") continue;
 
@@ -1279,8 +1301,91 @@ class Xoo_Aff_Fields{
 			$userVal 	= isset( $values[ $field_id ] ) ? ( is_array( $_POST[ $field_id ] ) ? array_map( 'sanitize_text_field', $_POST[ $field_id ] ) : esc_attr( trim( $values[ $field_id ] ) ) ) : '';
 			$label 		= isset( $settings['label'] ) && trim( $settings['label'] ) ? trim( $settings['label'] ) : trim( $settings['placeholder'] );
 
+
+			if( $input_type === 'file' ){
+
+				$files 	= array();
+
+				// Throws a message if no file is selected
+				if( ( $settings['file_multiple'] === "yes" && empty($_FILES) ) || !$_FILES[$field_id]['name']  ){
+
+					if( $settings['required'] === "yes" ){
+						$errors->add( 'file-empty', sprintf( esc_attr__( '%s - File not selected.', $this->plugin_slug ), $label, ), $field_id );
+					}
+					
+				}
+				else{
+					//Organize raw files in proper format
+					if( $settings['file_multiple'] === "yes" ){
+
+						$rawf 		= $_FILES[$field_id];
+						
+						$file_size 	= 0;
+
+						foreach( $rawf['name'] as $index => $name ) {
+
+							if ( $rawf['name'][$index] ) { 
+
+								$file = array( 
+									'name' 		=> $rawf['name'][$index],
+									'type' 		=> $rawf['type'][$index], 
+									'tmp_name' 	=> $rawf['tmp_name'][$index], 
+									'error' 	=> $rawf['error'][$index],
+									'size' 		=> $rawf['size'][$index]
+								);
+
+								$file_size += $file['size'];
+
+							}
+
+							$files[] = $file; 
+					
+						}
+					}
+					else{
+						$files[] 	= $_FILES[$field_id];
+						$file_size 	= $_FILES[$field_id]['size'];
+					}
+				}
+
+
+				
+
+				if( !empty( $files ) ){
+
+					//Check for file extension
+					$allowed_extensions = array_map( 'trim',explode( ',', str_replace('.', '', $settings['file_type'] ) ) );
+
+					foreach ( $files as $index => $file ) {
+
+						$file_type 			= wp_check_filetype( $file['name'] );
+
+						$file_extension 	= $file_type['ext'];
+
+						if ( !in_array( $file_extension, $allowed_extensions ) ) {
+							$errors->add( 'file-invalid', sprintf( esc_attr__( 'Invalid file extension, only allowed: %s', $this->plugin_slug ), implode(', ', $allowed_extensions ) ), $field_id );
+							break;
+						}
+						
+					}
+
+
+					// Check for file size limit
+					$allowed_file_size_mb 	= $settings['max_filesize'] ? $settings['max_filesize'] : 1; //In MB
+					$allowed_file_size_kb  	=  $allowed_file_size_mb * 1024 * 1024;// Here we are setting the file size limit to 500 KB = 500 × 1024
+
+					if ( $file_size >= $allowed_file_size_kb ) {
+						$errors->add( 'file-size', sprintf( esc_attr__( 'File size limit exceeded, file size should be smaller than %0.1f MB', $this->plugin_slug ), $allowed_file_size_mb ), $field_id );
+					}
+
+				}
+
+				$userVal = $files;
+				
+			}	
+
 			//If required and value is empty
-			if( isset($settings['required']) && $settings['required'] === "yes" &&  !$userVal ){
+			if( isset($settings['required']) && $settings['required'] === "yes" &&  !$userVal && $input_type !== 'file' ){
 
 				switch ( $field_data['input_type'] ) {
 					case 'checkbox_single':

@@ -90,7 +90,7 @@ $shortcodes = array(
 	'xoo_el_action' => array(
 		'shortcode' => '[xoo_el_action]',
 		'desc' 		=> 'Creates a link/button to open popup',
-		'example' 	=> '[xoo_el_action type="login" display="button" text="Login" change_to="logout" redirect_to="same"]',
+		'example' 	=> '[xoo_el_action type="login" display="button" text="Login" change_to="logout" change_to_text="Logout {username}?" redirect_to="same"]',
 		'atts' 		=> array(
 			array(
 				'type',
@@ -118,7 +118,7 @@ $shortcodes = array(
 			),
 			array(
 				'change_to_text',
-				'Custom Text',
+				'Custom Text/ {firstname} / {lastname} / {username}',
 				'Logout',
 				'After signing in, the link text should change into'
 			),

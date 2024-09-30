@@ -32,7 +32,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->predefined_field_lastname();
 			$this->predefined_field_userpassword();
 			$this->predefined_field_userpasswordagain();
-			$this->predefined_mailchimp_subscribe();
+			
 			$this->predefined_field_terms();
 			$this->login_predefined_field_useremail();
 			$this->login_predefined_field_userpassword();
@@ -40,6 +40,11 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->resetpw_predefined_field_password();
 			$this->resetpw_predefined_field_passwordagain();
 			$this->predefined_field_single();
+
+
+			$this->predefined_mailchimp_subscribe();
+			$this->predfined_mc4wp_subscribe();
+			$this->predfined_mailpoet_subscribe();
 		}
 
 
@@ -380,27 +385,18 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 		}
 
 
-		public function predefined_mailchimp_subscribe(){
+		public function newsletter_field( $field_id, $args = array() ){
 
-			$mailchimp_id = false;
+			$args = wp_parse_args( $args, array(
+				'fieldTitle' => ''
+			) );
 
-			if( function_exists( 'run_mailchimp_woocommerce' ) ){
-				$mailchimp_id = 'mailchimp_woocommerce_newsletter';
-			}
-
-			if( function_exists('mc4wp') ){
-				$mailchimp_id = 'mc4wp-subscribe';
-			}
-
-			//If no mailchimp plugin, return
-			if( !$mailchimp_id ) return;
-
-			$field_type_id = $field_id = $mailchimp_id;
+			$field_type_id = $field_id;
 
 			$this->fields->add_type(
 				$field_type_id,
 				'checkbox_single',
-				'Mailchimp Newsletter',
+				$args['fieldTitle'],
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -445,6 +441,39 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 					'unique_id' => $field_id,
 				)
 			);
+		}
+
+
+		public function predfined_mc4wp_subscribe(){
+
+			if( !function_exists('run_mailchimp_woocommerce') ) return;
+
+			$this->newsletter_field( 'mailchimp_woocommerce_newsletter', array(
+				'fieldTitle' => 'Mailchimp Newsletter'
+			) );
+
+		}
+
+
+		public function predefined_mailchimp_subscribe(){
+
+			if( !function_exists('mc4wp') ) return;
+
+			$this->newsletter_field( 'mc4wp-subscribe', array(
+				'fieldTitle' => 'Mailchimp Newsletter (MC4WP)'
+			) );
+
+		}
+
+
+		public function predfined_mailpoet_subscribe(){
+
+			if( !defined('MAILPOET_VERSION') ) return;
+
+			$this->newsletter_field( 'xoo-mailpoet-subscribe', array(
+				'fieldTitle' => 'MailPoet Newsletter'
+			) );
+
 		}
 
 

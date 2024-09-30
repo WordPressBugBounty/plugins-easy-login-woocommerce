@@ -372,6 +372,36 @@ $field_settings = array(
 		'info' 		=> 'UI for searching select options'
 	),
 
+	'max_filesize'	=> array(
+		'type' 		=> 'number',
+		'id'		=> 'max_filesize',
+		'section' 	=> 'basic',
+		'title' 	=> 'Maximum File Size',
+		'width'		=> 'half',
+		'value'		=> '2',
+		'info'		=> 'File Size in MB',
+	),
+
+	'file_multiple' 	=> array(
+		'type' 		=> 'checkbox',
+		'id'		=> 'file_multiple',
+		'section' 	=> 'basic',	
+		'title' 	=> 'Multiple Files',
+		'width'		=> 'half',
+		'value'		=> 'yes',
+	),
+
+	'file_type'	=> array(
+		'type' 		=> 'text',
+		'id'		=> 'file_type',
+		'section' 	=> 'basic',
+		'title' 	=> 'File Type',
+		'width'		=> 'half',
+		'value'		=> '.png, .jpg, .pdf',
+		'info'		=> 'Use comma separated values. For eg: .png, .jpg, .pdf. Leave empty for any file type',
+	),
+
+
 
 	/**
 	  * Advanced section

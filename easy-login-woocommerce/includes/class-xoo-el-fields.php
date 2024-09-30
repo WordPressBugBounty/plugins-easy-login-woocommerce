@@ -43,7 +43,7 @@ class Xoo_El_Fields{
 		else if( $type === 'myaccount' ){
 			foreach ( $fields as $field_id => $field_data )  {
 				//Skip if predefined field
-				if( !isset( $field_data['settings']['display_myacc'] ) || $field_data['settings']['display_myacc'] !== 'yes' ){
+				if( !isset( $field_data['settings']['display_myacc'] ) || $field_data['settings']['display_myacc'] !== 'yes' || $field_data['input_type'] === 'file' ){
 					unset( $fields[ $field_id ] );
 				}
 			}

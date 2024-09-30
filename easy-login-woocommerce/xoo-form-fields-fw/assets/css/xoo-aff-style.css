@@ -35,7 +35,7 @@ body:not(.rtl) .xoo-aff-input-group .xoo-aff-input-icon{
     border-top-right-radius: 0;
 }
 
-.xoo-aff-group input[type="text"], .xoo-aff-group input[type="password"], .xoo-aff-group input[type="email"], .xoo-aff-group input[type="number"], .xoo-aff-group select, .xoo-aff-group select + .select2, .xoo-aff-group input[type="tel"]{
+.xoo-aff-group input[type="text"], .xoo-aff-group input[type="password"], .xoo-aff-group input[type="email"], .xoo-aff-group input[type="number"], .xoo-aff-group select, .xoo-aff-group select + .select2, .xoo-aff-group input[type="tel"], .xoo-aff-group input[type="file"]{
     flex-grow: 1;
     min-width: 1px;
     margin: 0;
@@ -58,6 +58,14 @@ body:not(.rtl) .xoo-aff-input-group .xoo-aff-input-icon{
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     outline: 0;
 }
+
+.xoo-aff-group input::file-selector-button {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    margin-right: 10px;
+}
+
 
 .xoo-aff-group label{
     font-weight: 600;
@@ -250,9 +258,6 @@ span.xoo-aff-pwtog-hide {
     min-width: 140px;
 }
 
-.select2-container {
-    z-index: 99999999999!important;
-}
 
 
 /* RTL */

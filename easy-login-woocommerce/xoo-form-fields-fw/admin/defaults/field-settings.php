@@ -205,7 +205,23 @@ $field_settings = array(
 		'password_visibility',
 		'unique_id',
 		'class'
-	)
+	),
+
+	'xoo_aff_upload' => array(
+		'active',
+		'required',
+		'show_label',
+		'label',
+		'cols',
+		'icon' => array(
+			'value' => 'fas fa-cloud-upload-alt'
+		),
+		'max_filesize',
+		'file_type',
+		'file_multiple',
+		'unique_id',
+		'class'
+	),
 
 	
 );

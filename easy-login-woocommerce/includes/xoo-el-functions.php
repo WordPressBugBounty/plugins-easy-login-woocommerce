@@ -627,4 +627,21 @@ function xoo_el_ml_old_cc_fix( $fields ){
 }
 add_filter( 'xoo_ml_el_login_form_input_fields', 'xoo_el_ml_old_cc_fix' );
 
+
+if( defined( 'MAILPOET_VERSION' ) ){
+	function xoo_el_mailpoet_subscribe( $data ){
+
+		if( isset( $_POST['xoo-mailpoet-subscribe'] ) && trim( $_POST['xoo-mailpoet-subscribe'] ) ){
+			$_POST['mailpoet']['subscribe_on_register'] = true;
+		}
+		else{
+			$_POST['mailpoet']['subscribe_on_register_active'] = true;
+		}
+
+		return $data;
+
+	}
+	add_filter( 'xoo_el_register_new_customer_data', 'xoo_el_mailpoet_subscribe' );
+}
+
 ?>

@@ -643,3 +643,7 @@ body.rtl .xoo-aff-cont-tel .xoo-aff-input-group {
     flex-wrap: wrap;
 }
 
+
+.xoo-el-popup-active .select2-container {
+    z-index: 99999999999!important;
+}

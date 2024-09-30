@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: social login, login customizer, registration, popup, custom registration fields
 Requires at least: 3.0.1
 Tested up to: 6.6
-Stable tag: 2.7.6
+Stable tag: 2.7.8
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,16 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 2.7.8 =
+* Fix - Mailpoet compatibility
+
+= 2.7.7 =
+* New - Upload file field
+* New - Use firstname/lastname/username in shortcode [xoo_el_action]
+* New - Mailpoet compatibility
+* Fix - WPML shortcode compatibility
+
 = 2.7.6 =
 * Fix - error for non-woocommerce users
 
