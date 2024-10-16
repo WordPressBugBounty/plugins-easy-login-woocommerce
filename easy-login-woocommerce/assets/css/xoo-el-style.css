@@ -647,3 +647,7 @@ body.rtl .xoo-aff-cont-tel .xoo-aff-input-group {
 .xoo-el-popup-active .select2-container {
     z-index: 99999999999!important;
 }
+
+.xoo-el-popup-active.xoo-el-container {
+    content-visibility: visible!important;
+}

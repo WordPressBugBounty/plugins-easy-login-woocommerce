@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: social login, login customizer, registration, popup, custom registration fields
 Requires at least: 3.0.1
 Tested up to: 6.6
-Stable tag: 2.7.8
+Stable tag: 2.7.9
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,9 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 2.7.9 =
+* Fix - WP Rocket recent update hiding popup
 
 = 2.7.8 =
 * Fix - Mailpoet compatibility
