@@ -391,6 +391,16 @@ $field_settings = array(
 		'value'		=> 'yes',
 	),
 
+	'file_multiple_max' 	=> array(
+		'type' 		=> 'number',
+		'id'		=> 'file_multiple_max',
+		'section' 	=> 'basic',	
+		'title' 	=> 'Maximum number of files',
+		'width'		=> 'half',
+		'value'		=> 3,
+		'info' 		=> 'When Multiple files are allowed'
+	),
+
 	'file_type'	=> array(
 		'type' 		=> 'text',
 		'id'		=> 'file_type',

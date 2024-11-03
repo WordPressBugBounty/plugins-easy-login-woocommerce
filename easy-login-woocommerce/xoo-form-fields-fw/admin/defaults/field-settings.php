@@ -219,6 +219,7 @@ $field_settings = array(
 		'max_filesize',
 		'file_type',
 		'file_multiple',
+		'file_multiple_max',
 		'unique_id',
 		'class'
 	),

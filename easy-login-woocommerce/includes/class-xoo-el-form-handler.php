@@ -331,45 +331,12 @@ class Xoo_El_Form_Handler{
 
 
 				if( !empty( $fieldsWithFiles ) ){
-
-					// These files need to be included as dependencies when on the front end.
-					require_once( ABSPATH . 'wp-admin/includes/image.php' );
-					require_once( ABSPATH . 'wp-admin/includes/file.php' );
-					require_once( ABSPATH . 'wp-admin/includes/media.php' );
-
-					$attachmentIDS = array();
-
-					foreach ( $fieldsWithFiles as $field_id => $files ) {
-
-						foreach ( $files as $file ) {
-
-							$_FILES = array( $field_id => $file );
-
-							// Let WordPress handle the upload.
-							// Remember, 'wpcfu_file' is the name of our file input in our form above.
-							$attachment_id = media_handle_upload( $field_id, 0 );
-
-							if ( is_wp_error( $attachment_id ) ) {
-								
-								//delete previously attached files
-								foreach ($attachmentIDS as $field_id => $ids) {
-									foreach ($ids as $id) {
-										wp_delete_attachment( $id );
-									}	
-								}
-
-								throw new Xoo_Exception( __( 'Some files failed to upload', 'easy-login-woocommerce' ). ' - ' . $file['name'] . '('.$attachment_id->get_error_message().')' );
-							} 
-							else{
-								$attachmentIDS[ $field_id ][] = $attachment_id;
-							}
-						}
-
+					$attachmentIDS = xoo_el_helper()->upload_files_as_attachment( $fieldsWithFiles );
+					if( is_wp_error( $attachmentIDS ) ){
+						throw new Xoo_Exception( $attachmentIDS );
 					}
-
-					
-
 				}
+
 
 				$new_customer = self::create_customer( $email, $username, $password, $reg_extra_data );
 

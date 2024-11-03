@@ -39,7 +39,7 @@ class Xoo_El_Core{
 		define( "XOO_EL_PATH", plugin_dir_path( XOO_EL_PLUGIN_FILE ) ); // Plugin path
 		define( "XOO_EL_URL", untrailingslashit( plugins_url( '/', XOO_EL_PLUGIN_FILE ) ) ); // plugin url
 		define( "XOO_EL_PLUGIN_BASENAME", plugin_basename( XOO_EL_PLUGIN_FILE ) );
-		define( "XOO_EL_VERSION", "2.7.9" ); //Plugin version
+		define( "XOO_EL_VERSION", "2.8" ); //Plugin version
 
 	}
 
@@ -61,20 +61,20 @@ class Xoo_El_Core{
 
 		require_once XOO_EL_PATH.'includes/class-xoo-el-fields.php';
 
-		if($this->is_request('frontend')){
+		if( xoo_el_helper()->is_request('frontend')){
 
 			require_once XOO_EL_PATH.'includes/class-xoo-el-frontend.php';
 			require_once XOO_EL_PATH.'includes/class-xoo-el-form-handler.php';
 
 		}
 
-		if( $this->is_request('admin') || version_compare( $this->db_version, XOO_EL_VERSION, '<' ) ){
+		if( xoo_el_helper()->is_request('admin') || version_compare( $this->db_version, XOO_EL_VERSION, '<' ) ){
 			require_once XOO_EL_PATH.'admin/class-xoo-el-aff-fields.php';
 			require_once XOO_EL_PATH.'admin/class-xoo-el-admin-settings.php';
 		}
 
 	
-		if ($this->is_request('admin')) {
+		if ( xoo_el_helper()->is_request('admin')) {
 			require_once XOO_EL_PATH.'admin/class-xoo-el-menu-settings.php';
 			require_once XOO_EL_PATH.'admin/class-xoo-el-user-profile.php';
 		}
@@ -85,27 +85,6 @@ class Xoo_El_Core{
 		add_action( 'init', array( $this, 'on_install' ), 0 );
 		add_action( 'admin_notices', array( $this, 'show_outdated_template_notice' ) );
 		add_action( 'admin_head', array( $this, 'inline_styling' ) );
-	}
-
-
-
-	/**
-	 * What type of request is this?
-	 *
-	 * @param  string $type admin, ajax, cron or frontend.
-	 * @return bool
-	 */
-	private function is_request( $type ) {
-		switch ( $type ) {
-			case 'admin':
-				return is_admin();
-			case 'ajax':
-				return defined( 'DOING_AJAX' );
-			case 'cron':
-				return defined( 'DOING_CRON' );
-			case 'frontend':
-				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
-		}
 	}
 
 

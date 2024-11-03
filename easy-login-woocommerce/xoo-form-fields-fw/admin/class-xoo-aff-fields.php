@@ -851,6 +851,7 @@ class Xoo_Aff_Fields{
 			'autofocus'         => '',
 			'priority'          => '',
 			'icon' 				=> '',
+			'validation' 		=> true,
 		);
 
 
@@ -897,25 +898,34 @@ class Xoo_Aff_Fields{
 			$args['custom_attributes']['select2'] = 'yes';
 		}
 
-		if ( $args['maxlength'] ) {
-			$args['custom_attributes']['maxlength'] = absint( $args['maxlength'] );
-		}
+		if( $args['validation'] ){
 
-		if ( $args['minlength'] ) {
-			$args['custom_attributes']['minlength'] = absint( $args['minlength'] );
-		}
+			if ( $args['maxlength'] ) {
+				$args['custom_attributes']['maxlength'] = absint( $args['maxlength'] );
+			}
+
+			if ( $args['minlength'] ) {
+				$args['custom_attributes']['minlength'] = absint( $args['minlength'] );
+			}
 
 
-		if ( $args['max'] ) {
-			$args['custom_attributes']['max'] = $args['max'];
-		}
+			if ( $args['max'] ) {
+				$args['custom_attributes']['max'] = $args['max'];
+			}
 
-		if ( $args['min'] ) {
-			$args['custom_attributes']['min'] = $args['min'];
-		}
+			if ( $args['min'] ) {
+				$args['custom_attributes']['min'] = $args['min'];
+			}
 
-		if ( $args['step'] ) {
-			$args['custom_attributes']['step'] = $args['step'];
+			if ( $args['step'] ) {
+				$args['custom_attributes']['step'] = $args['step'];
+			}
+
+			if ( $args['required'] === "yes" ) {
+				$args['class'][] = 'xoo-aff-required';
+				$args['custom_attributes']['required'] = '	';
+			}
+
 		}
 
 		if ( ! empty( $args['autocomplete'] ) ) {
@@ -926,16 +936,10 @@ class Xoo_Aff_Fields{
 			$args['custom_attributes']['autofocus'] = 'autofocus';
 		}
 
-		if ( $args['required'] === "yes" ) {
-			$args['class'][] = 'xoo-aff-required';
-			$args['custom_attributes']['required'] = '	';
-		}
-
+		
 		if( isset( $args['rows'] ) ){
 			$args['custom_attributes']['rows'] = $args['rows'];
 		}
-
-
 
 		if( $args['input_type'] === 'file' ){
 
@@ -947,6 +951,10 @@ class Xoo_Aff_Fields{
 
 			if( $args['file_type'] ){
 				$args['custom_attributes']['accept'] = $args['file_type'];
+			}
+
+			if( $args['value'] && !empty( $args['value'] ) ){
+				unset( $args['custom_attributes']['required'] );
 			}
 			
 		}
@@ -968,6 +976,9 @@ class Xoo_Aff_Fields{
 		) );
 
 		$args['cont_class'][] = $field_id.'_cont';
+
+
+		$args = apply_filters( 'xoo_aff_'.$this->plugin_slug.'_before_html_input_args', $args );
 
 
 		$custom_attributes 	= implode( ' ', $custom_attributes );
@@ -1029,8 +1040,7 @@ class Xoo_Aff_Fields{
 				break;
 
 			case 'file':
-				$field_id = $args['file_multiple'] === "yes" ? $field_id.'[]' : $field_id;
-				$field_html .= '<input type="' . $input_type . '" class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '" ' . $custom_attributes . '/>';
+				$field_html .= '<input type="' . $input_type . '" class="' . $class . '" name="' . $field_id . '[]" placeholder="' . $placeholder . '" ' . $custom_attributes . '/>';
 				break;
 
 
@@ -1128,6 +1138,20 @@ class Xoo_Aff_Fields{
 		}
 
 		if( $args['icon'] ){
+			$field_html .= '</div>';
+		}
+
+		if( $input_type === 'file' && $value && !empty( $value ) ){
+			$field_html .= '<div class="xoo-ff-files">';
+			foreach ( $value as $attachment_id ) {
+				$url 		 = wp_get_attachment_url($attachment_id);
+				if( $url ){
+					$field_html .= '<div>';
+					$field_html .= '<a target="__blank" href="'.$url.'">'.basename( get_attached_file( $attachment_id ) ).'</a><span class="xoo-ff-file-remove" data-id="'.$attachment_id.'">X</span>';
+					$field_html .= '<input type="hidden" name="'.$field_id.'_form_saved[]" value="'.$attachment_id.'">';
+					$field_html .= '</div>';
+				}
+			}
 			$field_html .= '</div>';
 		}
 
@@ -1298,60 +1322,71 @@ class Xoo_Aff_Fields{
 			if( empty( $settings ) || in_array( $field_id , $do_not_validate_ids ) || $settings['active'] !== "yes") continue;
 
 			//Field Validation
-			$userVal 	= isset( $values[ $field_id ] ) ? ( is_array( $_POST[ $field_id ] ) ? array_map( 'sanitize_text_field', $_POST[ $field_id ] ) : esc_attr( trim( $values[ $field_id ] ) ) ) : '';
-			$label 		= isset( $settings['label'] ) && trim( $settings['label'] ) ? trim( $settings['label'] ) : trim( $settings['placeholder'] );
-
+			$userVal 				= isset( $values[ $field_id ] ) ? ( is_array( $_POST[ $field_id ] ) ? array_map( 'sanitize_text_field', $_POST[ $field_id ] ) : esc_attr( trim( $values[ $field_id ] ) ) ) : '';
+			$label 					= isset( $settings['label'] ) && trim( $settings['label'] ) ? trim( $settings['label'] ) : trim( $settings['placeholder'] );
 
 			if( $input_type === 'file' ){
 
-				$files 	= array();
+				$savedAttachments 		= isset( $values[ $field_id.'_attachments' ] ) && !empty( $values[ $field_id.'_attachments' ] ) ? $values[ $field_id.'_attachments' ] : array();
+				$formSavedAttachments 	= isset( $values[ $field_id.'_form_saved' ] ) && !empty( $values[ $field_id.'_form_saved' ] ) ? $values[ $field_id.'_form_saved' ] : array();
+				$updatedSavedAttachments = array_intersect( $savedAttachments, $formSavedAttachments );
+
+				$fieldValues[ $field_id.'_attachments' ] = $updatedSavedAttachments; //if files are modified from frontend form
+
+				$files 				= array();
+				$isFileUploaded 	= !( empty($_FILES) || ( isset( $_FILES[$field_id] ) && ( !$_FILES[$field_id]['name'] || !$_FILES[$field_id]['name'][0]  ) ) );
 
 				// Throws a message if no file is selected
-				if( ( $settings['file_multiple'] === "yes" && empty($_FILES) ) || !$_FILES[$field_id]['name']  ){
+				if( !$isFileUploaded ){
 
-					if( $settings['required'] === "yes" ){
+					if( $settings['required'] === "yes" && empty( $updatedSavedAttachments ) ){
 						$errors->add( 'file-empty', sprintf( esc_attr__( '%s - File not selected.', $this->plugin_slug ), $label, ), $field_id );
 					}
 					
 				}
 				else{
+
+					if( $settings['file_multiple'] !== 'yes' && !empty( $updatedSavedAttachments ) ){
+						$errors->add( 'file-one-allowed', sprintf( esc_attr__( '%s - You can upload only one file. Please delete the previously attached file.', $this->plugin_slug ), $label, ), $field_id );
+						break;
+					}
+
 					//Organize raw files in proper format
-					if( $settings['file_multiple'] === "yes" ){
-
-						$rawf 		= $_FILES[$field_id];
-						
-						$file_size 	= 0;
-
-						foreach( $rawf['name'] as $index => $name ) {
-
-							if ( $rawf['name'][$index] ) { 
-
-								$file = array( 
-									'name' 		=> $rawf['name'][$index],
-									'type' 		=> $rawf['type'][$index], 
-									'tmp_name' 	=> $rawf['tmp_name'][$index], 
-									'error' 	=> $rawf['error'][$index],
-									'size' 		=> $rawf['size'][$index]
-								);
-
-								$file_size += $file['size'];
-
-							}
-
-							$files[] = $file; 
+					$rawf 		= $_FILES[$field_id];
 					
+					$file_size 	= 0;
+
+					foreach( $rawf['name'] as $index => $name ) {
+
+						if ( $rawf['name'][$index] ) { 
+
+							$file = array( 
+								'name' 		=> $rawf['name'][$index],
+								'type' 		=> $rawf['type'][$index], 
+								'tmp_name' 	=> $rawf['tmp_name'][$index], 
+								'error' 	=> $rawf['error'][$index],
+								'size' 		=> $rawf['size'][$index]
+							);
+
+							$file_size += $file['size'];
+
 						}
+
+						$files[] = $file; 
+				
 					}
-					else{
-						$files[] 	= $_FILES[$field_id];
-						$file_size 	= $_FILES[$field_id]['size'];
+
+					if( $settings['file_multiple'] === 'yes' && isset( $settings['file_multiple_max'] ) && ( $settings['file_multiple_max'] < ( count( $files ) + count( $updatedSavedAttachments ) ) ) ){
+						$errors->add( 'file-one-allowed', sprintf( esc_attr__( '%1$s - You can upload only %2$s file.', $this->plugin_slug ), $label, $settings['file_multiple_max'] ), $field_id );
+						break;
 					}
+
+					
 				}
 
 
-				
 
-				if( !empty( $files ) ){
+				if( $isFileUploaded && !empty( $files ) ){
 
 					//Check for file extension
 					$allowed_extensions = array_map( 'trim',explode( ',', str_replace('.', '', $settings['file_type'] ) ) );
@@ -1378,10 +1413,10 @@ class Xoo_Aff_Fields{
 						$errors->add( 'file-size', sprintf( esc_attr__( 'File size limit exceeded, file size should be smaller than %0.1f MB', $this->plugin_slug ), $allowed_file_size_mb ), $field_id );
 					}
 
-				}
+					$userVal = $files;
 
-				$userVal = $files;
-				
+				}
+	
 			}	
 
 			//If required and value is empty

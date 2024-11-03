@@ -307,4 +307,9 @@ jQuery(document).ready(function($){
 		}
 
 	} )
+
+
+	$( 'body' ).on('click', '.xoo-ff-file-remove', function(){
+		$(this).closest('div').remove();
+	});
 })

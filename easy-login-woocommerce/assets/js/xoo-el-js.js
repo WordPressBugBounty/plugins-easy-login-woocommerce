@@ -429,7 +429,7 @@ jQuery(document).ready(function($){
 
 
   	if( xoo_el_localize.loginClass && $( '.'+xoo_el_localize.loginClass ).length ){
-  		$( '.'+xoo_el_localize.loginClass ).on( 'click', function(e){
+  		$( 'body:not(.logged-in) .'+xoo_el_localize.loginClass ).on( 'click', function(e){
   			e.preventDefault();
   			e.stopImmediatePropagation();
   			$( '.xoo-el-login-tgr' ).trigger('click');
@@ -437,12 +437,14 @@ jQuery(document).ready(function($){
   	}
 
   	if( xoo_el_localize.registerClass && $( '.'+xoo_el_localize.registerClass ).length ){
-  		$( '.'+xoo_el_localize.registerClass ).on( 'click', function(e){
+  		$( 'body:not(.logged-in) .'+xoo_el_localize.registerClass ).on( 'click', function(e){
   			e.preventDefault();
   			e.stopImmediatePropagation();
   			$( '.xoo-el-reg-tgr' ).trigger('click');
   		} );
   	}
+
+
 
 
 })

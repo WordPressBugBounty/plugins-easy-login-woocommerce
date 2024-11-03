@@ -22,13 +22,14 @@
 
 .xoo-addon {
     display: inline-block;
-    max-width: 200px;
+    max-width: 300px;
     padding: 20px 20px 50px 20px;
     border: 2px solid #eee;
     margin: 20px;
     border-radius: 10px;
     position: relative;
     width: 100%;
+    line-height: 25px;
 }
 
 
@@ -58,11 +59,11 @@ span.xoo-ao-title {
     margin: 15px 0;
     display: flex;
     align-items: center;
-    justify-content: center;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    justify-content: center;
 }
 
 .xoo-ao-btns a {
@@ -71,7 +72,9 @@ span.xoo-ao-title {
     color: #fff;
     padding: 5px 15px;
     font-weight: 600;
-    border-radius: 2px;
+    border-radius: 5px;
+    min-width: 40px;
+    text-align: center;
 }
 
 li#xoo-el-username:not(.active), li#xoo-el-password:not(.active) {
@@ -110,4 +113,9 @@ li#xoo-el-sing-user:not(.active) .xoo-aff-type-icon {
     padding: 8px 10px;
     background-color: #eee;
     border-radius: 5px;
+}
+
+.xoo-ao-btns a:nth-child(2) {
+    margin-left: 15px;
+    background-color: #3d65a1;
 }
