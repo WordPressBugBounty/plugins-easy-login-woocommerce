@@ -27,11 +27,6 @@ class Xoo_El_Helper extends Xoo_Helper{
 	//array( $field_id => $_FILES[id] )
 	public function upload_files_as_attachment( $fieldsHavingFiles ){
 
-		if( is_callable('parent::func') ){
-			parent::func();
-			return;
-		}
-
 		$attachmentIDS = array();
 
 		if( !empty( $fieldsHavingFiles ) ){
@@ -82,11 +77,6 @@ class Xoo_El_Helper extends Xoo_Helper{
 	 * @return bool
 	 */
 	public function is_request( $type ) {
-
-		if( is_callable('parent::func') ){
-			parent::func();
-			return;
-		}
 		
 		switch ( $type ) {
 			case 'admin':

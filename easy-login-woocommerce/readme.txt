@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: social login, login customizer, registration, popup, custom registration fields
 Requires at least: 3.0.1
 Tested up to: 6.6
-Stable tag: 2.8
+Stable tag: 2.8.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,9 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 2.8.1 =
+* Fix - Deprecated warning in PHP 8.2
 
 = 2.8 =
 * New - Profile builder add-on ( allow logged in users to update their profile fields )
