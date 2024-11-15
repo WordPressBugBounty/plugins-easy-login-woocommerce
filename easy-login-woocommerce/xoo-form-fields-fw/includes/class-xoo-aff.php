@@ -63,11 +63,28 @@ class Xoo_Aff{
 
 		$has_date = $has_meter = $has_phonecode = $has_select2 = false;
 
+		$inline_style = '';
+
 		if( !empty( $fields ) ){
 
 			foreach ( $fields as $field_id => $field_data) {
 
-				if( isset( $field_data['settings']['use_select2'] ) && $field_data['settings']['use_select2'] === 'yes' ){
+				$settings = $field_data['settings'];
+
+				if( isset( $settings['upload_layout'] ) && $settings['upload_layout'] === 'profile' && isset( $settings['profile_icon_size'] ) ){
+					$profileSize 	= $settings['profile_icon_size'] ? sanitize_text_field( $settings['profile_icon_size'] ) : 50;
+					$fieldCont 		= '.'.$field_id.'_cont';
+					$inline_style 	.= "{$fieldCont} .xoo-aff-input-icon{
+						font-size: {$profileSize}px;
+					}
+					{$fieldCont} .xoo-ff-file-preview{
+						width: {$profileSize}px;
+						height: {$profileSize}px;
+					}
+					";
+				}
+
+				if( isset( $settings['use_select2'] ) && $settings['use_select2'] === 'yes' ){
 					$has_select2 = true;
 				}
 
@@ -79,7 +96,7 @@ class Xoo_Aff{
 						break;
 
 					case 'password':
-						if( isset( $field_data['settings']['strength_meter'] ) && $field_data['settings']['strength_meter'] === "yes" ){
+						if( isset( $settings['strength_meter'] ) && $settings['strength_meter'] === "yes" ){
 							$has_meter = true;
 						}
 						break;
@@ -132,7 +149,7 @@ class Xoo_Aff{
 			)
 		));
 
-		$inline_style = xoo_aff_get_template( 'xoo-aff-inline-style.php',  XOO_AFF_DIR.'/includes/templates/', array( 'sy_options' => $sy_options ), true );
+		$inline_style = xoo_aff_get_template( 'xoo-aff-inline-style.php',  XOO_AFF_DIR.'/includes/templates/', array( 'sy_options' => $sy_options ), true ) . $inline_style ;
 
 		wp_add_inline_style( 'xoo-aff-style', $inline_style );
 

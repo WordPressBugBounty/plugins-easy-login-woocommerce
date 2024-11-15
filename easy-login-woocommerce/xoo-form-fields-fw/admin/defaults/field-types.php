@@ -123,6 +123,18 @@ $field_types =  array(
 			'icon' => 'fas fa-cloud-upload-alt',
 		)
 	),
+
+	'xoo_aff_profile_photo' => array(
+		'xoo_aff_profile_photo',
+		'file',
+		'Profile Photo',
+		array(
+			'icon' 				=> 'fas fa-user-circle',
+			'photo_design' 		=> 'yes',
+			'file_multiple' 	=> 'no',
+			'file_multiple_max' => 1
+		)
+	),
 );
 
 

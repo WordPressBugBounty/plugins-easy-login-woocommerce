@@ -870,7 +870,9 @@ class Xoo_Aff_Fields{
 
 		$args = apply_filters( 'xoo_aff_'.$this->plugin_slug.'_input_args', $args );
 
-		$input_type = $args['input_type'];
+		$input_type 	= $args['input_type'];
+
+		$layout_profile = isset( $args['upload_layout'] ) && $args['upload_layout'] === 'profile';
 
 		//Handle strings passed as array
 		$handle_strings = array( 'class', 'label_class', 'cont_class' );
@@ -971,11 +973,16 @@ class Xoo_Aff_Fields{
 			$args['class'][] = 'xoo-aff-input-date';
 		}
 
+
 		$args['class'] = array_merge( $args['class'], array(
 			'xoo-aff-'.$input_type
 		) );
 
 		$args['cont_class'][] = $field_id.'_cont';
+
+		if( $layout_profile ){
+			$args['cont_class'][] = 'xoo-aff-file-profile-cont';
+		}
 
 
 		$args = apply_filters( 'xoo_aff_'.$this->plugin_slug.'_before_html_input_args', $args );
@@ -1002,8 +1009,16 @@ class Xoo_Aff_Fields{
 
 		$field_html = '<div class="'.$cont_class.'">'; //Open DIV parent 1
 
+		if( $layout_profile ){
+			$field_html .= '<label class="xoo-aff-file-profile">';
+		}
+
 		if( $label ){
-			$field_html .= '<label for='.$field_id.' class="xoo-aff-label">'.$label.'</label>';
+			$label_html  = '<label for='.$field_id.' class="xoo-aff-label">'.$label.'</label>';
+
+			if( !$layout_profile ){
+				$field_html .= $label_html;
+			}
 		}
 		
 		//Show Icons
@@ -1012,16 +1027,24 @@ class Xoo_Aff_Fields{
 			$field_html .= '<span class="xoo-aff-input-icon '.esc_attr( $args['icon'] ).'"></span>';
 		}
 
+		if( $layout_profile ){
+			$field_html .= '<i class="fas fa-plus-circle xoo-ff-file-pladd"></i>';
+			$field_html .= '<i class="fas fa-check-circle xoo-ff-file-plcheck"></i>';
+			$field_html .= '<img class="xoo-ff-file-preview" alt="Preview" style="display: none;">';
+		}
+	
+		$input_html = '';
+
 		switch ( $input_type ) {
 			
 			case 'password':
 			case 'email':
 			case 'number':
 			case 'tel':
-				$field_html .= '<input type="' . $input_type . '" class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '"  value="' . $value . '" ' . $custom_attributes . '/>';
+				$input_html .= '<input type="' . $input_type . '" class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '"  value="' . $value . '" ' . $custom_attributes . '/>';
 
 				if( isset( $args['password_visibility'] ) && $args['password_visibility'] === 'yes' ){
-					$field_html .= '<div class="xoo-aff-pw-toggle">
+					$input_html .= '<div class="xoo-aff-pw-toggle">
 					<span class="xoo-aff-pwtog-show"><i class="far fa-eye"></i></span>
 					<span class="xoo-aff-pwtog-hide"><i class="far fa-eye-slash"></i></span>
 					</div>';
@@ -1032,15 +1055,15 @@ class Xoo_Aff_Fields{
 			case 'text':
 			case 'date':
 			case 'phone':
-				$field_html .= '<input type="text" class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '"  value="' . $value . '" ' . $custom_attributes . '/>';
+				$input_html .= '<input type="text" class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '"  value="' . $value . '" ' . $custom_attributes . '/>';
 				break;
 
 			case 'textarea':
-				$field_html .= '<textarea class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '" ' . $custom_attributes . '>'. $value .'</textarea>';
+				$input_html .= '<textarea class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '" ' . $custom_attributes . '>'. $value .'</textarea>';
 				break;
 
 			case 'file':
-				$field_html .= '<input type="' . $input_type . '" class="' . $class . '" name="' . $field_id . '[]" placeholder="' . $placeholder . '" ' . $custom_attributes . '/>';
+				$input_html .= '<input type="' . $input_type . '" class="' . $class . '" name="' . $field_id . '[]" placeholder="' . $placeholder . '" ' . $custom_attributes . '/>';
 				break;
 
 
@@ -1067,7 +1090,7 @@ class Xoo_Aff_Fields{
 					}
 
 					$checkbox_html .= '</div>';
-					$field_html .= $checkbox_html;
+					$input_html .= $checkbox_html;
 				}
 				
 				break;
@@ -1088,7 +1111,7 @@ class Xoo_Aff_Fields{
 					}
 
 					$radio_html .= '</div>';
-					$field_html .= $radio_html;
+					$input_html .= $radio_html;
 				}
 				break;
 
@@ -1108,7 +1131,7 @@ class Xoo_Aff_Fields{
 				}
 
 				$select_html .= '</select>';
-				$field_html .= $select_html;
+				$input_html .= $select_html;
 				
 				break;
 
@@ -1126,10 +1149,14 @@ class Xoo_Aff_Fields{
 				}
 
 				$select_html .= '</select>';
-				$field_html .= $select_html;
+				$input_html .= $select_html;
 
 				break;
 		}
+
+		$input_html = apply_filters( 'xoo_aff_'.$this->plugin_slug.'_input_raw_html', $input_html, $args ); // near input
+
+		$field_html .= $input_html;
 
 		$field_html = apply_filters( 'xoo_aff_'.$this->plugin_slug.'_input_html', $field_html, $args ); // near input
 
@@ -1141,13 +1168,20 @@ class Xoo_Aff_Fields{
 			$field_html .= '</div>';
 		}
 
+		if( $layout_profile ){
+			if( $label ){
+				$field_html .= $label_html;
+			}
+			$field_html .= '</label>';
+		}
+
 		if( $input_type === 'file' && $value && !empty( $value ) ){
 			$field_html .= '<div class="xoo-ff-files">';
 			foreach ( $value as $attachment_id ) {
 				$url 		 = wp_get_attachment_url($attachment_id);
 				if( $url ){
 					$field_html .= '<div>';
-					$field_html .= '<a target="__blank" href="'.$url.'">'.basename( get_attached_file( $attachment_id ) ).'</a><span class="xoo-ff-file-remove" data-id="'.$attachment_id.'">X</span>';
+					$field_html .= '<a target="__blank" href="'.$url.'" class="xoo-ff-file-link">'.basename( get_attached_file( $attachment_id ) ).'</a><span class="xoo-ff-file-remove" data-id="'.$attachment_id.'">X</span>';
 					$field_html .= '<input type="hidden" name="'.$field_id.'_form_saved[]" value="'.$attachment_id.'">';
 					$field_html .= '</div>';
 				}

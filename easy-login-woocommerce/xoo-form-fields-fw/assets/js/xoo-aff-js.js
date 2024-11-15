@@ -308,8 +308,83 @@ jQuery(document).ready(function($){
 
 	} )
 
+	 $( 'body' ).on('change', '.xoo-aff-file-profile input[type="file"]', function() {
+
+        var file 		= this.files[0],
+        	$cont 		=  $(this).closest('.xoo-aff-group');
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+            	profileImage.init( $cont, e.target.result);
+                profileImage.onImageLoad();
+
+                if( $cont.find('.xoo-ff-file-remove') ){
+	            	$cont.find('.xoo-ff-files').remove();
+	            }
+
+            };
+
+            reader.readAsDataURL(file);
+        }
+        else{
+        	profileImage.init( $cont, '');
+        	profileImage.onImageRemove();
+
+        }
+    });
+
+	var profileImage = {
+
+		init: function( $cont, imgSrc = '' ){
+			this.$cont  		= $cont;
+			this.imgSrc  		= imgSrc;
+			this.$preview 		= $cont.find('.xoo-ff-file-preview');
+        	this.$icon 			= $cont.find('.xoo-aff-input-icon ');
+        	this.$checkIcon 	= $cont.find('.xoo-ff-file-plcheck');
+        	this.$addIcon 		= $cont.find('.xoo-ff-file-pladd');
+		},
+
+		onImageLoad: function(){
+        	this.$preview.attr('src', profileImage.imgSrc).show();
+            this.$icon.hide();
+            this.$addIcon.hide();
+            this.$checkIcon.show();
+
+		},
+
+		onImageRemove: function(){
+			this.$icon.show();
+        	this.$checkIcon.hide();
+        	this.$addIcon.show();
+        	this.$preview.attr('src', '').hide();
+		}
+
+	}
+
+
+	$('.xoo-aff-file-profile-cont').each(function(index, el){
+
+		var $el 			= $(el),
+			$attachedFiled 	= $el.find('.xoo-ff-file-link');
+
+		if( $attachedFiled.length ){
+			profileImage.init( $el, $attachedFiled.attr('href') );
+			profileImage.onImageLoad();
+		}
+	})
+
+	$('body').on( 'click', '.xoo-aff-file-profile-cont .xoo-ff-file-remove', function(){
+		var $cont = $(this).closest('.xoo-aff-file-profile-cont');
+		profileImage.init( $cont );
+		profileImage.onImageRemove();
+	} );
 
 	$( 'body' ).on('click', '.xoo-ff-file-remove', function(){
 		$(this).closest('div').remove();
 	});
+
+	
+	
 })

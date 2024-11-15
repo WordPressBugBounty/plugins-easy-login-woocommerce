@@ -224,6 +224,35 @@ $field_settings = array(
 		'class'
 	),
 
+
+	'xoo_aff_profile_photo' => array(
+		'active',
+		'required',
+		'show_label',
+		'label' => array(
+			'value' => 'Upload your Photo'
+		),
+		'cols',
+		'icon' => array(
+			'value' => 'fas fa-user-circle'
+		),
+		'upload_layout',
+		'profile_icon_size',
+		'max_filesize',
+		'file_type' => array(
+			'value' => '.png, .jpg'
+		),
+		'file_multiple' => array(
+			'value' => 'no',
+			'visible' => 'no',
+		),
+		'file_multiple_max' => array(
+			'value' => 1,
+			'visible' => 'no'
+		),
+		'unique_id',
+		'class'
+	),
 	
 );
 

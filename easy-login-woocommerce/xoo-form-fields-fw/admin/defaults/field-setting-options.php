@@ -412,6 +412,28 @@ $field_settings = array(
 	),
 
 
+	'upload_layout' => array(
+		'type' 		=> 'select',
+		'id'		=> 'upload_layout',
+		'section' 	=> 'basic',
+		'title' 	=> 'Layout',
+		'options' 	=> array(
+			'profile' 	=> 'Profile',
+			'file' 		=> 'Default File Upload',
+		),
+		'width'		=> 'half',
+		'value'		=> 'profile',
+	),
+
+	'profile_icon_size' => array(
+		'type' 		=> 'number',
+		'id'		=> 'profile_icon_size',
+		'section' 	=> 'basic',
+		'title' 	=> 'Profile Icon Size',
+		'width'		=> 'half',
+		'value'		=> 80,
+	),
+
 
 	/**
 	  * Advanced section
