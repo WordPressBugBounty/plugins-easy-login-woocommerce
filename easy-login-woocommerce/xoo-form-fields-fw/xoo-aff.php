@@ -9,7 +9,7 @@ if( !defined( 'XOO_AFF_URL' ) ){
 }
 
 if( !defined( 'XOO_AFF_VERSION' ) ){
-	define( 'XOO_AFF_VERSION', '2.0' );
+	define( 'XOO_AFF_VERSION', '2.0.1' );
 }
 
 require_once XOO_AFF_DIR.'/includes/class-xoo-aff.php';

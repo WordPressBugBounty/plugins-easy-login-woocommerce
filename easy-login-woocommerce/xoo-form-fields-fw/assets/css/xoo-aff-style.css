@@ -42,7 +42,7 @@ body:not(.rtl) .xoo-aff-input-group .xoo-aff-input-icon{
     position: relative;
     z-index: 2;
     width: 100%!important;
-    margin-bottom: 0;
+    margin-bottom: 0!important;
     height: 50px;
     padding: 6px 12px;
     font-size: 14px;
@@ -265,12 +265,14 @@ label.xoo-aff-file-profile input[type="file"] {
     padding: 0 !important;
     position: absolute !important;
     top: 30px !important;
+    z-index: -1;
 }
 
 label.xoo-aff-file-profile .xoo-aff-input-icon {
     border: 0;
     margin: 0 auto;
     padding: 0;
+    background-color: transparent;
 }
 
 label.xoo-aff-file-profile {
@@ -311,6 +313,12 @@ label.xoo-aff-file-profile .xoo-aff-input-group {
 .xoo-aff-file-profile-cont .xoo-ff-files{
     text-align: center;
 }
+
+.xoo-aff-file-profile-cont .xoo-aff-label {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
 
 
 /* RTL */

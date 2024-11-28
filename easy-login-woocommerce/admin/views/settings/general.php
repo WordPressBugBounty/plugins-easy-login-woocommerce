@@ -43,7 +43,7 @@ $settings = array(
 			'options' => $user_roles
 		),
 		'default' 		=> class_exists( 'woocommerce' ) ? 'customer' : 'subscriber',
-		'desc' 			=> 'Register users with role'
+		'desc' 			=> 'Register users with role.<br> You can also enable "User Role" field from the "Fields" page and allow users to select their role while signing up.'
 	),
 
 	array(

@@ -307,6 +307,20 @@ class Xoo_El_Form_Handler{
 					
 				}
 
+
+				//Check if user role value received is one of user roles allowed
+				if( isset( $fieldValues['xoo_el_reg_userrole'] ) ){
+
+					$userRoleSelected = sanitize_text_field( $fieldValues['xoo_el_reg_userrole'] );
+
+					if( !isset( $reg_admin_fields[ 'xoo_el_reg_userrole' ] ) || !isset( $reg_admin_fields[ 'xoo_el_reg_userrole' ]['settings']['select_list'][ $userRoleSelected ] ) ){
+						throw new Xoo_Exception( 'Error selecting user role, please try again' );
+					}
+
+					$reg_extra_data[ 'userRoleSelected' ] = $userRoleSelected;
+
+				}
+
 				
 				// Handle password.
 				if ( empty( $password ) && $reg_admin_fields['xoo_el_reg_pass']['settings']['active'] === "yes" ) {
@@ -456,7 +470,7 @@ class Xoo_El_Form_Handler{
 			'user_login' => $username,
 			'user_pass'  => $password,
 			'user_email' => $email,
-			'role'       => esc_attr( self::$glSettings['m-user-role'] ),
+			'role'       => isset( $extra_data['userRoleSelected'] ) ? $extra_data['userRoleSelected'] : esc_attr( self::$glSettings['m-user-role'] ),
 		);
 		
 		$new_customer_data = apply_filters( 'xoo_el_register_new_customer_data', $customer_data );

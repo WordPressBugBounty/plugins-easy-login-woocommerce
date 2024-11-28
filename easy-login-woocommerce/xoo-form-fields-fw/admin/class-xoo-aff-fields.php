@@ -432,7 +432,7 @@ class Xoo_Aff_Fields{
 	public function sort_by_priority( $data = array() ){
 		if( !is_array( $data ) || empty( $data ) ) return $data;
 		uasort( $data, function( $a, $b ){
-			if( $a['priority'] === $b['priority'] ){
+			if( !isset( $a['priority'] ) || !isset( $b['priority'] ) || $a['priority'] === $b['priority'] ){
 				return 0;
 			}
 			return $a['priority'] > $b['priority']  ? 1 : -1;
@@ -469,8 +469,6 @@ class Xoo_Aff_Fields{
 				continue;
 			}
 
-
-
 			//Force default field values
 			if( isset( $fields_before[ $field_id ] ) ){
 				$fields[ $field_id ]['settings'] = array_merge( $field_data['settings'], $fields_before[ $field_id ]['settings'] ); 
@@ -485,8 +483,10 @@ class Xoo_Aff_Fields{
 
 				//if setting value needs sorting
 				if( isset( $setting_data['sort'] ) && $setting_data['sort'] === "yes" ){
-					$fields[ $field_id ][ 'settings' ][ $setting_id ] = $this->sort_by_priority( $field_data['settings'][ $setting_id ] );
+					$fields[ $field_id ][ 'settings' ][ $setting_id ] = $this->sort_by_priority( $fields[ $field_id ][ 'settings' ][ $setting_id ] );
 				}
+
+
 
 			}
 
@@ -579,6 +579,8 @@ class Xoo_Aff_Fields{
 			'settings' 	 => $settings,
 			'priority'	 => !$field_priority ? $this->set_default_priority() : $field_priority
 		) ;
+
+
 	}
 
 
@@ -654,6 +656,7 @@ class Xoo_Aff_Fields{
 					'priority' 	=> '',
 				)
 			)
+
 		);
 
 	}
@@ -728,7 +731,7 @@ class Xoo_Aff_Fields{
 				$setting,
 				$setting_options[$setting_option_id]
 			);
-			
+
 			if( !isset( $this->sections[ $setting['section'] ] ) ) continue;
 
 			$this->add_setting( $setting['id'], $setting['title'], $setting['type'], $field_type_id, $setting );

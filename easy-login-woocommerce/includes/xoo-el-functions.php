@@ -400,6 +400,10 @@ function xoo_el_myaccount_details(){
 
 		$args['value'] = $field_value;
 
+		
+		$args['label'] = xoo_el()->aff->fields->get_field_label( $field_id );
+		
+
 		xoo_el()->aff->fields->get_field_html( $field_id, $args );
 
 	}
@@ -410,42 +414,27 @@ add_action('woocommerce_edit_account_form','xoo_el_myaccount_details', 10);
 
 function xoo_el_save_myaccount_details( $user_id  ){
 
-	$fields = xoo_el_fields()->get_fields('myaccount');
+	$myaccFields 	= xoo_el_fields()->get_fields('myaccount');
 
-	if( empty( $fields ) ) return;
+	if( empty( $myaccFields ) ) return;
 
-	foreach ( $fields as $field_id => $field_data ) {
-		
-		$settings = $field_data[ 'settings' ];
-		if( empty( $settings ) ) continue;
+	$allFields 	= xoo_el()->aff->fields->get_fields_data();
 
-		//If active & required & empty user input , throw error
-		if( $settings['active'] === "yes" && $settings['required'] === "yes" &&  ( !isset( $_POST[ $field_id ] ) || trim( $_POST[$field_id ] ) == '' )  ){
+	$doNotValidateOtherFields = array_keys( array_diff_key( $allFields, $myaccFields  ) );
 
-			$label = isset( $settings['label'] ) && trim( $settings['label'] ) ? trim( $settings['label'] ) : trim( $settings['placeholder'] );
+	$fieldValues = xoo_el()->aff->fields->validate_submitted_field_values( $_POST, $doNotValidateOtherFields );
 
-			switch ( $field_data['input_type'] ) {
-				case 'checkbox_single':
-					$error= sprintf( esc_attr__( 'Please check %s', 'easy-login-woocommerce' ), $label );
-					break;
-				
-				default:
-					$error = sprintf( esc_attr__( '%s cannot be empty', 'easy-login-woocommerce' ), $label );
-					break;
-			}
-			
-			wc_add_notice( $error, 'error' );
+	if( is_wp_error( $fieldValues ) ){
+		foreach ( $fieldValues->get_error_messages() as $error_message ) {
+			wc_add_notice( $error_message, 'error' );
 		}
-		else{
-			if( is_array( $_POST[ $field_id ] ) ){
-				$field_value = array_map( 'sanitize_text_field', $_POST[ $field_id ] );
-			}
-			else{
-				$field_value = sanitize_text_field( $_POST[ $field_id ] );
-			}
+	}
+	else{
+		foreach( $fieldValues as $field_id => $field_value ) {
 			update_user_meta( $user_id, $field_id, $field_value );
 		}
 	}
+
 
 }
 add_action('woocommerce_save_account_details','xoo_el_save_myaccount_details', 10);
@@ -643,5 +632,17 @@ if( defined( 'MAILPOET_VERSION' ) ){
 	}
 	add_filter( 'xoo_el_register_new_customer_data', 'xoo_el_mailpoet_subscribe' );
 }
+
+
+//Paid membership compatibility
+function xoo_el_paid_membership_compat(){
+
+	if( !isset( $_POST['action'] ) || $_POST['action'] !== 'xoo_el_form_action' ) return;
+
+	remove_action( 'wp_login_failed', 'pmpro_login_failed', 10, 2 );
+	remove_filter( 'authenticate', 'pmpro_authenticate_username_password', 30, 3);
+
+}
+add_action( 'init', 'xoo_el_paid_membership_compat' );
 
 ?>

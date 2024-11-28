@@ -27,6 +27,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 		public function add_el_predefined_fields(){
 			$this->fields = xoo_el()->aff->fields;
 			$this->predefined_field_username();
+			$this->predefined_field_userrole();
 			$this->predefined_field_useremail();
 			$this->predefined_field_firstname();
 			$this->predefined_field_lastname();
@@ -89,6 +90,82 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				),
 				'class'
 			);
+
+			$this->fields->create_field_settings(
+				$field_type_id,
+				$setting_options
+			);
+
+			$this->fields->add_field(
+				$field_id,
+				$field_type_id,
+				array(
+					'unique_id' => $field_id,
+					'required' 	=> 'yes',
+				)
+			);
+
+		}
+
+
+		public function predefined_field_userrole(){
+
+			global $wp_roles;
+
+			$field_type_id = $field_id = 'xoo_el_reg_userrole';
+
+			if (!isset($wp_roles)) {
+				$wp_roles = new WP_Roles();
+			}
+
+			$user_roles = array();
+
+			foreach ( $wp_roles->roles as $role_id => $role_data ) {
+
+				if( $role_id === 'administrator' ) continue;
+
+			 	$user_roles[$role_id] = array(
+			 		'label' 	=> $role_data['name'],
+			 		'value' 	=> $role_id,
+			 		'checked' 	=> '',
+			 	);
+			}
+
+			$this->fields->add_type(
+				$field_type_id,
+				'select_list',
+				'User Role',
+				array(
+					'is_selectable' => 'no',
+					'can_delete'	=> 'no',
+					'icon' 			=> 'fas fa-user',
+				)
+			);
+				
+			$setting_options = array(
+				'active' => array(
+					'value' => 'no'
+				),
+				'required',
+				'show_label', 
+				'label',
+				'cols',
+				'icon' => array(
+					'value' => 'far fa-user'
+				),
+				'use_select2',
+				'placeholder' => array(
+					'value' => 'User Role',
+				),
+				'select_list' => array(
+					'value' => $user_roles
+				),
+				'unique_id' => array(
+					'disabled' => 'disabled',
+				),
+				'class'
+			);
+
 
 			$this->fields->create_field_settings(
 				$field_type_id,

@@ -384,7 +384,7 @@ class Xoo_Admin{
 
 		uasort( $data, function( $a, $b ){
 
-			if( $a['priority'] === $b['priority'] ){
+			if( !isset( $a['priority'] ) || !isset( $b['priority'] ) || $a['priority'] === $b['priority'] ){
 				return 0;
 			}
 			return $a['priority'] > $b['priority']  ? 1 : -1;

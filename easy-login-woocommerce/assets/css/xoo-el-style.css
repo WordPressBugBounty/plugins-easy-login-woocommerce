@@ -461,6 +461,10 @@ span.xoo-el-loginvia {
     margin: 0 0 1.41575em;
 }
 
+.xoo-aff-myacc-field .select2-container {
+    max-width: 100%;
+}
+
 span.xoo-el-resetpw-hnotice {
     text-align: center;
     display: block;
