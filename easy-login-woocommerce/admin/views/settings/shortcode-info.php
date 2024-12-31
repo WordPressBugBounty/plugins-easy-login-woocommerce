@@ -6,7 +6,7 @@
 	<ul class="xoo-el-li-info">
 		<li>
 			<span>Shortcode</span>
-			<p>[xoo_el_action] - Please see "Shortcodes" section below to know more about this shortcode</p>
+			<p>[xoo_el_action] - Please see "Shortcodes" tab to know more about this shortcode</p>
 		</li>
 		<li>
 			<span>Menu Links</span>
@@ -36,14 +36,14 @@
 	<h3>Redirections</h3>
 	<h5>There are 3 ways to set the redirections in form</h5>
 	- You can set them manually in the settings.<br><br>
-	- You can set them using shortcodes. Check shortcodes below.<br><br>
+	- You can set them using shortcodes. Check shortcodes tab.<br><br>
 	- You can set ?redirect_to parameter in URL bar. For eg: https://websiteurl.com?redirect_to=https://websiteurl.com/mypage
 </div>
 
 
 <?php
 
-$shortcodes = array(
+/*$shortcodes = array(
 	'xoo_el_inline_form' => array(
 		'shortcode' => '[xoo_el_inline_form]',
 		'desc' 		=> 'Generates an inline login/signup form',
@@ -132,6 +132,7 @@ $shortcodes = array(
 	)
 );
 
-return apply_filters( 'xoo_el_shortcode_info_tab', $shortcodes );
+return apply_filters( 'xoo_el_shortcode_info_tab', $shortcodes );*/
+return array();
 
 ?>

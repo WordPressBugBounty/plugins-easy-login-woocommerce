@@ -19,7 +19,7 @@ $settings = array(
 		'title' 		=> 'Show error log messages',
 		'id' 			=> 'm-error-log',
 		'section_id' 	=> 'av_main',
-		'default' 		=> 'yes',
+		'default' 		=> 'no',
 	),
 
 	array(

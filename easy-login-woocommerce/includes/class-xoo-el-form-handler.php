@@ -388,7 +388,6 @@ class Xoo_El_Form_Handler{
 
 				if( class_exists( 'woocommerce' ) && empty( $password ) ){
 					$success_notice = $email ? __( 'Your account was created successfully and a password has been sent to your email address', 'easy-login-woocommerce' ) : __( 'Your account was created successfully.', 'easy-login-woocommerce' );
-					$redirect = false;
 				}
 			
 

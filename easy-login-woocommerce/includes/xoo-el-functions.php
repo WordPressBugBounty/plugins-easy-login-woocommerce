@@ -484,11 +484,13 @@ function xoo_el_redirect_endpoints(){
 	if( xoo_el_helper()->get_general_option( 'm-ep-success' ) !== "yes" ) return;
 
 	add_filter( 'xoo_el_login_redirect', function( $redirect ){
-		return add_query_arg( 'login', 'success', $redirect );
+		$redirect = $redirect ? add_query_arg( 'login', 'success', $redirect ) : $redirect;
+		return $redirect;
 	} );
 	 
-	add_filter( 'xoo_el_register_redirect', function( $redirect ){
-		return add_query_arg( 'login', 'success', $redirect );
+	add_filter( 'xoo_el_registration_redirect', function( $redirect ){
+		$redirect = $redirect ? add_query_arg( 'register', 'success', $redirect ) : $redirect;
+		return $redirect;
 	} );
 }
 add_action( 'init', 'xoo_el_redirect_endpoints' );

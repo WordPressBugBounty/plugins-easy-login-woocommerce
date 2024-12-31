@@ -34,8 +34,11 @@ class Xoo_El_Admin_Settings{
 		add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'));
 		add_action( 'admin_footer', array( $this, 'inline_css' ) );
 
-		add_action( 'wp_loaded', array( $this, 'register_addons_tab' ), 20 );
-		add_action('xoo_tab_page_start', array( $this, 'addon_html' ), 10, 2 );
+		add_action( 'wp_loaded', array( $this, 'register_addon_tab' ), 20 );
+
+		add_action( 'plugins_loaded', array( $this, 'register_shortcode_tab' ), 100 );
+
+		add_action('xoo_tab_page_start', array( $this, 'tab_html' ), 10, 2 );
 
 		if( xoo_el_helper()->admin->is_settings_page() ){
 			remove_action( 'xoo_tab_page_start', array(  xoo_el_helper()->admin, 'info_tab_data' ), 10, 2 );
@@ -83,13 +86,21 @@ class Xoo_El_Admin_Settings{
 		<?php
 	}
 
-	public function register_addons_tab(){
+	public function register_addon_tab(){
 		xoo_el_helper()->admin->register_tab( 'Add-ons', 'addon' );
 	}
 
-	public function addon_html( $tab_id, $tab_data ){
+	public function register_shortcode_tab(){
+		xoo_el_helper()->admin->register_tab( 'Shortcodes', 'shortcodes' );
+	}
+
+	public function tab_html( $tab_id, $tab_data ){
 
 		if( !xoo_el_helper()->admin->is_settings_page() ) return;
+
+		if( $tab_id === 'shortcodes' ){
+			xoo_el_helper()->get_template( '/admin/templates/shortcode-generator.php', array(), XOO_EL_PATH );
+		}
 
 		if( $tab_id === 'addon' ){
 			xoo_el_helper()->get_template( '/admin/views/settings/add-ons.php', array(), XOO_EL_PATH );
