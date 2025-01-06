@@ -113,6 +113,7 @@ class Xoo_El_Frontend{
 	public function popup_markup(){
 		if( is_user_logged_in() ) return;
 		xoo_el_helper()->get_template( 'xoo-el-popup.php' );
+		xoo_el_helper()->get_template( '/global/xoo-el-notice-popup.php' );
 	}
 
 	//Shortcode

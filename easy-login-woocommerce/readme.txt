@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: social login, login customizer, registration, popup, custom registration fields
 Requires at least: 3.0.1
 Tested up to: 6.7
-Stable tag: 2.8.4
+Stable tag: 2.8.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,10 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 2.8.5 =
+* Wordfence firewall compatiblitiy ( shows wordfence errors now)
+* Close popup by pressing escape button
 
 = 2.8.4 =
 * New - Shortcode generator

@@ -159,9 +159,9 @@ jQuery(document).ready(function($){
 					$button.removeClass('xoo-el-processing').html(buttonTxt);
 					if( ( status !== 'success' || !xhr.responseJSON || xhr.responseJSON.error === undefined  ) ){
 						if( xoo_el_localize.errorLog === 'yes' ){
-							$notice.html( parse_notice( "Plugin did not receive expected response. The action might not be completed. Some other plugin or code on your site is interferring with the plugin's functionality. Temporarily deactivate all other plugins to further confirm. To disable this message uncheck \"error log\" option from the settings . ", 'error' ) ).show();
+							$notice.html( parse_notice( "We could not process your request, please check console or try again later.", 'error' ) ).show();
 						}
-						else{
+						else if( status !== 'error' ){	
 							location.reload();
 						}
 						
@@ -210,6 +210,21 @@ jQuery(document).ready(function($){
 					$( document.body ).trigger( 'xoo_el_form_submitted', [ response, $form, container ] );
 					
 				}
+			}).
+			fail(function(jqXHR, textStatus, errorThrown){
+				$('body, .xoo-el-popup-notice').addClass('xoo-el-popup-notice-active');
+				var iframe = $('.xoo-el-notice-wrap iframe').get(0);
+				iframe.contentWindow.document.open(); // Open the iframe's document
+			    iframe.contentWindow.document.write(jqXHR.responseText); // Write the string
+			    iframe.contentWindow.document.close(); // Close and render the iframe's document
+
+			     var iframeDocument = iframe.contentWindow.document;
+			     
+			     var style = iframeDocument.createElement("style");
+					style.textContent = $('.xoo-el-notice-iframestyle').text();
+
+				// Append the style element to the iframe's head
+				iframeDocument.head.appendChild(style);
 			})
 		}
 
@@ -263,6 +278,23 @@ jQuery(document).ready(function($){
 			this.triggerPopupOnClick(); //Open popup using link
 			if( xoo_el_localize.checkout && xoo_el_localize.checkout.loginEnabled === 'yes' ){
 				$('body').on( 'click', '.wc-block-checkout__login-prompt, .wc-block-must-login-prompt', this.checkoutPageLinkClick.bind(this) );
+			}
+			$(document.body).on( 'xoo_el_popup_toggled.xooEscEvent', this.onPopupToggled.bind(this) );
+		}
+
+		onPopupToggled(e, type){
+			if( $('body').hasClass('xoo-el-popup-active') ){
+				$(document).on('keydown.xooEscClose', this.closeOnEscPress.bind(this) );
+			}
+			else{
+				$(document).off('keydown.xooEscClose' );
+			}
+		}
+
+
+		closeOnEscPress(e){
+			if(event.key === "Escape" || event.keyCode === 27 ){
+				popup.toggle('hide');
 			}
 		}
 
@@ -428,23 +460,28 @@ jQuery(document).ready(function($){
   	}
 
 
-  	if( xoo_el_localize.loginClass && $( '.'+xoo_el_localize.loginClass ).length ){
+  	if( popup && xoo_el_localize.loginClass && $( '.'+xoo_el_localize.loginClass ).length ){
   		$( 'body:not(.logged-in) .'+xoo_el_localize.loginClass ).on( 'click', function(e){
   			e.preventDefault();
   			e.stopImmediatePropagation();
-  			$( '.xoo-el-login-tgr' ).trigger('click');
+  			popup.toggle('show');
+  			popup.$popup.find( '.xoo-el-login-tgr' ).trigger('click');
   		} );
   	}
 
-  	if( xoo_el_localize.registerClass && $( '.'+xoo_el_localize.registerClass ).length ){
+  	if( popup && xoo_el_localize.registerClass && $( '.'+xoo_el_localize.registerClass ).length ){
   		$( 'body:not(.logged-in) .'+xoo_el_localize.registerClass ).on( 'click', function(e){
   			e.preventDefault();
   			e.stopImmediatePropagation();
-  			$( '.xoo-el-reg-tgr' ).trigger('click');
+  			popup.toggle('show');
+  			popup.$popup.find( '.xoo-el-reg-tgr' ).trigger('click');
   		} );
   	}
 
 
+  	$('.xoo-el-notice-close').on('click', function(){
+  		$('body, .xoo-el-popup-notice').removeClass('xoo-el-popup-notice-active');
+  	})
 
 
 })
