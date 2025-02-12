@@ -1,3 +1,6 @@
+== 2.0.2 == 12-02-2025
+* Fix - Placeholder for country
+
 == 2.0.1 ==
 * Fix - Settings Priority
 

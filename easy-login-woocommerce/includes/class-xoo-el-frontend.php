@@ -165,11 +165,11 @@ class Xoo_El_Frontend{
 				return '';
 			}
 			else{
-				$change_to_link = esc_html( $atts['change_to'] );
+				$change_to_link = $atts['change_to'];
 				$change_to_text =  !empty( $change_to_text ) ? $change_to_text : __('Logout','easy-login-woocommerce');
 			}
 
-			$html =  '<a href="'.$change_to_link.'" class="'.$class.'">'.$change_to_text.'</a>';
+			$html =  '<a href="'.esc_url( $change_to_link ).'" class="'.$class.'">'.$change_to_text.'</a>';
 		}
 		else{
 			$action_type = isset( $user_atts['action'] ) ? $user_atts['action'] : $atts['type'];

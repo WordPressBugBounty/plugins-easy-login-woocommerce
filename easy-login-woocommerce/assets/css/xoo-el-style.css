@@ -103,7 +103,9 @@ span.xoo-el-close:hover, .xoo-el-notice-close:hover {
 .xoo-el-form-container button.button.btn.xoo-el-action-btn {
     clear: both;
     width: calc(100% - 20px);
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     margin: 10px 0;
 }

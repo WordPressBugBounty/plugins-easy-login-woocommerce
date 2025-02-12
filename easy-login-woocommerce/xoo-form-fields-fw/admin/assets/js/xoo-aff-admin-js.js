@@ -823,6 +823,23 @@ jQuery(document).ready(function($){
 	    items : 'li:not(.xoo-aff-no-sort)'
 	});
 
+
+
+	var currentInputState = null;
+	
+	$('body').on( 'mousedown click', '#xoo_aff_select_list input[name="xoo_aff_radio_single"]', function(e){
+
+		if( event.type === 'mousedown' ){
+			currentInputState = $(this).prop('checked');
+		}
+		if( event.type === 'click' ){
+			if( currentInputState ){
+				$(this).prop('checked', false);
+			}
+		}
+
+	} )
+
 })
 
 

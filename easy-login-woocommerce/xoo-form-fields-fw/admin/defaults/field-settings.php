@@ -131,7 +131,7 @@ $field_settings = array(
 		'countries',
 		'default' => array(
 			'type' 			=> 'select',
-			'options' 		=> (array) include XOO_AFF_DIR.'/countries/countries.php',
+			'options' 		=> array_merge( array( 'xoo_ff_placeholder' => 'Placeholder' ), (array) include XOO_AFF_DIR.'/countries/countries.php' ),
 		),
 		'unique_id',
 		'class'
@@ -143,7 +143,9 @@ $field_settings = array(
 		'label',
 		'cols',
 		'icon',
-		'use_select2',
+		'use_select2' => array(
+			'value' => 'yes'
+		),
 		'placeholder',
 		'for_country_id',
 		'unique_id',

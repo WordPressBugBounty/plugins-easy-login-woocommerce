@@ -276,6 +276,9 @@ class Xoo_Aff_Fields{
 			$args['value'] = isset( $args['default'] ) ? $args['default'] : '';
 		}
 
+		if( $args['value'] === 'xoo_ff_placeholder' ){
+			$args['value'] = $args['placeholder'];
+		}
 
 		//Password
 		if( $input_type === 'password' && isset( $settings['strength_meter'] ) && $settings['strength_meter'] === "yes" ){
