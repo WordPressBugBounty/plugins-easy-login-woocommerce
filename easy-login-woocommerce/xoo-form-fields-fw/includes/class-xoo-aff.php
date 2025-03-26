@@ -2,7 +2,7 @@
 
 class Xoo_Aff{
 
-	public $plugin_slug, $admin_page_slug, $fields, $admin;
+	public $plugin_slug, $admin_page_slug, $fields, $admin, $en_autocompadr, $hasUpdated;
 
 	public function __construct( $plugin_slug, $admin_page_slug ){
 
@@ -61,7 +61,7 @@ class Xoo_Aff{
 
 		$fields = $this->fields->get_fields_data();
 
-		$has_date = $has_meter = $has_phonecode = $has_select2 = false;
+		$has_date = $has_meter = $has_phonecode = $has_select2 = $has_autocompadr = $has_states = $has_countries_locale = $has_country = false;
 
 		$inline_style = '';
 
@@ -104,6 +104,21 @@ class Xoo_Aff{
 					case 'phone_code':
 						$has_phonecode = true;
 						break;
+
+					case 'autocomplete_address':
+						$has_autocompadr = true;
+						break;
+
+					case 'states':
+						$has_states = true;
+						if( isset( $settings['for_country_id'] ) && $settings['for_country_id'] ){
+							$has_countries_locale = true;
+						}
+						break;
+
+					case 'country':
+						$has_country = true;
+						break;
 				}
 
 			}
@@ -136,18 +151,45 @@ class Xoo_Aff{
 
 		}
 
+		if( $this->en_autocompadr && $has_autocompadr ){
+			$autocompadr_key = isset( $sy_options['aca-apikey'] ) && $sy_options['aca-apikey'] ? esc_html( $sy_options['aca-apikey'] ) : '';
+			if( $autocompadr_key ){
+				wp_enqueue_script( 'xoo-google-autocomplete', 'https://maps.googleapis.com/maps/api/js?key='.$autocompadr_key.'&libraries=places&language=en' );
+			}
+		}
+
 		wp_enqueue_script( 'xoo-aff-js', XOO_AFF_URL.'/assets/js/xoo-aff-js.js', array( 'jquery' ), XOO_AFF_VERSION, $strategy );
-		
-		wp_localize_script('xoo-aff-js','xoo_aff_localize',array(
+
+
+		$localize_args = array(
 			'adminurl'  			=> admin_url().'admin-ajax.php',
-			'countries' 			=> json_encode( include XOO_AFF_DIR.'/countries/countries.php' ),
-			'states' 				=> json_encode( include XOO_AFF_DIR.'/countries/states.php' ),
 			'password_strength' 	=> array(
 				'min_password_strength' => apply_filters( 'xoo_aff_min_password_strength', 3 ),
 				'i18n_password_error'   => esc_attr__( 'Please enter a stronger password.', $this->plugin_slug ),
 				'i18n_password_hint'    => esc_attr( wp_get_password_hint() ),
 			)
-		));
+		);
+
+		if( $has_states ){
+			$localize_args['states'] = json_encode( include XOO_AFF_DIR.'/countries/states.php' );
+			if( $has_country && $has_countries_locale ){
+				$localize_args['countries_locale'] = json_encode( include XOO_AFF_DIR.'/countries/country-locale.php' );
+			}
+		}
+
+		if( isset( $autocompadr_key ) ){
+
+			$restrictCountries = isset( $sy_options['aca-countries'] ) &&  $sy_options['aca-countries'] ? esc_html( $sy_options['aca-countries'] ) : array();	
+
+			if( !empty( $sy_options['aca-countries'] ) ){
+				$localize_args['geolocate_countries'] = explode(',', $restrictCountries);
+			}
+
+			$localize_args['geolocate_apikey'] = $autocompadr_key;
+
+		}
+		
+		wp_localize_script('xoo-aff-js','xoo_aff_localize', $localize_args );
 
 		$inline_style = xoo_aff_get_template( 'xoo-aff-inline-style.php',  XOO_AFF_DIR.'/includes/templates/', array( 'sy_options' => $sy_options ), true ) . $inline_style ;
 
@@ -178,6 +220,8 @@ class Xoo_Aff{
 
 	public function on_install(){
 
+		$this->en_autocompadr = apply_filters( 'xoo_aff_enable_autocompadr', true, $this );
+
 		$db_version = get_option( 'xoo_aff_'.$this->plugin_slug.'_version' );
 
 		if( $db_version && version_compare( $db_version, '1.7' , '<' ) ){
@@ -201,7 +245,7 @@ class Xoo_Aff{
 		}
 		
 		if( version_compare( $db_version, XOO_AFF_VERSION , '<' ) ){
-			$this->fields->set_defaults();
+			$this->hasUpdated = true;
 			update_option( 'xoo_aff_'.$this->plugin_slug.'_version', XOO_AFF_VERSION );
 		}
 	}

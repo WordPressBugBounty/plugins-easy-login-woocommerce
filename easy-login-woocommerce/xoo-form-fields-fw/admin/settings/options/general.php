@@ -1,5 +1,36 @@
 <?php
 
+
+if( $this->aff->en_autocompadr ){
+
+	$autocompadr = array(
+
+		'autocompadr-section' => array(
+			'type' 			=> 'section',
+			'callback' 		=> 'section',
+			'id' 			=> 'autocompadr-section',
+			'title' 		=> 'Google Places & Geolocation',
+		),
+
+		'aca-apikey' => array(
+			'type' 			=> 'setting',
+			'callback' 		=> 'text',
+			'section' 		=> 'autocompadr-section',
+			'id'			=> 'aca-apikey',
+			'title' 		=> 'API Key',
+		),
+
+		'aca-countries' => array(
+			'type' 			=> 'setting',
+			'callback' 		=> 'text',
+			'section' 		=> 'autocompadr-section',
+			'id'			=> 'aca-countries',
+			'title' 		=> 'Restrict results to specific countries',
+			'desc' 			=> 'Add the ISO codes, separated by comma. For eg: US,IN,UK'
+		),
+	);
+}
+
 $settings = array(
 	
 	'style-section' => array(
@@ -9,6 +40,16 @@ $settings = array(
 		'title' 		=> 'Style',
 	),
 
+	's-show-reqicon' => array(
+		'type' 			=> 'setting',
+		'callback' 		=> 'checkbox',
+		'section' 		=> 'style-section',
+		'id'			=> 's-show-reqicon',
+		'title' 		=> 'Show Required(*) symbol',
+		'default' 		=> 'no',
+	),
+
+
 	's-show-icons' => array(
 		'type' 			=> 'setting',
 		'callback' 		=> 'checkbox',
@@ -17,7 +58,6 @@ $settings = array(
 		'title' 		=> 'Show Icons',
 		'default' 		=> 'yes',
 	),
-
 
 	's-icon-size' => array(
 		'type' 			=> 'setting',
@@ -157,6 +197,10 @@ $settings = array(
 
 
 );
+
+if( isset( $autocompadr ) ){
+	$settings = array_merge( $autocompadr, $settings);
+}
 
 return $settings;
 

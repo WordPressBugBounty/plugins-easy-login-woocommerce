@@ -135,6 +135,15 @@ $field_types =  array(
 			'file_multiple_max' => 1
 		)
 	),
+
+	'xoo_aff_autocomplete_address' => array(
+		'xoo_aff_autocomplete_address',
+		'autocomplete_address',
+		'Autocomplete Address',
+		array(
+			'icon' 	=> 'fas fa-map-marker',
+		)
+	),
 );
 
 

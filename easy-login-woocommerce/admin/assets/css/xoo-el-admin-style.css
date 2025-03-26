@@ -212,3 +212,9 @@ span.xoo-el-scpop-info {
     border-top: 1px dashed;
     padding-top: 5px;
 }
+
+.xoo-aff-container .xoo-lic-pop-toggle-liner {
+    margin: 10px 0!important;
+    top: unset!important;
+    width: auto!important;
+}

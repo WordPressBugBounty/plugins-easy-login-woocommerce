@@ -20,6 +20,22 @@ $addons = array(
 		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
 	),
 
+	'email_verify' => array(
+		'title' => 'Email Verification/User approval',
+		'icon' 	=> 'dashicons-email',
+		'desc' 	=> 'Disable user access to the account. You have two options: either ask users to verify their email address by clicking on the verification link sent to them, or manually approve them from the admin panel.',
+		'link' 	=> $link,
+		'demo' 	=> 'https://demo.xootix.com/user-verification-for-woocommerce'
+	),
+
+	'otp_login' => array(
+		'title' => 'One time password(OTP) Login',
+		'icon' 	=> 'dashicons-phone',
+		'desc' 	=> 'Allow users to login with OTP ( sent on their phone or email ) therefore removing the need to remember a password.',
+		'link' 	=> $link,
+		'demo' 	=> 'https://demo.xootix.com/mobile-login-for-woocommerce'
+	),
+
 	'fields' => array(
 		'title' 	=> 'Custom Registration fields',
 		'icon' 		=> 'dashicons-plus',
@@ -29,21 +45,12 @@ $addons = array(
 	),
 
 
-	'email_verify' => array(
-		'title' => 'Email Verification/User approval',
-		'icon' 	=> 'dashicons-email',
-		'desc' 	=> 'Disable user access to the account. You have two options: either ask users to verify their email address by clicking on the verification link sent to them, or manually approve them from the admin panel.',
+	'autocomplete_address' => array(
+		'title' 	=> 'Autocomplete Address',
+		'icon' 		=> 'dashicons-plus',
+		'desc' 		=> "With the Google Places API, instantly get customers' accurate locations. Collect billing and shipping addresses seamlessly in your registration form. <br><b>**Requires Custom Registration Fields**</b>",
 		'link' 	=> $link,
-		'demo' 	=> 'https://demo.xootix.com/user-verification-for-woocommerce'
-	),
-
-
-	'otp_login' => array(
-		'title' => 'One time password(OTP) Login',
-		'icon' 	=> 'dashicons-phone',
-		'desc' 	=> 'Allow users to login with OTP ( sent on their phone or email ) therefore removing the need to remember a password.',
-		'link' 	=> $link,
-		'demo' 	=> 'https://demo.xootix.com/mobile-login-for-woocommerce'
+		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
 	),
 
 	'profile_builder' => array(

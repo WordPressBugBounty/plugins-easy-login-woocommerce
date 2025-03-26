@@ -46,6 +46,8 @@ class Xoo_Aff_Admin{
 
 	public function enqueue_scripts(){
 
+		$sy_options 	= get_option( $this->settings->get_option_key( 'general' ) );
+
 		wp_enqueue_style( 'jquery-ui-css', XOO_AFF_URL.'/lib/jqueryui/uicss.css' ); // Jquery UI CSS
 		wp_enqueue_style( 'xoo-aff-fa', XOO_AFF_URL.'/lib/fontawesome5/css/all.min.css' ); //Font Awesome
 		wp_enqueue_style( 'xoo-aff-fa-picker', XOO_AFF_URL.'/lib/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css', array(), XOO_AFF_VERSION, 'all' ); //Font Awesome Icon Picker
@@ -59,9 +61,11 @@ class Xoo_Aff_Admin{
 
 		wp_enqueue_script( 'xoo-aff-admin-js', XOO_AFF_URL . '/admin/assets/js/xoo-aff-admin-js.js', array( 'jquery','wp-color-picker', 'wp-util'), XOO_AFF_VERSION, false );
 		wp_localize_script( 'xoo-aff-admin-js', 'xoo_aff_localize', array(
-			'ajax_url' 		=> admin_url().'admin-ajax.php',
-			'submit_nonce'	=> wp_create_nonce( 'xoo-aff-submit-nonce' ),
-			'addField' 		=> apply_filters( 'xoo_aff_add_fields', true, $this->aff )
+			'ajax_url' 			=> admin_url().'admin-ajax.php',
+			'submit_nonce'		=> wp_create_nonce( 'xoo-aff-submit-nonce' ),
+			'addField' 			=> apply_filters( 'xoo_aff_add_fields', true, $this->aff ),
+			'en_autocompadr' 	=> $this->aff->en_autocompadr,
+			'autocompadr_setup' => isset( $sy_options['aca-apikey'] ) && $sy_options['aca-apikey']
 		));
 	}
 
@@ -73,7 +77,7 @@ class Xoo_Aff_Admin{
 	//Called by main plugin to display settings
 	public function display_layout(){
 
-		do_action( 'xoo_aff_before_displaying_fields' );
+		do_action( 'xoo_aff_before_displaying_fields', $this->aff );
 
 		$args = array(
 			'sidebar_template' => xoo_aff_get_template( 'xoo-aff-field-selector.php',  XOO_AFF_DIR.'/admin/templates/', array(

@@ -304,19 +304,19 @@ function xoo_el_get_form( $args = array() ){
 
 	//Handling redirects
 	if( isset( $_GET['redirect_to'] ) && $_GET['redirect_to'] ){
-		$args['forms']['register']['redirect'] = $args['forms']['login']['redirect'] = esc_url( $_GET['redirect_to'] );
+		$args['forms']['register']['redirect'] = $args['forms']['login']['redirect'] = sanitize_url( $_GET['redirect_to'] );
 	}
 	else{
 
 		if( !isset( $args['forms']['register']['redirect'] ) || !$args['forms']['register']['redirect'] ){
 			$regRedirect 							= xoo_el_helper()->get_general_option( 'm-red-register' );
-			$args['forms']['register']['redirect']	= !empty( $regRedirect ) ? $regRedirect : sanitize_text_field( $_SERVER['REQUEST_URI'] );
+			$args['forms']['register']['redirect']	= sanitize_url( !empty( $regRedirect ) ? $regRedirect :  $_SERVER['REQUEST_URI'] );
 		}
 
 
 		if( !isset( $args['forms']['login']['redirect'] ) || !$args['forms']['login']['redirect'] ){
 			$loginRedirect 						= xoo_el_helper()->get_general_option( 'm-red-login' );
-			$args['forms']['login']['redirect']	= !empty( $loginRedirect ) ? $loginRedirect : sanitize_text_field( $_SERVER['REQUEST_URI'] );
+			$args['forms']['login']['redirect']	= sanitize_url( !empty( $loginRedirect ) ? $loginRedirect :  $_SERVER['REQUEST_URI'] );
 		}
 		
 	}

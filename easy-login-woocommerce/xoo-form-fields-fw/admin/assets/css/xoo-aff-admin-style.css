@@ -363,8 +363,6 @@ button#xoo-aff-save{
 }
 
 .xoo-aff-settings-modal {
-    padding: 20px;
-    max-width: 1500px;
     width: 100%;
 }
 
@@ -566,8 +564,22 @@ ul.xoo-aff-main li:not(.xoo-aff-no-sort) .xoo-aff-label {
 }
 
 .xoo-aff-container {
-    position: relative;
-    z-index: 1;
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1500px;
+    padding: 10px 20px;
+}
+
+span.xoo-aff-break {
+    width: 100%;
+    display: block;
+    height: 10px;
+}
+
+
+#wpfooter {
+    display: none;
 }
 
 

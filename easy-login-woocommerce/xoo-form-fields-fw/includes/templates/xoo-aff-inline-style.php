@@ -14,6 +14,7 @@ $inputborwidth  = $sy_options['s-input-borwidth'];
 $focusbgcolor 	= $sy_options['s-input-focusbgcolor'];
 $focustxtcolor 	= $sy_options['s-input-focustxtcolor'];
 $inputheight 	= $sy_options['s-input-height'];
+$reqiredSymbol 	= $sy_options['s-show-reqicon'];
 
 ?>
 
@@ -70,3 +71,22 @@ $inputheight 	= $sy_options['s-input-height'];
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;
 }
+
+<?php if( $reqiredSymbol === "yes" ): ?>
+
+	.xoo-aff-cont-required:after {
+	    content: "*";
+	    position: absolute;
+	    right: 5px;
+	    top: 2px;
+	    z-index: 10;
+	    font-weight: 600;
+	    opacity: 0.5;
+	}
+
+	body.rtl .xoo-aff-cont-required:after{
+		left: 5px;
+		right: auto;
+	}
+
+<?php endif; ?>

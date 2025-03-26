@@ -20,6 +20,14 @@
 .xoo-aff-container {
     margin-top: 12px;
     display: flex;
+    flex-wrap: wrap;
+    max-width: 1500px;
+    padding: 10px 20px;
+}
+
+span.xoo-aff-break {
+    width: 100%;
+    display: block;
 }
 
 .xoo-main h2{

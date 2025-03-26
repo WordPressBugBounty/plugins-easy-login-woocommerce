@@ -185,6 +185,8 @@ class Xoo_El_Form_Handler{
 				}
 			}
 
+			do_action( 'xoo_el_before_perform_login', $creds );
+
 			// Perform the login
 			$user = wp_signon( apply_filters( 'xoo_el_login_credentials', $creds ), is_ssl() );
 

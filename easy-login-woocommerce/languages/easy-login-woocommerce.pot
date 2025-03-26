@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-11-03 02:45+0530\n"
+"POT-Creation-Date: 2025-03-26 14:18+0530\n"
 "PO-Revision-Date: 2018-04-03 13:52+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,29 +17,29 @@ msgstr ""
 "X-Poedit-SearchPath-0: easy-login-addon-security\n"
 "X-Poedit-SearchPath-1: easy-login-woocommerce\n"
 
-#: easy-login-addon-security/class-xoo-sel-core.php:199
+#: easy-login-addon-security/class-xoo-sel-core.php:201
 msgid "Please verify you are a human."
 msgstr ""
 
-#: easy-login-addon-security/class-xoo-sel-core.php:280
+#: easy-login-addon-security/class-xoo-sel-core.php:282
 msgid "Couldn't verify recaptcha. Please try again."
 msgstr ""
 
-#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:562
-#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:629
-#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:859
+#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:651
+#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:718
+#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:948
 msgid "Username / Email"
 msgstr ""
 
-#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:681
+#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:770
 msgid "Password"
 msgstr ""
 
-#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:739
+#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:828
 msgid "New Password"
 msgstr ""
 
-#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:802
+#: easy-login-woocommerce/admin/class-xoo-el-aff-fields.php:891
 msgid "Confirm Password"
 msgstr ""
 
@@ -52,8 +52,8 @@ msgid "Add to menu"
 msgstr ""
 
 #: easy-login-woocommerce/admin/views/settings/general.php:283
-#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:178
-#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:193
+#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:179
+#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:194
 msgid "Login"
 msgstr ""
 
@@ -102,147 +102,147 @@ msgstr ""
 msgid "We couldn't find your account. Please register."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:196
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:198
 msgid "Lost your password?"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:205
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:207
 msgid "Wrong password."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:208
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:210
 msgid "Incorrect Email or Username."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:225
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:227
 msgid "Login successful"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:313
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:329
 msgid "Please enter an account password."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:317
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:680
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:333
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:695
 msgid "Passwords don't match"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:366
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:382
 msgid "Registration successful"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:371
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:387
 msgid "Registration successful. Please <a class=\"xoo-el-login-tgr\">Login</a>"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:376
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:392
 msgid ""
 "Your account was created successfully and a password has been sent to your "
 "email address"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:376
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:392
 msgid "Your account was created successfully."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:422
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:437
 msgid ""
 "An account is already registered with your email address. Please log in."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:426
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:441
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:438
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:453
 msgid "Please enter a valid account username."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:442
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:457
 msgid ""
 "An account is already registered with that username. Please choose another."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:467
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:482
 msgid ""
 "Couldn&#8217;t register you&hellip; please contact us if you continue to "
 "have problems."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:633
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:648
 msgid ""
 "A password reset email has been sent to the email address on file for your "
 "account, but may take several minutes to show up in your inbox. Please wait "
 "at least 10 minutes before attempting another reset."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:674
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:689
 #: easy-login-woocommerce/templates/global/xoo-el-resetpw-section.php:31
 msgid ""
 "This key is invalid or has already been used. Please reset your password "
 "again if needed."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:703
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:718
 msgid ""
 "Your password has been reset successfully! Please <a class=\"xoo-el-login-tgr"
 "\">Login</a>"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:746
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:761
 msgid "<strong>ERROR</strong>: Enter a username or email address."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:755
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:770
 msgid "There is no account with that username or email address."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:798
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:813
 msgid "<strong>ERROR</strong>: Invalid username or email."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:844
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:859
 msgid "Someone has requested a password reset for the following account:"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:846
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:861
 #, php-format
 msgid "Site Name: %s"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:848
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:1015
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:863
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:1030
 #, php-format
 msgid "Username: %s"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:849
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:864
 msgid "If this was a mistake, just ignore this email and nothing will happen."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:850
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:865
 msgid "To reset your password, visit the following address:"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:858
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:873
 #, php-format
 msgid "This password reset request originated from the IP address %s."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:865
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:880
 #, php-format
 msgid "[%s] Password Reset"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:944
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:959
 msgid "The email could not be sent."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:944
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:959
 msgid "Possible reason: your host may have disabled the mail() function."
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:1016
+#: easy-login-woocommerce/includes/class-xoo-el-form-handler.php:1031
 msgid "To set your password, visit the following address:"
 msgstr ""
 
@@ -250,43 +250,33 @@ msgstr ""
 msgid "Change?"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:156
+#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:157
 msgid "My account"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:161
-#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:168
+#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:162
+#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:169
 msgid "Logout"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:183
+#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:184
 msgid "Signup"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:188
+#: easy-login-woocommerce/includes/class-xoo-el-frontend.php:189
 msgid "Lost Password"
 msgstr ""
 
-#: easy-login-woocommerce/includes/class-xoo-el-helper.php:63
+#: easy-login-woocommerce/includes/class-xoo-el-helper.php:58
 #: easy-login-woocommerce/includes/xoo-framework/class-xoo-helper.php:344
 msgid "Some files failed to upload"
 msgstr ""
 
-#: easy-login-woocommerce/includes/xoo-el-functions.php:429
-#, php-format
-msgid "Please check %s"
-msgstr ""
-
-#: easy-login-woocommerce/includes/xoo-el-functions.php:433
-#, php-format
-msgid "%s cannot be empty"
-msgstr ""
-
-#: easy-login-woocommerce/includes/xoo-el-functions.php:581
+#: easy-login-woocommerce/includes/xoo-el-functions.php:572
 msgid "Don't have an account? Signup now"
 msgstr ""
 
-#: easy-login-woocommerce/includes/xoo-el-functions.php:585
+#: easy-login-woocommerce/includes/xoo-el-functions.php:576
 msgid "Already a member? Login"
 msgstr ""
 
@@ -316,68 +306,68 @@ msgstr ""
 msgid "Continue to resetting password"
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1343
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1408
 #, php-format
 msgid "%s - File not selected."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1350
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1415
 #, php-format
 msgid ""
 "%s - You can upload only one file. Please delete the previously attached "
 "file."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1380
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1445
 #, php-format
 msgid "%1$s - You can upload only %2$s file."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1401
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1466
 #, php-format
 msgid "Invalid file extension, only allowed: %s"
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1413
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1478
 #, php-format
 msgid "File size limit exceeded, file size should be smaller than %0.1f MB"
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1427
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1492
 #, php-format
 msgid "Please check %s."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1431
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1496
 #, php-format
 msgid "%s cannot be empty."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1439
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1504
 #, php-format
 msgid "%s needs to be minimum %s characters."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1444
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1509
 #, php-format
 msgid "%s cannot exceed %s characters."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1449
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1514
 #, php-format
 msgid "%s should be minimum %s."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1454
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1519
 #, php-format
 msgid "%s cannot be more than %s."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1459
+#: easy-login-woocommerce/xoo-form-fields-fw/admin/class-xoo-aff-fields.php:1524
 #, php-format
 msgid "%s should be in multiple of %s."
 msgstr ""
 
-#: easy-login-woocommerce/xoo-form-fields-fw/includes/class-xoo-aff.php:130
+#: easy-login-woocommerce/xoo-form-fields-fw/includes/class-xoo-aff.php:168
 msgid "Please enter a stronger password."
 msgstr ""

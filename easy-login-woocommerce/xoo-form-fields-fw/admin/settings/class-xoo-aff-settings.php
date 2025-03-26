@@ -12,12 +12,12 @@ class Xoo_Aff_Settings{
 
 	public function __construct( $aff ){
 		$this->aff = $aff;
-		$this->prepare();
 		$this->hooks();
 	}
 
 	public function hooks(){
 		add_action( 'admin_init', array( $this, 'generate_settings' ), 5 );
+		add_action( 'init', array( $this, 'set_default_options' ) );
 		add_action( 'admin_enqueue_scripts', array($this,'enqueue_scripts') );
 	}
 
@@ -45,6 +45,16 @@ class Xoo_Aff_Settings{
 			$this->options[ $this->get_option_key( $tab_id ) ] = include XOO_AFF_DIR.'/admin/settings/options/'.$tab_id.'.php'; 
 		}
 
+	}
+
+	public function set_default_options(){
+
+		if( !$this->aff->hasUpdated ) return; //set defaults on update
+
+		if( empty( $this->options ) ){
+			$this->prepare();
+		}
+
 		//Set default options
 		foreach ( $this->options as $option_name => $settings ) {
 
@@ -59,7 +69,6 @@ class Xoo_Aff_Settings{
 			update_option( $option_name, $option_value );
 
 		}
-
 	}
 
 	public function get_option_key( $option_slug ){
@@ -67,6 +76,8 @@ class Xoo_Aff_Settings{
 	}
 
 	public function generate_settings(){
+
+		$this->prepare();
 
 		foreach ( $this->options as $option_name => $option_settings ) {
 

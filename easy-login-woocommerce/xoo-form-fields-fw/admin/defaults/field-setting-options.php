@@ -435,6 +435,46 @@ $field_settings = array(
 	),
 
 
+	'autocomplete_auto_fetch' => array(
+		'type' 		=> 'checkbox',
+		'id'		=> 'autocomplete_auto_fetch',
+		'section' 	=> 'basic',
+		'title' 	=> 'Auto fetch location',
+		'width'		=> 'half',
+		'value'		=> 'yes',
+		'info'		=> 'Auto fetch location via browser.',
+	),
+
+
+
+	'autocomplete_field_id' => array(
+		'type' 		=> 'text',
+		'id'		=> 'autocomplete_field_id',
+		'section' 	=> 'advanced',
+		'title' 	=> 'Autocomplete Address Field ID',
+		'width'		=> 'half',
+		'value'		=> '',
+		'info'		=> 'If you have an autocomplete address field and want to extract a specific address part to fill this field.',
+	),
+
+
+	'autocomplete_field_type' => array(
+		'type' 		=> 'select',
+		'id'		=> 'autocomplete_field_type',
+		'section' 	=> 'advanced',
+		'title' 	=> 'Autocomplete Address Part',
+		'width'		=> 'half',
+		'options' 	=> array(
+			'address' 		=> 'Address',
+			'postal_code' 	=> 'Postal Code',
+			'city' 			=> 'City',
+			'states' 		=> 'States'
+		),
+		'value'		=> 'Which address part do you want to auto-fill in this field?',
+	),
+
+
+
 	/**
 	  * Advanced section
 	**/

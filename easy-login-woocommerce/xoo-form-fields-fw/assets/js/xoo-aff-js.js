@@ -14,7 +14,8 @@ jQuery(document).ready(function($){
 	}());
 
 
-	var all_states = JSON.parse(xoo_aff_localize.states);
+	var all_states 			= xoo_aff_localize.states ? JSON.parse(xoo_aff_localize.states) : {};
+	var countries_locale 	= xoo_aff_localize.countries_locale ?  JSON.parse(xoo_aff_localize.countries_locale) : {};
 
 	//-------------------- XXXXXXXXXXXXXXX -------------------- //
 
@@ -28,7 +29,8 @@ jQuery(document).ready(function($){
 		self.$selectPhoneCode 	= self.$form.find('.xoo-aff-phone_code[data-country_field="'+self.id+'"]');
 
 		//Methods
-		self.states = self.$selectState.length ? self.states() : false;
+		self.statesHandler = self.$selectState.length ? self.states() : false;
+
 		//Events
 		self.$selectCountry.on( 'change', { country: self }, this.onChange );
 		self.$selectCountry.trigger('change'); //on load
@@ -37,8 +39,8 @@ jQuery(document).ready(function($){
 
 	SelectCountry.prototype.onChange = function( event ){
 		var self = event.data.country;
-		if( self.states ){
-			self.states.updateStateField( event );
+		if( self.statesHandler ){
+			self.statesHandler.updateStateField( event );
 		}
 
 		if( self.$selectPhoneCode.length ){
@@ -79,45 +81,57 @@ jQuery(document).ready(function($){
 			},
 
 			createStateInput: function(){
-				return $( '<input type="text" />' )
+				$stateInput =  $( '<input type="text" />' )
 					.prop( 'name', $selectState.attr('name') )
 					.prop('placeholder', Handler.$statePlaceholder.html() )
 					.addClass( $selectState.attr('class') );
+
+				var excludeID = ['select2', 'select2Id' ,'country_field'];
+
+				$.each($selectState.data(), function( id, value ){
+					if( !excludeID.includes(id) ){
+						$stateInput.attr('data-'+id, value);
+					}
+					
+				});
+
+				return $stateInput;
 			},
 
 			updateStateField: function( event ){
 
-				var country = event.data.country;
+				var country 	= event.data.country,
+					countryVal 	= country.$selectCountry.val();
 
 				//Remove all current states
 				$selectState.find('option').not(Handler.$statePlaceholder).remove();
 
-				if( country.$selectCountry.val() ){
-					var active_states = Handler.getStates();
+				
+				var active_states = Handler.getStates();
 
-					if( !active_states ){
-						Handler.$selectStateCont.find('.select2-container').remove();
-						Handler.$selectStateCont.append( Handler.$inputState );
-					}
-					else{
-						Handler.$inputState.remove();
-						Handler.$selectStateCont.append( $selectState );
-						$.each( active_states, function( state_key, label ){
-							$selectState.append( '<option value="'+state_key+'">'+label+'</option>' );
-						} )
+				if( !active_states ){
 
-						if( defaultValue ){
-							Handler.$selectStateCont.find( 'option[value='+defaultValue+']' ).prop( 'selected', 'selected' );
-						}
-
-						if( $selectState.attr('select2') === 'yes' ){
-							$selectState.select2();
-						}
-						
-					}
-
+					Handler.$selectStateCont.find('.select2-container').remove();
+					Handler.$selectStateCont.append( Handler.$inputState );
 					
 				}
+				else{
+					Handler.$inputState.remove();
+					Handler.$selectStateCont.append( $selectState );
+					$.each( active_states, function( state_key, label ){
+						$selectState.append( '<option value="'+state_key+'">'+label+'</option>' );
+					} )
+
+					if( defaultValue ){
+						Handler.$selectStateCont.find( 'option[value='+defaultValue+']' ).prop( 'selected', 'selected' );
+					}
+
+					if( $selectState.attr('select2') === 'yes' ){
+						$selectState.select2();
+					}
+					
+				}
+	
 
 			}
 
@@ -385,6 +399,239 @@ jQuery(document).ready(function($){
 		$(this).closest('div').remove();
 	});
 
-	
+
+
+	class AutoComplete{
+
+		constructor( $input ){
+			this.$input 	= $input;
+			this.$form 		= $input.closest('form');
+			this.hasParts 	= this.$form.find('[data-autocompad_parent="'+this.$input.attr('name')+'"]').length;
+			this.inputInit 	= false;
+
+			this.$browserFetch = this.$input.closest('.xoo-aff-group').find('.xoo-aff-auto-fetch-loc');
+
+			this.events();
+		}
+
+
+		events(){
+			this.$input.on('focus', this.init.bind(this) );
+			if( this.$browserFetch.length ){
+				this.$browserFetch.on('click', { handler: this }, this.browserGetLocation );
+			}
+		}
+
+
+		browserGetLocation(event){
+
+			var handler = event.data.handler;
+
+			if( !navigator.geolocation ){
+				$(this).html('Not supported by browser');
+				return;
+			}
+
+			var $fetchEl = $(this);
+
+			navigator.geolocation.getCurrentPosition(
+
+				async (position) => {
+					handler.googleReverseGeolocate( position.coords.latitude, position.coords.longitude );
+				},
+				(error) => {
+					$fetchEl.find('span').text( error.message );
+				}
+			);
+		}
+
+		async googleReverseGeolocate( lat, long ){
+
+			let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${xoo_aff_localize.geolocate_apikey}`;
+
+			let response 	= await fetch(url);
+			let data 		= await response.json();
+
+			if( data.error_message ){
+				this.$browserFetch.find('span').text( data.error_message );
+			}
+			else if( data.results ){
+				this.fillAddress( data.results[0].address_components, data.results[0].formatted_address );
+			}
+			else{
+				console.log(data);
+			}	
+		}
+
+		init(){
+
+			if( this.inputInit ) return;
+
+			var placesArgs = {
+				fields: ["address_components" ],
+				types: ["address"],
+			}
+
+			if( xoo_aff_localize.geolocate_countries ){
+				placesArgs.componentRestrictions = {country: xoo_aff_localize.geolocate_countries}
+			}
+
+			this.location = new google.maps.places.Autocomplete(this.$input.get(0), placesArgs);
+
+			if( this.hasParts ){
+				this.location.addListener('place_changed', this.onAddressChange.bind(this) );
+			}
+
+			this.inputInit = true;
+
+		}
+
+		onAddressChange(){
+			this.fillAddress( this.location.getPlace().address_components );
+		}
+
+
+		fillAddress( components, formatted_address = '' ){
+
+				var autocompleteHandler = this,
+					$form  				= this.$form,
+					addressParts 		= { country: '', postal_code: '', address: '', states: '', city: '', states_longname: '', country_longname: '' };
+
+			$.each( components, function( index, component ){
+
+				var componentType = component.types[0];
+
+
+				switch(componentType) {
+
+					case 'country':
+						addressParts.country 			= component.short_name;
+						addressParts.country_longname 	= component.long_name;
+						break;
+
+					
+					case "postal_code_suffix":
+						addressParts.postal_code += component.long_name;
+						break;
+
+					case "postal_code":
+						addressParts.postal_code += component.long_name;
+						break;
+
+					case "locality": // Most common
+					case "postal_town": // UK, Ireland, some EU countries
+					case "administrative_area_level_3": // Brazil, Japan, some regions
+						addressParts.city = component.long_name;
+						break;
+
+					case 'administrative_area_level_1':
+						addressParts.states 		= component.short_name;
+						addressParts.states_longname = component.long_name;
+						break;
+
+					default:
+						addressParts.address += ( component.long_name + ' ' );
+						break;
+				}
+
+			} );
+
+
+			//If states are not available for country
+			if(  !addressParts.city && addressParts.states && (!countries_locale[ addressParts.country ] || !countries_locale[ addressParts.country ][ 'state' ] || countries_locale[ addressParts.country ][ 'state' ][ 'hidden' ] ) ){
+				addressParts.city = addressParts.states;
+				addressParts.states = null;
+			}
+
+			var partsNotUsed = {},
+				partsUsedCounter = 0;
+
+			$.each( addressParts, function( part, value ){
+
+				var $inputParts = $form.find('[data-autocompad_type="'+part+'"][data-autocompad_parent="'+autocompleteHandler.$input.attr('name')+'"]');
+
+				if( !$inputParts.length ){
+					partsNotUsed[part] = value;
+					return true; //do not proceed further as address part element does not exist
+				}
+
+				partsUsedCounter++;
+
+				$inputParts.each( function( index, inputPart ){
+
+					var $inputPart = $(inputPart);
+
+					if( (part === 'states' || part === 'country') && $inputPart.is('input') ){ // if its an input and not select, we use long name
+						$inputPart.val( addressParts[part+'_longname'] );
+					}
+					else{
+
+						//scan through states as the name returned by google does not exactly match the local states data we have
+						if( part === 'states' && !$inputPart.find('option[value="'+value+'"]').length ){
+
+							var optionFound;
+
+							$inputPart.find('option').each(function( index, option ){
+								var $option = $(option);
+								if( $option.val().includes('-'+value) ){
+									optionFound = $option;
+									return false;
+								}
+							})
+
+
+							if( !optionFound ){
+								optionFound = $inputPart.find("option:contains('" + addressParts.states_longname + "')");
+							}
+						
+							if( optionFound.length ){
+								$inputPart.val( optionFound.val() );
+							}
+
+						}
+						else{
+							$inputPart.val( value );
+						}
+
+						$inputPart.trigger('change');
+
+					}
+						
+				});
+
+			} );
+
+			if( partsUsedCounter > 0 ){
+
+				var inputAddress = addressParts.address;
+
+				$.each( [ 'city', 'states', 'postal_code', 'country' ], function( index, leftPart ){
+					if( partsNotUsed[ leftPart ] ){
+						var partLongName = partsNotUsed[ leftPart + '_longname' ];
+						partLongName = partLongName ? partLongName : partsNotUsed[ leftPart ];
+						inputAddress += ( ', ' + partLongName  );
+					}
+				} );
+
+				this.$input.val(inputAddress);
+
+				
+			}
+			else if(formatted_address){
+				this.$input.val(formatted_address);
+			}
+			
+		}
+
+	}
+
+
+	if( xoo_aff_localize.geolocate_apikey ){
+
+		$('input[data-autocompadd="yes"]').each(function(){
+			new AutoComplete( $(this) );
+		});
+
+	}	
 	
 })

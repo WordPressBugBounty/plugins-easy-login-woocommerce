@@ -11,6 +11,18 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			add_filter( 'xoo_aff_easy-login-woocommerce_before_fields_update', array( $this, 'manage_password_field' ) );
 			add_filter( 'xoo_aff_easy-login-woocommerce_default_field_settings', array( $this, 'modify_default_field_settings' ) );
 			add_filter( 'xoo_aff_easy-login-woocommerce_field_setting_options', array( $this, 'add_custom_settings_option' ) );
+			add_filter( 'xoo_aff_easy-login-woocommerce_default_field_types', array( $this, 'autocomplete_address_text_filter' ) );
+		}
+
+
+		public function autocomplete_address_text_filter( $types ){
+
+			if( !defined('XOO_ELACDR_VERSION') ){
+				$types['xoo_aff_autocomplete_address'][2] = $types['xoo_aff_autocomplete_address'][2].' ( requires add-on ) ';
+			}
+
+			return $types;
+			
 		}
 
 

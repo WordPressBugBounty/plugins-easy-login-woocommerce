@@ -3,16 +3,19 @@
  * Countries
  *
  * Returns an array of countries and codes.
+ * Country codes and names should follow the Unicode CLDR recommendation (https://cldr.unicode.org/translation/displaynames/countryregion-territory-names).
  *
- * @package WooCommerce/i18n
- * @version 2.5.0
+ * See https://github.com/unicode-org/cldr/blob/master/common/subdivisions/en.xml
+ *
+ * @package WooCommerce\i18n
+ * @version 3.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 return array(
 	'AF' => 'Afghanistan',
-	'AX' => '&#197;land Islands',
+	'AX' => 'Åland Islands',
 	'AL' => 'Albania',
 	'DZ' => 'Algeria',
 	'AS' => 'American Samoa',
@@ -139,7 +142,7 @@ return array(
 	'LI' => 'Liechtenstein',
 	'LT' => 'Lithuania',
 	'LU' => 'Luxembourg',
-	'MO' => 'Macao S.A.R., China',
+	'MO' => 'Macao',
 	'MK' => 'North Macedonia',
 	'MG' => 'Madagascar',
 	'MW' => 'Malawi',
@@ -222,7 +225,7 @@ return array(
 	'SD' => 'Sudan',
 	'SR' => 'Suriname',
 	'SJ' => 'Svalbard and Jan Mayen',
-	'SZ' => 'Swaziland',
+	'SZ' => 'Eswatini',
 	'SE' => 'Sweden',
 	'CH' => 'Switzerland',
 	'SY' => 'Syria',

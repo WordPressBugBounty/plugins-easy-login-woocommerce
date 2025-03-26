@@ -30,6 +30,7 @@ class Xoo_El_Admin_Settings{
 
 		add_filter( 'plugin_action_links_' . XOO_EL_PLUGIN_BASENAME, array( $this, 'plugin_action_links' ) );
 		add_filter( 'xoo_aff_add_fields', array( $this,'add_new_fields' ), 10, 2 );
+		add_filter( 'xoo_aff_enable_autocompadr', array( $this,'enable_autocompadr' ), 10, 2 );
 		add_action( 'xoo_aff_field_selector', array( $this, 'customFields_addon_notice' ) );
 		add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'));
 		add_action( 'admin_footer', array( $this, 'inline_css' ) );
@@ -44,8 +45,21 @@ class Xoo_El_Admin_Settings{
 			remove_action( 'xoo_tab_page_start', array(  xoo_el_helper()->admin, 'info_tab_data' ), 10, 2 );
 			add_action( 'xoo_tab_page_end', array(  $this, 'troubleshoot_info' ), 10, 2 );
 		}
+
+		add_action( 'xoo_aff_admin_page_display_start', array( $this, 'documentation_link' ), 20 );
 		
 	}
+
+
+	public function documentation_link($slug){
+
+		if( $slug !== 'xoo-el-fields' ) return;
+		?>
+		<a href="https://docs.xootix.com/easy-login-for-woocommerce/fields" style="font-size: 17px; margin-left: auto; margin-right: 20px; margin-bottom: 10px;" target="__blank">Documentation</a>
+		<?php
+
+	}
+
 
 	public function troubleshoot_info( $tab_id, $tab_data ){
 		if( $tab_id !== 'info' ) return;
@@ -123,6 +137,12 @@ class Xoo_El_Admin_Settings{
 		if( $aff->plugin_slug === 'easy-login-woocommerce' ) return false;
 		return $allow;
 	}
+
+	public function enable_autocompadr( $allow, $aff ){
+		if( $aff->plugin_slug === 'easy-login-woocommerce' ) return false;
+		return $allow;
+	}
+	
 	
 
 	public function generate_settings(){

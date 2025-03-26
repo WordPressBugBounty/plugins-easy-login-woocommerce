@@ -343,7 +343,7 @@ jQuery(document).ready(function($){
 					new MultipleOptions( $(el) );
 				} )
 
-				settings.setLabel();
+				//settings.setLabel();
 				$fieldSettings.show();
 				$fieldsDisplay.show();
 				$fieldSelector.hide();
@@ -368,11 +368,13 @@ jQuery(document).ready(function($){
 
 		var field_display_data = {
 			field_id: this.id,
-			type_data: _types[this.type]
+			type_data: _types[this.type],
 		};
 
 		var settings 	= _userFields[ this.id ]['settings'],
 		title 			= settings.label ? settings.label : ( settings.placeholder ? settings.placeholder : this.id );
+
+		field_display_data.field_title = title;
 
 
 		//field_display_data.type_data.title = title;
@@ -528,6 +530,15 @@ jQuery(document).ready(function($){
 			var type 	= $(ui.selected).data('field');
 			field 		= new Field( null, type );
 			field.openFieldView();
+
+			if( _types[ type ]['type'] === 'autocomplete_address' ){
+				if( !xoo_aff_localize.en_autocompadr ){
+					add_notice( 'Autocomplete address requires add-on..', 'info', 99999 );
+				}
+				else if( !xoo_aff_localize.autocompadr_setup ){
+					add_notice( 'Google API key not found. Please add the key under settings for autocomplete address to work', 'error', 99999 );
+				}
+			}
 		},
 
 		onDisplaySelect: function(){

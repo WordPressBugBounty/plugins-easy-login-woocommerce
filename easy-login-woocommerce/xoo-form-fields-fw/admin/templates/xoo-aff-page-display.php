@@ -19,6 +19,8 @@
 
 	<?php do_action( 'xoo_aff_admin_page_display_start', $admin_page_slug ); ?>
 
+	<span class="xoo-aff-break"></span>
+
 	<?php if( $current_tab === 'fields' ): ?>
 		<?php $aff->admin->display_layout(); ?>
 	<?php else: ?>

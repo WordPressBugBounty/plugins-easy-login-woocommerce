@@ -313,6 +313,26 @@ class Xoo_Aff_Fields{
 		}
 
 
+		//Autocomplete Address
+		if( $input_type === 'autocomplete_address' ){
+			$args['custom_attributes']['data-autocompadd'] 	= 'yes';
+			$args['custom_attributes']['autocomplete'] 		= 'off';
+		}
+
+
+		if( isset( $settings['autocomplete_field_id'] ) && $settings['autocomplete_field_id'] ){
+			$args['custom_attributes']['data-autocompad_parent'] = $settings['autocomplete_field_id'];
+			if( isset( $settings['autocomplete_field_type'] ) ){
+				$type = $settings['autocomplete_field_type'];
+			}
+			else{
+				$type = $input_type;
+			}
+
+			$args['custom_attributes']['data-autocompad_type'] = $type;
+
+		}
+
 		//Class
 		if( isset( $settings['class'] ) ){
 			$data['settings']['class'] = explode( ',' , $settings['class'] );
@@ -542,8 +562,8 @@ class Xoo_Aff_Fields{
 		update_option( $this->db_field, json_encode( $fields ) );
 
 		$this->fields = $fields;
-	}
 
+	}
 
 
 	//Print variables to javascript
@@ -967,7 +987,7 @@ class Xoo_Aff_Fields{
 			
 		}
 
-
+		
 		if ( ! empty( $args['custom_attributes'] ) && is_array( $args['custom_attributes'] ) ) {
 			foreach ( $args['custom_attributes'] as $attribute => $attribute_value ) {
 				$attribute_value = is_array( $attribute_value ) ? json_encode( $attribute_value ) : $attribute_value;
@@ -1061,6 +1081,7 @@ class Xoo_Aff_Fields{
 			case 'text':
 			case 'date':
 			case 'phone':
+			case 'autocomplete_address':
 				$input_html .= '<input type="text" class="' . $class . '" name="' . $field_id . '" placeholder="' . $placeholder . '"  value="' . $value . '" ' . $custom_attributes . '/>';
 				break;
 
@@ -1193,6 +1214,10 @@ class Xoo_Aff_Fields{
 				}
 			}
 			$field_html .= '</div>';
+		}
+
+		if( $input_type === 'autocomplete_address' && $args['autocomplete_auto_fetch'] === 'yes' ){
+			$field_html .= '<div class="xoo-aff-auto-fetch-loc">𖦏 Fetch Location<span></span></div>';
 		}
 
 		$field_html .= '</div>';
