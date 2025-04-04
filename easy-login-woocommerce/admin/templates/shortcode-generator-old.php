@@ -12,13 +12,8 @@
 
 
 	<div class="xoo-elscg-shortcode">
-		<div class="test"></div>
-		<div>
-			<div>Click<span class="xoo-elscg-copy dashicons dashicons-admin-page"></span>to copy</div>
-			<span class="xoo-elsc-updated-notice">Shortcode updated.</span>
-		</div>
 		<span class="xoo-elscg-copy dashicons dashicons-admin-page"></span>
-		<textarea class="xoo-elscg-sctext" disabled></textarea>
+		<span class="xoo-elscg-sctext"></span>
 		<span class="xoo-elscg-copy dashicons dashicons-admin-page"></span>
 	</div>
 
@@ -68,87 +63,94 @@
 		</div>
 
 		<div class="xoo-el-scgroup xoo-el-scredirects" data-attr="login_redirect">
-
 			<label>Login Redirect</label>
-
 			<div>
-
 				<select data-fname="xoo-elscg-loginred">
 					<option value="global">Global Setting</option>
 					<option value="same">Same Page</option>
 					<option value="custom">Custom URL</option>
 				</select>	
-
 				<input type="text" data-fname="xoo-elscg-loginred" value="<?php echo get_site_url() ?>" data-showval="custom">
-
 				<span class="xoo-el-scgdesc">Redirect link after login.<br>
 					Global Setting refers to the option set under general -> redirect settings.
 				</span>
 			</div>	
-
 		</div>
 
 
 		<div class="xoo-el-scgroup xoo-el-scredirects" data-attr="register_redirect">
-
 			<label>Register Redirect</label>
-
 			<div>
-
 				<select data-fname="xoo-elscg-regred">
 					<option value="global">Global Setting</option>
 					<option value="same">Same Page</option>
 					<option value="custom">Custom URL</option>
 				</select>	
-
 				<input type="text" data-fname="xoo-elscg-regred" value="<?php echo get_site_url() ?>" data-showval="custom">
-
 				<span class="xoo-el-scgdesc">Redirect link after register.<br>
 					Global Setting refers to the option set under general -> redirect settings.
 				</span>
-
 			</div>	
-
 		</div>
-
 
 	</div>
 
 
 	<div class="xoo-elscg-fields" data-type="popup">
 
-		<div class="xoo-el-scgroup xoo-el-sc-haseditor" data-attr="text">
-			<label>Text before login</label>
-			<div>
-				<?php wp_editor( '{pop}Login{/pop}', 'xoo-elscg-poptxt' ); ?>
-				<div class="xoo-el-scplhold">
-					<span>Placeholders</span>
-					<ul>
-						<li>
-							<label>{pop} {/pop}</label>
-							<span>The content between {pop} and {/pop} will open the popup</span>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-
-		<div class="xoo-el-scgroup" data-attr="type">
-			<label>Pop Default Form</label>
+		<div class="xoo-el-scgroup" data-attr="display">
+			<label>Open popup using</label>
 			<div>
 				<select data-fname="xoo-elscg-poptype">
-					<option value="login">Login</option>
-					<option value="register">Register</option>
-					<option value="lost-password">Lost Password</option>
+					<option value="link">Link</option>
+					<option value="button">Button</option>
 				</select>
+			</div>	
+		</div>
 
-				<span class="xoo-el-scgdesc" style="display: none; color: red;">This will be ineffective as "Single Field Form" is selected under "General" tab. Change it to "Separate forms" for this to work.</span>
 
+		<div class="xoo-el-scgroup" data-attr="text">
+			<label>Text</label>
+			<div>
+				<input type="text" data-fname="xoo-elscg-poptxt" value="Login">
+			</div>	
+		</div>
+
+
+		<div class="xoo-el-scgroup" data-attr="change_to">
+			<label>After signing in, change link to</label>
+			<div>
+				<select data-fname="xoo-elscg-popchangeto">
+					<option value="logout">Logout</option>
+					<?php if( class_exists('woocommerce') ): ?><option value="myaccount" selected>My account</option><?php endif; ?>
+					<option value="custom">Custom URL</option>
+					<option value="hide">Hide</option>
+				</select>	
+				<input type="text" data-fname="xoo-elscg-popchangeto" value="<?php echo get_site_url() ?>" data-showval="custom">
+				<span class="xoo-el-scgdesc">After signing in, the link should change into</span>
+			</div>	
+		</div>
+
+
+		<div class="xoo-el-scgroup" data-attr="change_to_text">
+			<label>After signing in, change text to</label>
+			<div>
+				<select data-fname="xoo-elscg-popchangetotxt">
+					<option value="{firstname}">User's firstname</option>
+					<option value="{lastname}">User's lastname</option>
+					<option value="{username}">User's username</option>
+					<option value="custom">Custom Text</option>
+				</select>	
+				<input type="text" data-fname="xoo-elscg-popchangetotxt" value="Hello {firstname}" data-showval="custom">
+				<span class="xoo-el-scgdesc">
+					After signing in, the link text should change into<br>
+					Placeholders: {firstname} , {lastname}, {username}
+				</span>
 			</div>	
 		</div>
 
 		<div class="xoo-el-scgroup xoo-el-scredirects" data-attr="redirect_to">
-			<label>Redirect to</label>
+			<label>Login/Register Redirect</label>
 			<div>
 				<select data-fname="xoo-elscg-popred">
 					<option value="global">Global Setting</option>
@@ -163,48 +165,21 @@
 		</div>
 
 
-		<div class="xoo-el-scgroup xoo-el-sc-haseditor" data-attr="change_to_text">
-
-			<label>After signing in, change text to</label>
-
+		<div class="xoo-el-scgroup" data-attr="type">
+			<label>Open Default Form</label>
 			<div>
+				<select data-fname="xoo-elscg-poptype">
+					<option value="login">Login</option>
+					<option value="register">Register</option>
+					<option value="lost-password">Lost Password</option>
+				</select>
 
-				<?php wp_editor( '{logout}Logout?{/logout} {firstname}', 'xoo-elscg-pop-logout-txt' ); ?>
+				<span class="xoo-el-scgdesc" style="display: none; color: red;">This will be ineffective as "Single Field Form" is selected under "General" tab. Change it to "Separate forms" for this to work.</span>
 
-				<div class="xoo-el-scplhold">
-
-					<span>Placeholders</span>
-
-					<ul>
-						<li>
-							<label>{logout} {/logout}</label>
-							<span>The text between {logout} and {/logout} will trigger the logout</span>
-						</li>
-
-						<li>
-							<label>{firstname}</label>
-							<span>User's firstname</span>
-						</li>
-
-						<li>
-							<label>{lastname}</label>
-							<span>User's lastname</span>
-						</li>
-
-						<li>
-							<label>{username}</label>
-							<span>User's username</span>
-						</li>
-					</ul>
-
-				</div>
-				
 			</div>	
-
 		</div>
 
 		<span class="xoo-el-scpop-info">Apart from using a shortcode, there are other ways to open the popup.. Please check "info" tab.</span>
-
 	</div>
 
 </div>

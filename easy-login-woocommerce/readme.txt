@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: social login, login customizer, registration, popup, custom registration fields
 Requires at least: 3.0.1
 Tested up to: 6.7
-Stable tag: 2.8.7
+Stable tag: 2.8.8
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,8 +47,8 @@ You can choose which field to keep from the fields manager
 = Shortcodes =
 Please check "How to use" tab under plugin settings for more information.
 
-Use shortcode [xoo_el_action] to include it anywhere on the website. ( See info tab in settings to know more )
-[xoo_el_action type="login" display="button" text="Login" change_to="logout" redirect_to="same"]
+Use shortcode [xoo_el_pop] to include it anywhere on the website. ( See info tab in settings to know more )
+[xoo_el_pop type="login" display="button" text="Login" change_to="logout" redirect_to="same"]
 
 For Inline form
 [xoo_el_inline_form active="login"]
@@ -89,6 +89,9 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 2.8.8 =
+* New - Replaced shortcode [xoo_el_action] with new shortcode [xoo_el_pop]
 
 = 2.8.7 =
 * New - Enable Required (*) icon

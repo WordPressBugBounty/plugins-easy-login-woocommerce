@@ -172,10 +172,10 @@ button.xoo-elscg-genrate.button {
 
 
 .xoo-elscg-shortcode {
-    padding: 20px;
+    padding: 14px 15px;
     margin: 20px 0;
     display: table;
-    font-size: 16px;
+    font-size: 18px;
     color: #2271b1;
     font-weight: 600;
     word-spacing: 5px;
@@ -196,6 +196,7 @@ button.xoo-elscg-genrate.button {
 span.xoo-elscg-copy {
     user-select: none;
     cursor: pointer;
+    margin: 0 10px;
 }
 
 .xoo-settings-container[active-tab="shortcodes"] .xoo-sc-bottom-btns {
@@ -217,4 +218,89 @@ span.xoo-el-scpop-info {
     margin: 10px 0!important;
     top: unset!important;
     width: auto!important;
+}
+
+
+/** SHortcode generatorrrrrr */
+.xoo-el-scplhold {
+    border: 1px solid #eee;
+}
+
+.xoo-el-scplhold > span {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 9px;
+    display: block;
+    background-color: #eee;
+}
+
+.xoo-el-scplhold label {
+    display: table;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.xoo-el-scplhold ul {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.xoo-el-scplhold ul li {
+    padding: 5px;
+    margin: 0 10px 5px 0;
+}
+.xoo-el-scgroup.xoo-el-sc-haseditor {
+    padding: 40px 0px;
+}
+
+.xoo-elscg-shortcode[style="display: block;"] {
+    display: flex!important;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+textarea.xoo-elscg-sctext {
+    font-size: 20px;
+    border: 0;
+    flex-grow: 1;
+    padding: 20px;
+    border-radius: 10px;
+    height: 70px;
+}
+
+textarea.xoo-elscg-sctext:focus {
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+}
+
+.xoo-elsc-updated-notice {
+    display: table;
+    text-align: center;
+    color: #3cb53c;
+    display: none;
+}
+
+.xoo-elscg-active .xoo-elsc-updated-notice{
+    display: block;
+}
+
+.xoo-elscg-shortcode > div span.xoo-elscg-copy{
+    margin: 0 3px;
+}
+
+.xoo-elscg-shortcode > div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding: 0 45px;
+    font-size: 14px;
+    flex-direction: row-reverse;
 }

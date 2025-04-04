@@ -711,3 +711,7 @@ body.rtl .xoo-aff-cont-tel .xoo-aff-input-group {
 .xoo-el-notice-wrap {
     height: 100%;
 }
+
+.xoo-el-pop-sc {
+    display: inline;
+}

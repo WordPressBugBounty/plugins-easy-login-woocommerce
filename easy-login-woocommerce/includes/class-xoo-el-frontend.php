@@ -28,6 +28,8 @@ class Xoo_El_Frontend{
 		add_action( 'wp_enqueue_scripts', array($this,'enqueue_scripts'), 5 );
 		add_action( 'wp_footer', array($this,'popup_markup') );
 		add_shortcode( 'xoo_el_action', array($this,'markup_shortcode') );
+
+		add_shortcode( 'xoo_el_pop', array( $this, 'pop_shortcode' ) );
 		
 		add_filter( 'xoo_easy-login-woocommerce_get_template', array( $this, 'force_plugin_templates_over_outdated' ), 10, 4 );
 	}
@@ -115,6 +117,108 @@ class Xoo_El_Frontend{
 		xoo_el_helper()->get_template( 'xoo-el-popup.php' );
 		xoo_el_helper()->get_template( '/global/xoo-el-notice-popup.php' );
 	}
+
+
+	public function pop_shortcode( $atts ){
+
+		$atts = shortcode_atts( array(
+			'type'				=> 'login',
+			'text' 				=> '',
+			'change_to_text' 	=> '',
+			'redirect_to' 		=> ''
+		), $atts, 'xoo_el_pop');
+
+
+
+		$change_to_text = wp_kses_post( html_entity_decode( $atts['change_to_text'] ) );
+		$text 			= wp_kses_post( html_entity_decode( $atts['text'] ) );
+
+		if( is_user_logged_in() && $change_to_text ){
+
+			$user = wp_get_current_user();
+
+			$changeToTextsHolders = array(
+				'{firstname}' 	=> $user->first_name,
+				'{lastname}' 	=> $user->last_name,
+				'{username}' 	=> $user->user_login,
+			);
+
+			foreach ($changeToTextsHolders as $holderKey => $holderValue) {
+				$change_to_text = str_replace( $holderKey , $holderValue, $change_to_text );
+			}
+
+			preg_match_all('/\{logout\}(.*?)\{\/logout\}/s', $change_to_text, $logout_match);
+
+		    if( isset( $logout_match[1] ) ){
+
+		    	$logout_link 	= !empty( $this->glSettings['m-red-logout'] ) ? $this->glSettings['m-red-logout'] : $_SERVER['REQUEST_URI'];
+				$change_to_link = wp_logout_url( $logout_link );
+
+		    	foreach ($logout_match[1] as $index => $content ) {
+		    		$logoutHTML 	= '<a href="'.esc_url( $change_to_link ).'">'.$content.'</a>';
+			    	$change_to_text = str_replace( $logout_match[0][$index] , $logoutHTML, $change_to_text );
+			    }
+
+		    }
+
+			$html = $change_to_text;
+		}
+		else{
+
+			$action_type = isset( $user_atts['action'] ) ? $user_atts['action'] : $atts['type'];
+
+			switch ( $action_type ) {
+				case 'login':
+					$popclass = 'xoo-el-login-tgr';
+					break;
+
+				case 'register':
+					$popclass = 'xoo-el-reg-tgr';
+					break;
+
+				case 'lost-password':
+					$popclass = 'xoo-el-lostpw-tgr';
+					break;
+				
+				default:
+					$popclass = 'xoo-el-login-tgr';
+					break;
+			}
+
+			$popclass .= ' xoo-el-pop-sc';
+
+			if( $atts['redirect_to'] === 'same' ){
+				$redirect = $_SERVER['REQUEST_URI'];
+			}
+			elseif( $atts['redirect_to'] ){
+				$redirect = $atts['redirect_to'];
+			}
+			else{
+				$redirect = false;
+			}
+
+			$redirect = $redirect ? 'data-redirect="'.esc_url( $redirect ).'"' : '';
+
+			// Extract content inside {pop} and {/pop}
+		    preg_match_all('/\{pop\}(.*?)\{\/pop\}/s', $text, $pop_match);
+
+		    if( isset( $pop_match[1] ) ){
+		    	foreach ($pop_match[1] as $index => $content ) {
+		    		$popHTML = sprintf( '<div class="%1$s" %2$s>%3$s</div>', $popclass, $redirect, $content );
+			    	$text = str_replace( $pop_match[0][$index] , $popHTML, $text );
+			    }
+
+		    }
+
+			$html = $text;
+
+		}
+
+		$contHTML = '<div class="xoo-el-action-sc">'.$html.'</div>';
+
+		return $contHTML;
+	}
+
 
 	//Shortcode
 	public function markup_shortcode($user_atts){

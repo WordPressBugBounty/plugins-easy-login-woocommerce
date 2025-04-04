@@ -81,13 +81,24 @@ jQuery(document).ready(function($){
 			$setting.hide();
 		}
 	})
+	
 
+	function escapeHtml(str) {
+	    return str.replace(/&/g, "&amp;")  // Escape &
+	              .replace(/</g, "&lt;")   // Escape <
+	              .replace(/>/g, "&gt;")   // Escape >
+	              .replace(/"/g, "&quot;") // Escape "
+	              .replace(/'/g, "&#039;");// Escape '
+	}
+
+
+	var updatedTimeout = false;
 
 	function generate_shortcode(){
 
 		var shortcode = {};
 
-		$('[data-fname]:visible').each(function(index, el){
+		$('[data-fname]:visible ,.wp-editor-area[data-fname]').each(function(index, el){
 
 			var $cont 	= $(this).closest('.xoo-el-scgroup'),
 				attr 	= $cont.data('attr'),
@@ -130,25 +141,43 @@ jQuery(document).ready(function($){
 		delete shortcode.sctype;
 
 
-		var shortcodeString = shortcodeType === 'inline' ? '[xoo_el_inline_form' : '[xoo_el_action';
+		var shortcodeString = shortcodeType === 'inline' ? '[xoo_el_inline_form' : '[xoo_el_pop';
 
 		$.each( shortcode, function(attr,val ){
 			if( Array.isArray(val) ){
 				val = val.join(',');
 			}
-			shortcodeString += ' '+attr+'="'+val+'"';
+			shortcodeString += ' '+attr+'="'+escapeHtml(val)+'"';
 		})
 
 
 		var $shortcodeCont = $('.xoo-elscg-shortcode');
 
-		$shortcodeCont.find('.xoo-elscg-sctext').html(shortcodeString+']');
+		$shortcodeCont.find('.xoo-elscg-sctext').val(shortcodeString+']');
 		$shortcodeCont.addClass('xoo-elscg-active').show();
 
-		setTimeout(function(){
+
+		clearTimeout(updatedTimeout);
+
+		updatedTimeout = setTimeout(function(){
 			$shortcodeCont.removeClass('xoo-elscg-active');
-		},200)
+		},2000)
 	};
+
+
+	//Add fname to wp editor
+	$('.xoo-el-scgroup textarea.wp-editor-area').each(function(){
+		$(this).attr('data-fname', $(this).attr('name'));
+		var editor = tinymce.get($(this).attr('name'));
+		if( !editor ) return;
+		editor.on('keyup change', function() {
+			console.log('test');
+			editor.save();
+	        generate_shortcode();
+	    });
+	    $(this).attr('name', '');
+	})
+
 
 	$('[data-showval]').each(function(index, el){
 
@@ -187,7 +216,7 @@ jQuery(document).ready(function($){
 		$('body').append(tempInput);
 
 		// Get the text to copy
-		tempInput.val($('.xoo-elscg-sctext').text()).select();
+		tempInput.val($('.xoo-elscg-sctext').val()).select();
 
 		// Copy the text to the clipboard
 		document.execCommand('copy');

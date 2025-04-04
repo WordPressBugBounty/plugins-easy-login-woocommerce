@@ -30,6 +30,16 @@
                 <attribute>redirect_to</attribute>
             </attributes>
         </shortcode>
+
+        <shortcode>
+            <tag>xoo_el_pop</tag>
+            <attributes>
+                <attribute>text</attribute>
+                <attribute>change_to</attribute>
+                <attribute>change_to_text</attribute>
+                <attribute>redirect_to</attribute>
+            </attributes>
+        </shortcode>
     </shortcodes>
 
 

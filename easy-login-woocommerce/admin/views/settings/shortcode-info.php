@@ -6,7 +6,7 @@
 	<ul class="xoo-el-li-info">
 		<li>
 			<span>Shortcode</span>
-			<p>[xoo_el_action] - Please see "Shortcodes" tab to know more about this shortcode</p>
+			<p>[xoo_el_pop] - Please see "Shortcodes" tab to know more about this shortcode</p>
 		</li>
 		<li>
 			<span>Menu Links</span>
