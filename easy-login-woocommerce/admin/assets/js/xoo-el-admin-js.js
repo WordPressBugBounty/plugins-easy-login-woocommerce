@@ -98,7 +98,7 @@ jQuery(document).ready(function($){
 
 		var shortcode = {};
 
-		$('[data-fname]:visible ,.wp-editor-area[data-fname]').each(function(index, el){
+		$('[data-fname]:visible, .xoo-elscg-fields:visible .wp-editor-area[data-fname]').each(function(index, el){
 
 			var $cont 	= $(this).closest('.xoo-el-scgroup'),
 				attr 	= $cont.data('attr'),
@@ -171,7 +171,6 @@ jQuery(document).ready(function($){
 		var editor = tinymce.get($(this).attr('name'));
 		if( !editor ) return;
 		editor.on('keyup change', function() {
-			console.log('test');
 			editor.save();
 	        generate_shortcode();
 	    });

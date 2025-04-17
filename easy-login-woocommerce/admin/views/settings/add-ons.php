@@ -29,9 +29,9 @@ $addons = array(
 	),
 
 	'otp_login' => array(
-		'title' => 'One time password(OTP) Login',
+		'title' => '2FA & One time password(OTP) Login',
 		'icon' 	=> 'dashicons-phone',
-		'desc' 	=> 'Allow users to login with OTP ( sent on their phone or email ) therefore removing the need to remember a password.',
+		'desc' 	=> '- Allow users to login with OTP ( sent on their phone or email) removing the need to remember a password. <br>- Enable users to enhance their account security with two-factor authentication (2FA).',
 		'link' 	=> $link,
 		'demo' 	=> 'https://demo.xootix.com/mobile-login-for-woocommerce'
 	),

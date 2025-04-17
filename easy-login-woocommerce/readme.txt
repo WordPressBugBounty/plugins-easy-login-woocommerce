@@ -3,8 +3,8 @@ Contributors: XootiX, xootixsupport
 Donate link: https://www.paypal.me/xootix
 Tags: social login, login customizer, registration, popup, custom registration fields
 Requires at least: 3.0.1
-Tested up to: 6.7
-Stable tag: 2.8.8
+Tested up to: 6.8
+Stable tag: 2.8.9
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Replace your old login/registration form with an interactive popup & inline form
 [Live Demo](http://demo.xootix.com/easy-login-for-woocommerce/)
 A simple and lightweight plugin which makes registration, login & reset password process super smooth.
 You get two awesome fully customizable designs - Popup & Inline form with shortcodes.
-You can choose which field to keep from the fields manager
+You can choose which fields to keep using the Fields Manager.
 
 ### Features And Options:
 * Supports Woocommerce
@@ -25,11 +25,21 @@ You can choose which field to keep from the fields manager
 * WPML compatible
 
 ### Add-ons:
-* [Custom Registration Fields](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Add extra fields to registration form , display them on user profile & myaccount page. (See Fields page to know supported field types )
+* [Custom Registration Fields](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Add extra fields to registration form , display them on user profile & myaccount page. 
+
 * [Social Login](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - A single click login & registration with Google, Facebook, Apple & X(Twitter).
-* [One time Password (SMS) Login](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Allow users to login with OTP ( sent on their phone or email) therefore removing the need to remember a password.
+
+* [Two Factor Authentication (2FA) & One time Password (SMS) Login](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Allow users to login with OTP ( sent on their phone or email) removing the need to remember a password.
+Enable users to enhance their account security with two-factor authentication (2FA).
+
 * [Recaptcha](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Protect your form from bots using recaptcha. Choose from google recaptcha(v2/v3), Cloudflare Turnstile or Friendly GDPR. + Password strength meter + Limit login attempts
-* [Email Verification](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Sends verification email on registration & restricts login access until email is verified
+
+* [Email Verification](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Sends verification email on registration & restricts login access until email is verified.
+
+* [Profile Builder](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Replace the old WooCommerce/WordPress interface for updating fields with a new, modern design similar to the signup form. Use a shortcode to display and allow users to update their profile fields.
+
+* [Auto Complete Address](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Get the full and accurate address using Google Places Autocomplete.
+Collect billing and shipping addresses seamlessly in your registration form.
 
 
 == Installation ==
@@ -89,6 +99,10 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 2.8.9 =
+* Fix - translation missing
+* New - OTP add-on now supports Two factor authentication (2FA)
 
 = 2.8.8 =
 * New - Replaced shortcode [xoo_el_action] with new shortcode [xoo_el_pop]

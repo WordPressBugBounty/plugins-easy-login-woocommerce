@@ -1010,6 +1010,10 @@ class Xoo_Aff_Fields{
 			$args['cont_class'][] = 'xoo-aff-file-profile-cont';
 		}
 
+		if( isset( $args['one_line'] ) && $args['one_line'] === 'yes' ){
+			$args['cont_class'][] = 'xoo-aff-one-line';
+		}
+
 
 		$args = apply_filters( 'xoo_aff_'.$this->plugin_slug.'_before_html_input_args', $args );
 
@@ -1217,7 +1221,7 @@ class Xoo_Aff_Fields{
 		}
 
 		if( $input_type === 'autocomplete_address' && $args['autocomplete_auto_fetch'] === 'yes' ){
-			$field_html .= '<div class="xoo-aff-auto-fetch-loc">𖦏 Fetch Location<span></span></div>';
+			$field_html .= '<div class="xoo-aff-auto-fetch-loc">'.__( '𖦏 Fetch Location', $this->plugin_slug ).'<span></span></div>';
 		}
 
 		$field_html .= '</div>';

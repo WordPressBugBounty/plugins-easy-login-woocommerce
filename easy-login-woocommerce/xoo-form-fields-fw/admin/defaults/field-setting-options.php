@@ -474,6 +474,15 @@ $field_settings = array(
 	),
 
 
+	'one_line' 	=> array(
+		'type' 		=> 'checkbox',
+		'id'		=> 'one_line',
+		'section' 	=> 'basic',	
+		'title' 	=> 'Show Items in One Line',
+		'width'		=> 'half',
+		'value'		=> 'no',
+	),
+
 
 	/**
 	  * Advanced section

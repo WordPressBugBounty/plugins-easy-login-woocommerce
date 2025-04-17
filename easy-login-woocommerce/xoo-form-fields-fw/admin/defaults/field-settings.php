@@ -90,6 +90,9 @@ $field_settings = array(
 		'active',
 		'show_label',
 		'cols',
+		'one_line' => array(
+			'title' => 'Radio items in one line'
+		),
 		'label',
 		'radio',
 		'unique_id',

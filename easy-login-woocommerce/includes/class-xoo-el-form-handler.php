@@ -185,10 +185,13 @@ class Xoo_El_Form_Handler{
 				}
 			}
 
+
+			$creds = apply_filters( 'xoo_el_login_credentials', $creds );
+
 			do_action( 'xoo_el_before_perform_login', $creds );
 
 			// Perform the login
-			$user = wp_signon( apply_filters( 'xoo_el_login_credentials', $creds ), is_ssl() );
+			$user = wp_signon( $creds , is_ssl() );
 
 			if ( is_wp_error( $user ) ) {
 

@@ -336,6 +336,20 @@ label.xoo-aff-file-profile .xoo-aff-input-group {
 .pac-container{
     z-index: 9999999999;
 }
+
+.xoo-aff-one-line .xoo-aff-radio {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.xoo-aff-one-line .xoo-aff-radio label {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 /* RTL */
 body.rtl .xoo-aff-auto-fetch-loc{
     text-align: left;
