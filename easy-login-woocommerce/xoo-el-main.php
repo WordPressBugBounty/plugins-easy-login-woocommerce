@@ -3,7 +3,7 @@
 * Plugin Name: Login/Signup Popup
 * Plugin URI: http://xootix.com/easy-login-for-woocommerce
 * Author: XootiX
-* Version: 2.9.0
+* Version: 2.9.1
 * Text Domain: easy-login-woocommerce
 * Domain Path: /languages
 * Author URI: http://xootix.com

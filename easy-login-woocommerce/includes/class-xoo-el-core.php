@@ -39,7 +39,7 @@ class Xoo_El_Core{
 		define( "XOO_EL_PATH", plugin_dir_path( XOO_EL_PLUGIN_FILE ) ); // Plugin path
 		define( "XOO_EL_URL", untrailingslashit( plugins_url( '/', XOO_EL_PLUGIN_FILE ) ) ); // plugin url
 		define( "XOO_EL_PLUGIN_BASENAME", plugin_basename( XOO_EL_PLUGIN_FILE ) );
-		define( "XOO_EL_VERSION", "2.9.0" ); //Plugin version
+		define( "XOO_EL_VERSION", "2.9.1" ); //Plugin version
 
 	}
 

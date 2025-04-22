@@ -276,7 +276,8 @@ jQuery(document).ready(function($){
 		var settings_container_data = {
 			field_id: fieldObj.id,
 			type_data: _types[ fieldObj.type ],
-			fields_html: fields_html
+			fields_html: fields_html,
+			field_title: this.getTitle()
 		}
 		$fieldSettings.html( this.settings_container_template( settings_container_data ) );
 
@@ -371,10 +372,7 @@ jQuery(document).ready(function($){
 			type_data: _types[this.type],
 		};
 
-		var settings 	= _userFields[ this.id ]['settings'],
-		title 			= settings.label ? settings.label : ( settings.placeholder ? settings.placeholder : this.id );
-
-		field_display_data.field_title = title;
+		field_display_data.field_title = this.getTitle();
 
 
 		//field_display_data.type_data.title = title;
@@ -390,6 +388,13 @@ jQuery(document).ready(function($){
 		}
 
 	};
+
+
+	Field.prototype.getTitle = function(){
+		var settings 	= _userFields[ this.id ]['settings'],
+		title 			= settings.label ? settings.label : ( settings.placeholder ? settings.placeholder : this.id );
+		return title;
+	}
 
 
 	Field.prototype.delete = function(){
