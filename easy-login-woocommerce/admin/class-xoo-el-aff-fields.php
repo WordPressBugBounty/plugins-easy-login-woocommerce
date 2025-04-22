@@ -71,7 +71,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'text',
-				'User Name',
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -146,7 +146,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'select_list',
-				'User Role',
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -202,7 +202,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'email',
-				'User Email',
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -253,7 +253,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'password',
-				'Password',
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -320,7 +320,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'password',
-				'Confirm Password',
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -369,7 +369,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'text',
-				'First Name',
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -425,7 +425,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'text',
-				'Last Name',
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -485,7 +485,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'checkbox_single',
-				$args['fieldTitle'],
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -573,7 +573,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_type(
 				$field_type_id,
 				'checkbox_single',
-				'Terms & Conditions',
+				'Register',
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
@@ -620,6 +620,287 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				array(
 					'unique_id' => $field_id,
 				)
+			);
+
+		}
+
+
+		public function login_predefined_field_useremail(){
+
+			$field_type_id = $field_id = 'xoo-el-username';
+
+			$this->fields->add_type(
+				$field_type_id,
+				'text',
+				'Login',
+				array(
+					'is_selectable' => 'no',
+					'can_delete'	=> 'no',
+					'is_sortable' 	=> 'no',
+					'icon' 			=> 'fas fa-user',
+				)
+			);
+				
+			$setting_options = array(
+				'label',
+				'cols',
+				'icon' => array(
+					'value' => 'fas fa-user-plus'
+				),
+				'placeholder' => array(
+					'value' => __( 'Username / Email', 'easy-login-woocommerce' ),
+				),
+				'unique_id' => array(
+					'disabled' => 'disabled',
+				),
+				'class'
+			);
+
+			$this->fields->create_field_settings(
+				$field_type_id,
+				$setting_options
+			);
+
+			$this->fields->add_field(
+				$field_id,
+				$field_type_id,
+				array(
+					'unique_id' 	=> $field_id,
+					'required' 		=> 'yes',
+					'active' 		=> 'yes',
+					'elType'		=> 'login',
+					'autocomplete' 	=> 'username'
+				),
+				1000
+			);
+
+		}
+
+
+		public function login_predefined_field_userpassword(){
+
+			$field_type_id = $field_id = 'xoo-el-password';
+
+			$this->fields->add_type(
+				$field_type_id,
+				'password',
+				'Login',
+				array(
+					'is_selectable' => 'no',
+					'is_sortable' 	=> 'no',
+					'can_delete'	=> 'no',
+					'icon' 			=> 'fas fa-key'
+				)
+			);
+
+			$setting_options = array(
+				'label',
+				'cols',
+				'icon' => array(
+					'value' => 'fas fa-key'
+				),
+				'placeholder' => array(
+					'value' => __( 'Password', 'easy-login-woocommerce' ),
+				),
+				'password_visibility',
+				'unique_id' => array(
+					'disabled' => 'disabled',
+				),
+				'class'
+			);
+
+
+			$settings_value = array(
+				'active' 		=> 'yes',
+				'required' 		=> 'yes',
+				'unique_id' 	=> $field_id,
+				'elType'		=> 'login',
+				'autocomplete' => 'current-password',
+			);
+
+			unset( $settings_value['active'] );
+
+			$this->fields->create_field_settings(
+				$field_type_id,
+				$setting_options
+			);
+
+			$this->fields->add_field(
+				$field_type_id,
+				$field_id,
+				$settings_value,
+				1010
+			);
+
+		}
+
+
+		public function lostpw_predefined_field_useremail(){
+
+			$field_type_id = $field_id = 'user_login';
+
+			$this->fields->add_type(
+				$field_type_id,
+				'text',
+				'Lost Password',
+				array(
+					'is_selectable' => 'no',
+					'can_delete'	=> 'no',
+					'is_sortable' 	=> 'no',
+					'icon' 			=> 'fas fa-user',
+				)
+			);
+				
+			$setting_options = array(
+				'label',
+				'cols',
+				'icon' => array(
+					'value' => 'fas fa-user-plus'
+				),
+				'placeholder' => array(
+					'value' => __( 'Username / Email', 'easy-login-woocommerce' ),
+				),
+				'unique_id' => array(
+					'disabled' => 'disabled',
+				),
+				'class'
+			);
+
+			$this->fields->create_field_settings(
+				$field_type_id,
+				$setting_options
+			);
+
+			$this->fields->add_field(
+				$field_id,
+				$field_type_id,
+				array(
+					'unique_id' => $field_id,
+					'required' 	=> 'yes',
+					'active' 	=> 'yes',
+					'elType' 	=> 'lostpw'
+				),
+				1020
+			);
+
+		}		
+
+
+		public function resetpw_predefined_field_password(){
+
+			$field_type_id = $field_id = 'xoo-el-rp-pass';
+
+			$this->fields->add_type(
+				$field_type_id,
+				'password',
+				'Reset Password',
+				array(
+					'is_selectable' => 'no',
+					'is_sortable' 	=> 'no',
+					'can_delete'	=> 'no',
+					'icon' 			=> 'fas fa-key'
+				)
+			);
+
+			$setting_options = array(
+				'label',
+				'cols',
+				'icon' => array(
+					'value' => 'fas fa-key'
+				),
+				'placeholder' => array(
+					'value' => __( 'New Password', 'easy-login-woocommerce' ),
+				),
+				'minlength' => array(
+					'value' => 6,
+				),
+				'maxlength' => array(
+					'value' => 20,
+				),
+				'password_visibility',
+				'unique_id' => array(
+					'disabled' => 'disabled',
+				),
+				'class'
+			);
+
+
+			$settings_value = array(
+				'active' 		=> 'yes',
+				'required' 		=> 'yes',
+				'unique_id' 	=> $field_id,
+				'elType'		=> 'resetpw'
+			);
+
+			unset( $settings_value['active'] );
+
+			$this->fields->create_field_settings(
+				$field_type_id,
+				$setting_options
+			);
+
+			$this->fields->add_field(
+				$field_type_id,
+				$field_id,
+				$settings_value,
+				1030
+			);
+
+		}
+
+
+		public function resetpw_predefined_field_passwordagain(){
+
+			$field_type_id = $field_id = 'xoo-el-rp-pass-again';
+
+			$this->fields->add_type(
+				$field_type_id,
+				'password',
+				'Reset Password',
+				array(
+					'is_selectable' => 'no',
+					'is_sortable' 	=> 'no',
+					'can_delete'	=> 'no',
+					'icon' 			=> 'fas fa-key'
+				)
+			);
+
+			$setting_options = array(
+				'label',
+				'cols',
+				'icon' => array(
+					'value' => 'fas fa-key'
+				),
+				'placeholder' => array(
+					'value' => __( 'Confirm Password', 'easy-login-woocommerce' ),
+				),
+				'password_visibility',
+				'unique_id' => array(
+					'disabled' => 'disabled',
+				),
+				'class'
+			);
+
+
+			$settings_value = array(
+				'active' 		=> 'yes',
+				'required' 		=> 'yes',
+				'unique_id' 	=> $field_id,
+				'elType'		=> 'resetpw'
+			);
+
+			unset( $settings_value['active'] );
+
+			$this->fields->create_field_settings(
+				$field_type_id,
+				$setting_options
+			);
+
+			$this->fields->add_field(
+				$field_type_id,
+				$field_id,
+				$settings_value,
+				1040
 			);
 
 		}
@@ -684,290 +965,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 					'elType'		=> 'single',
 					'autocomplete' 	=> 'username'
 				),
-				990
-			);
-
-		}
-
-
-
-
-		public function login_predefined_field_useremail(){
-
-			$field_type_id = $field_id = 'xoo-el-username';
-
-			$this->fields->add_type(
-				$field_type_id,
-				'text',
-				'Login - Username/Email',
-				array(
-					'is_selectable' => 'no',
-					'can_delete'	=> 'no',
-					'is_sortable' 	=> 'no',
-					'icon' 			=> 'fas fa-user',
-				)
-			);
-				
-			$setting_options = array(
-				'label',
-				'cols',
-				'icon' => array(
-					'value' => 'fas fa-user-plus'
-				),
-				'placeholder' => array(
-					'value' => __( 'Username / Email', 'easy-login-woocommerce' ),
-				),
-				'unique_id' => array(
-					'disabled' => 'disabled',
-				),
-				'class'
-			);
-
-			$this->fields->create_field_settings(
-				$field_type_id,
-				$setting_options
-			);
-
-			$this->fields->add_field(
-				$field_id,
-				$field_type_id,
-				array(
-					'unique_id' 	=> $field_id,
-					'required' 		=> 'yes',
-					'active' 		=> 'yes',
-					'elType'		=> 'login',
-					'autocomplete' 	=> 'username'
-				),
-				1000
-			);
-
-		}
-
-
-		public function login_predefined_field_userpassword(){
-
-			$field_type_id = $field_id = 'xoo-el-password';
-
-			$this->fields->add_type(
-				$field_type_id,
-				'password',
-				'Login - Password',
-				array(
-					'is_selectable' => 'no',
-					'is_sortable' 	=> 'no',
-					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-key'
-				)
-			);
-
-			$setting_options = array(
-				'label',
-				'cols',
-				'icon' => array(
-					'value' => 'fas fa-key'
-				),
-				'placeholder' => array(
-					'value' => __( 'Password', 'easy-login-woocommerce' ),
-				),
-				'password_visibility',
-				'unique_id' => array(
-					'disabled' => 'disabled',
-				),
-				'class'
-			);
-
-
-			$settings_value = array(
-				'active' 		=> 'yes',
-				'required' 		=> 'yes',
-				'unique_id' 	=> $field_id,
-				'elType'		=> 'login',
-				'autocomplete' => 'current-password',
-			);
-
-			unset( $settings_value['active'] );
-
-			$this->fields->create_field_settings(
-				$field_type_id,
-				$setting_options
-			);
-
-			$this->fields->add_field(
-				$field_type_id,
-				$field_id,
-				$settings_value,
-				1010
-			);
-
-		}
-
-
-		public function resetpw_predefined_field_password(){
-
-			$field_type_id = $field_id = 'xoo-el-rp-pass';
-
-			$this->fields->add_type(
-				$field_type_id,
-				'password',
-				'Reset Password - New Password',
-				array(
-					'is_selectable' => 'no',
-					'is_sortable' 	=> 'no',
-					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-key'
-				)
-			);
-
-			$setting_options = array(
-				'label',
-				'cols',
-				'icon' => array(
-					'value' => 'fas fa-key'
-				),
-				'placeholder' => array(
-					'value' => __( 'New Password', 'easy-login-woocommerce' ),
-				),
-				'minlength' => array(
-					'value' => 6,
-				),
-				'maxlength' => array(
-					'value' => 20,
-				),
-				'password_visibility',
-				'unique_id' => array(
-					'disabled' => 'disabled',
-				),
-				'class'
-			);
-
-
-			$settings_value = array(
-				'active' 		=> 'yes',
-				'required' 		=> 'yes',
-				'unique_id' 	=> $field_id,
-				'elType'		=> 'resetpw'
-			);
-
-			unset( $settings_value['active'] );
-
-			$this->fields->create_field_settings(
-				$field_type_id,
-				$setting_options
-			);
-
-			$this->fields->add_field(
-				$field_type_id,
-				$field_id,
-				$settings_value,
-				1020
-			);
-
-		}
-
-
-		public function resetpw_predefined_field_passwordagain(){
-
-			$field_type_id = $field_id = 'xoo-el-rp-pass-again';
-
-			$this->fields->add_type(
-				$field_type_id,
-				'password',
-				'Reset Password - Confirm Password',
-				array(
-					'is_selectable' => 'no',
-					'is_sortable' 	=> 'no',
-					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-key'
-				)
-			);
-
-			$setting_options = array(
-				'label',
-				'cols',
-				'icon' => array(
-					'value' => 'fas fa-key'
-				),
-				'placeholder' => array(
-					'value' => __( 'Confirm Password', 'easy-login-woocommerce' ),
-				),
-				'password_visibility',
-				'unique_id' => array(
-					'disabled' => 'disabled',
-				),
-				'class'
-			);
-
-
-			$settings_value = array(
-				'active' 		=> 'yes',
-				'required' 		=> 'yes',
-				'unique_id' 	=> $field_id,
-				'elType'		=> 'resetpw'
-			);
-
-			unset( $settings_value['active'] );
-
-			$this->fields->create_field_settings(
-				$field_type_id,
-				$setting_options
-			);
-
-			$this->fields->add_field(
-				$field_type_id,
-				$field_id,
-				$settings_value,
-				1030
-			);
-
-		}
-
-
-		public function lostpw_predefined_field_useremail(){
-
-			$field_type_id = $field_id = 'user_login';
-
-			$this->fields->add_type(
-				$field_type_id,
-				'text',
-				'Lost Password - Username/Email',
-				array(
-					'is_selectable' => 'no',
-					'can_delete'	=> 'no',
-					'is_sortable' 	=> 'no',
-					'icon' 			=> 'fas fa-user',
-				)
-			);
-				
-			$setting_options = array(
-				'label',
-				'cols',
-				'icon' => array(
-					'value' => 'fas fa-user-plus'
-				),
-				'placeholder' => array(
-					'value' => __( 'Username / Email', 'easy-login-woocommerce' ),
-				),
-				'unique_id' => array(
-					'disabled' => 'disabled',
-				),
-				'class'
-			);
-
-			$this->fields->create_field_settings(
-				$field_type_id,
-				$setting_options
-			);
-
-			$this->fields->add_field(
-				$field_id,
-				$field_type_id,
-				array(
-					'unique_id' => $field_id,
-					'required' 	=> 'yes',
-					'active' 	=> 'yes',
-					'elType' 	=> 'lostpw'
-				),
-				1040
+				1050
 			);
 
 		}

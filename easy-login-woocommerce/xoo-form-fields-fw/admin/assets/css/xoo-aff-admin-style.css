@@ -296,9 +296,8 @@ span.xoo-aff-fsd-cta-edit {
     font-size: 15px;
     font-weight: 500;
     flex-grow: 1;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 
 .xoo-aff-type-icon{
@@ -330,7 +329,7 @@ label.xoo-aff-section-label {
     cursor: text;
 }
 
-.xoo-aff-locked-field .xoo-aff-label span:last-of-type {
+.xoo-aff-locked-field .xoo-aff-label > span:last-of-type {
     display: none;
 }
 /*** --- */
@@ -580,6 +579,19 @@ span.xoo-aff-break {
 
 #wpfooter {
     display: none;
+}
+
+.xoo-aff-fs-title {
+    padding: 0 5px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.xoo-aff-fs-title span:nth-child(2) {
+    font-size: 13px;
+    font-weight: normal;
 }
 
 
