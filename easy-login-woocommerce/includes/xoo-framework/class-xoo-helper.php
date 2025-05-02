@@ -2,12 +2,18 @@
 
 class Xoo_Helper{
 
-	public $slug, $path;
+	public $slug, $path, $helperArgs;
 	public $admin;
 
-	public function __construct( $slug, $path ){
-		$this->slug 	= $slug;
-		$this->path 	= $path;
+	public function __construct( $slug, $path, $helperArgs = array() ){
+
+		$this->slug 		= $slug;
+		$this->path 		= $path;
+		$this->helperArgs 	= wp_parse_args( $helperArgs, array(
+			'pluginFile' 	=> '',
+			'pluginName' 	=> ''
+		) );
+
 		$this->set_constants();
 		$this->includes(); 
 		$this->hooks();
@@ -16,7 +22,7 @@ class Xoo_Helper{
 
 	public function set_constants(){
 		$this->define( 'XOO_FW_URL', untrailingslashit(plugin_dir_url( XOO_FW_DIR .'/'.basename( XOO_FW_DIR ) ) ) );
-		$this->define( 'XOO_FW_VERSION', '1.3' );
+		$this->define( 'XOO_FW_VERSION', '1.5' );
 	}
 
 	public function define( $name, $value ){
@@ -34,6 +40,11 @@ class Xoo_Helper{
 	public function hooks(){
 		add_action( 'init', array( $this, 'internationalize' ) );
 		add_action( 'admin_init', array( $this, 'time_to_update_theme_templates_data' ) );
+	}
+
+
+	public function get_usage_data(){
+		return array();
 	}
 
 

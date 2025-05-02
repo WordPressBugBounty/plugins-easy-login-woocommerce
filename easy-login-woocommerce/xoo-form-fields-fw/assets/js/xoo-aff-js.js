@@ -436,7 +436,7 @@ jQuery(document).ready(function($){
 
 			navigator.geolocation.getCurrentPosition(
 
-				async (position) => {
+				(position) => {
 					handler.googleReverseGeolocate( position.coords.latitude, position.coords.longitude );
 				},
 				(error) => {
@@ -445,23 +445,32 @@ jQuery(document).ready(function($){
 			);
 		}
 
-		async googleReverseGeolocate( lat, long ){
+		googleReverseGeolocate(lat, long){
 
-			let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${xoo_aff_localize.geolocate_apikey}`;
+			const geocoder = new google.maps.Geocoder();
 
-			let response 	= await fetch(url);
-			let data 		= await response.json();
+			const latlng = { lat: parseFloat(lat), lng: parseFloat(long) };
 
-			if( data.error_message ){
-				this.$browserFetch.find('span').text( data.error_message );
-			}
-			else if( data.results ){
-				this.fillAddress( data.results[0].address_components, data.results[0].formatted_address );
-			}
-			else{
-				console.log(data);
-			}	
+			var autocompleteHandler = this;
+
+			geocoder.geocode({ location: latlng }, function (results, status) {
+
+				if (status === "OK") {
+
+					if (results[0]) {
+						autocompleteHandler.fillAddress( results[0].address_components, results[0].formatted_address );
+					}
+					else {
+						console.log("No results found");
+					}
+				}
+				else {
+					autocompleteHandler.$browserFetch.find('span').text( status );
+				}
+			});
 		}
+
+		
 
 		init(){
 

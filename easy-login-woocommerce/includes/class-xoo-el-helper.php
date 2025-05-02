@@ -4,9 +4,9 @@ class Xoo_El_Helper extends Xoo_Helper{
 
 	protected static $_instance = null;
 
-	public static function get_instance( $slug, $path ){
+	public static function get_instance( $slug, $path, $helperArgs = array() ){
 		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self( $slug, $path );
+			self::$_instance = new self( $slug, $path, $helperArgs );
 		}
 		return self::$_instance;
 	}
@@ -90,10 +90,28 @@ class Xoo_El_Helper extends Xoo_Helper{
 		}
 	}
 
+
+	public function get_usage_data(){
+
+		$settings = array(
+			'gl' => $this->get_general_option(),
+			'sy' => $this->get_style_option(),
+			'av' => $this->get_advanced_option()
+		);
+
+		return array(
+			'version' 	=> XOO_EL_VERSION,
+			'settings' 	=> json_encode($settings)
+		);
+	}
+
 }
 
 function xoo_el_helper(){
-	return Xoo_El_Helper::get_instance( 'easy-login-woocommerce', XOO_EL_PATH );
+	return Xoo_El_Helper::get_instance( 'easy-login-woocommerce', XOO_EL_PATH, array(
+		'pluginFile' => XOO_EL_PLUGIN_FILE,
+		'pluginName' => 'Login/Signup popup'
+	) );
 }
 xoo_el_helper();
 

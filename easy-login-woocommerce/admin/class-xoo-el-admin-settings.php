@@ -30,7 +30,6 @@ class Xoo_El_Admin_Settings{
 
 		add_filter( 'plugin_action_links_' . XOO_EL_PLUGIN_BASENAME, array( $this, 'plugin_action_links' ) );
 		add_filter( 'xoo_aff_add_fields', array( $this,'add_new_fields' ), 10, 2 );
-		add_filter( 'xoo_aff_enable_autocompadr', array( $this,'enable_autocompadr' ), 10, 2 );
 		add_action( 'xoo_aff_field_selector', array( $this, 'customFields_addon_notice' ) );
 		add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'));
 		add_action( 'admin_footer', array( $this, 'inline_css' ) );
@@ -137,12 +136,6 @@ class Xoo_El_Admin_Settings{
 		if( $aff->plugin_slug === 'easy-login-woocommerce' ) return false;
 		return $allow;
 	}
-
-	public function enable_autocompadr( $allow, $aff ){
-		if( $aff->plugin_slug === 'easy-login-woocommerce' ) return false;
-		return $allow;
-	}
-	
 	
 
 	public function generate_settings(){
