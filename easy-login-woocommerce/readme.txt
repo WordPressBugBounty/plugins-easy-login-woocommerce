@@ -1,28 +1,33 @@
-=== Login/Signup Popup ( Inline Form + Woocommerce ) ===
+=== Login & Register Customizer – Popup | Slider | Inline | WooCommerce ===
 Contributors: XootiX, xootixsupport
 Donate link: https://www.paypal.me/xootix
-Tags: social login, login customizer, registration, popup, custom registration fields
+Tags: login, signup, register, woocommerce, popup
 Requires at least: 3.0.1
 Tested up to: 6.8
-Stable tag: 2.9.2
+Stable tag: 2.9.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Replace your old login/registration form with an interactive popup & inline form design
 
 == Description ==
-[Live Demo](http://demo.xootix.com/easy-login-for-woocommerce/)
-A simple and lightweight plugin which makes registration, login & reset password process super smooth.
-You get two awesome fully customizable designs - Popup & Inline form with shortcodes.
-You can choose which fields to keep using the Fields Manager.
+**🚀 [Live Demo »](http://demo.xootix.com/easy-login-for-woocommerce/)**
 
-### Features And Options:
-* Supports Woocommerce
-* Fully Ajaxed (no refresh)
-* Login, Sign up , Lost Password & Reset password Form.
-* Customizable Fields
-* Fully Customizable.
-* WPML compatible
+Login & Register Customizer is a lightweight and powerful plugin that replaces the default WordPress login and registration experience with modern, fully customizable popup, slider, or inline forms.
+
+Whether you’re running a simple blog or a WooCommerce store, this plugin helps you create a seamless login/signup experience — with no page reloads, field manager support, and shortcodes.
+
+### 💡 Features:
+- Fully AJAX-based (no page reloads)
+- Login, Register, Lost Password & Reset Password forms
+- Three layouts: Popup, Slider and Inline (with shortcodes)
+- Field Manager – add or remove form fields
+- Fully customizable appearance
+- WooCommerce compatible
+- WPML compatible
+
+Replace your outdated forms and deliver a modern, smooth login experience your users will love.
+
 
 ### Add-ons:
 * [Custom Registration Fields](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Add extra fields to registration form , display them on user profile & myaccount page. 
@@ -99,6 +104,9 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 2.9.3 =
+* Settings UI update
 
 = 2.9.2 =
 * Settings UI update

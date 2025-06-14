@@ -82,19 +82,29 @@ $settings = array(
 	
 
 	/* Main Style */
-
 	array(
-		'callback' 		=> 'select',
+		'callback' 		=> 'asset_selector',
 		'title' 		=> 'Popup Style',
 		'id' 			=> 'sy-popup-style',
 		'section_id' 	=> 'sy_popup',
-		'args'			=> array(
+		'default' 		=> 'popup',
+		'args' 			=> array(
 			'options' => array(
-				'popup' 	=> 'Popup',
-				'slider' 	=> 'Slider'
+				'popup' 	=> array(
+					'title' => 'Popup',
+					'asset' => XOO_EL_URL.'/admin/assets/images/Popup.jpg',
+				),
+				'slider' 	=> array(
+					'title' => 'Slider',
+					'asset' => XOO_EL_URL.'/admin/assets/images/Slider.jpg',
+				)
+			),
+			'custom_attributes' => array(
+				'data-multiple' => 'no',
+				'data-required' => 'yes'
 			)
 		),
-		'default' 		=> 'popup'
+
 	),
 
 	array(

@@ -153,6 +153,12 @@ body.xoo-el-popup-active, body.xoo-el-popup-notice-active {
     justify-content: space-between;
 }
 
+.xoo-aff-group.xoo-el-login-btm-fields .xoo-el-form-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .xoo-el-section {
     display: none;
 }
@@ -436,9 +442,6 @@ span.xoo-el-loginvia {
     pointer-events: none;
 }
 
-.xoo-el-login-btm-fields label input {
-    margin-right: 4px;
-}
 
 .xoo-el-login-btm-fields label {
 }

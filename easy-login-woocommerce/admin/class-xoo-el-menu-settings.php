@@ -12,7 +12,8 @@ class Xoo_El_Menu_Settings{
 
 
 	public function add_nav_menu_meta_boxes() {
-		add_meta_box( 'xoo_el_actions_link', __( 'Login/Signup Popup', 'easy-login-woocommerce' ), array( $this, 'nav_menu_links' ), 'nav-menus', 'side', 'low' );
+		$priority = isset( $_GET['xoo_el_nav'] ) ? 'high' : 'low';
+		add_meta_box( 'xoo_el_actions_link', __( 'Login/Signup Popup', 'easy-login-woocommerce' ), array( $this, 'nav_menu_links' ), 'nav-menus', 'side', $priority );
 	}
 
 

@@ -428,6 +428,7 @@ class Xoo_Admin{
 			)
 		);
 
+
 		$priority 	= $args['priority'];
 		unset( $args['priority'] );
 
@@ -439,6 +440,8 @@ class Xoo_Admin{
 			'pro' 			=> $pro,
 			'args' 			=> $args
 		); 
+
+
 	}
 
 	public function register_section( $title, $id, $tab_id, $desc = '', $pro = 'no', $args = array() ){
@@ -723,6 +726,17 @@ class Xoo_Admin{
 	}
 
 
+	public function get_setting_html_pop( $tab_id, $section_id, $field_id ){
+
+		$option_key 	= $this->tabs[ $tab_id ]['option_key'];
+		$id 			= $option_key.'['.$field_id.']';
+
+		$setting = $this->settings[ $tab_id ][ $section_id ][ $field_id ];
+
+		return $this->get_setting_html( $id, $setting  );
+	}
+
+
 	public function get_setting_html( $field_id, $field_args, $value = null ){
 
 		$field_args = wp_parse_args( $field_args, array(
@@ -784,7 +798,7 @@ class Xoo_Admin{
 
 
 
-		$field_container = '<div class="%1$s" data-setting="%3$s">%2$s</div>';
+		$field_container = '<div class="%1$s" data-setting="%3$s" data-field_id="'.$field_id.'">%2$s</div>';
 
 		$field = '';
 		switch ( $callback ) {
@@ -939,6 +953,52 @@ class Xoo_Admin{
 
 			case 'upload':
 				$field .= $this->get_setting_upload_markup( $field_id, $value );
+
+
+			case 'asset_selector':
+
+				if( !isset( $args['options'] ) || empty( $args['options'] ) ) break;
+
+				$allowMultiple = isset( $args['custom_attributes']['data-multiple'] ) && $args['custom_attributes']['data-multiple'] === "yes";
+
+				$name =  $allowMultiple ? $field_id.'[]' : $field_id;
+
+				$field .= '<div class="xoo-as-pattern-cont" '.$custom_attributes.'>';
+
+				$info_html = '';
+
+				foreach ( $args['options'] as $option_key => $option_data ) {
+
+					$checked 	= 	( is_array( $value ) && in_array( $option_key, $value ) ) || ( !is_array( $value ) && $value === $option_key ) ? 'checked' : '';
+
+					$option_html 	 = '<div class="xoo-as-pat-imgcont">';
+
+					$option_html 	.= '<img class="xoo-as-patimg" src="'.$option_data['asset'].'" data-key="'.$option_key.'">';
+
+					$option_html  	.= '<input class="xoo-as-patcheckbox" name="'.$name.'" type="checkbox" value="'.$option_key.'" '.$checked.'>';
+
+					$option_html 	.= '</div>';
+
+					$option_html 	.= '<div class="xoo-as-patdesc">';
+
+					$option_html 	.= '<span>'.$option_data['title'].'</span>';
+
+					if( isset( $option_data['info'] ) ){
+						$option_html 	.= '<span class="dashicons dashicons-info xoo-as-info-hover" data-key="'.$option_key.'"></span>';
+						$info_html 		.= '<span class="xoo-as-info" data-key="'.$option_key.'">'.$option_data['info'].'</span>';
+					}
+
+					$option_html 	.= '</div>';
+						
+					$field .= sprintf( '<div>%1$s</div>', $option_html );
+
+				}
+
+				$field .= $info_html;
+
+				$field .= '</div>';
+
+				break;
 			
 			default:
 				# code...

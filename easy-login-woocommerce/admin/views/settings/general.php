@@ -15,15 +15,45 @@ $settings = array(
 	/** MAIN **/
 	array(
 		'callback' 		=> 'links',
-		'title' 		=> 'Fields',
+		'title' 		=> 'Links',
 		'id' 			=> 'fake',
 		'section_id' 	=> 'gl_main',
 		'args' 			=> array(
 			'options' 	=> array(
-				admin_url('admin.php?page=xoo-el-fields') => 'Manage'
+				admin_url('admin.php?page=xoo-el-fields') => 'Manage Fields',
+				admin_url( 'nav-menus.php?xoo_el_nav=true' ) => 'Add Links to Menu',
 			)
 		)
 	),
+
+
+	array(
+		'callback' 		=> 'asset_selector',
+		'title' 		=> 'Form Pattern',
+		'id' 			=> 'm-form-pattern',
+		'section_id' 	=> 'gl_main',
+		'default' 		=> 'separate',
+		'args' 			=> array(
+			'options' => array(
+				'separate' 	=> array(
+					'title' => 'Separate',
+					'asset' => XOO_EL_URL.'/admin/assets/images/pattern-separate.jpg',
+					'info' 	=> 'Displays separate login and registration forms side by side'
+				),
+				'single' 	=> array(
+					'title' => 'Single',
+					'asset' => XOO_EL_URL.'/admin/assets/images/pattern-single.jpg',
+					'info' 	=> 'A single field form where users enter email or username and are auto-directed to login or registration based on input.'
+				)
+			),
+			'custom_attributes' => array(
+				'data-multiple' => 'no',
+				'data-required' => 'yes'
+			)
+		),
+
+	),
+
 
 
 	array(
@@ -64,21 +94,6 @@ $settings = array(
 		'desc' 			=> 'If checked, allow users to set a new password in form.'
 	),
 
-
-	array(
-		'callback' 		=> 'select',
-		'title' 		=> 'Form Pattern',
-		'id' 			=> 'm-form-pattern',
-		'section_id' 	=> 'gl_main',
-		'args'			=> array(
-			'options' => array(
-				'separate' 	=> 'Separate Login and register forms',
-				'single' 	=> 'Single Field Form',
-			)
-		),
-		'default' 		=> 'separate',
-		'desc' 			=> 'Single field form will navigate users to login/signup depending on the data.'
-	),
 
 
 

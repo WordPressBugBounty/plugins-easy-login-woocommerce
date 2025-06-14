@@ -16,11 +16,12 @@ jQuery(document).ready(function($){
 
 	var changedOnLoad = false;
 
-	$('select[name="xoo-el-gl-options[m-form-pattern]"]').on( 'change', function(){
+	$('input[name="xoo-el-gl-options[m-form-pattern]"]').on( 'change', function(){
+
+		if( !$(this).is(':checked') ) return;
 
 		var $setting 		= $('select[name="xoo-el-gl-options[m-nav-pattern]"]'),
 			$shortcodeInfo 	= $('select[data-fname="xoo-elscg-poptype"] + span.xoo-el-scgdesc');
-
 
 		if( $(this).val() === 'single' ){
 			if( changedOnLoad ){
@@ -37,11 +38,15 @@ jQuery(document).ready(function($){
 			}
 			$shortcodeInfo.hide();
 		}
+
 		changedOnLoad = true;
+
 	}).trigger('change');
 
 
-	$('select[name="xoo-el-sy-options[sy-popup-style]"]').on( 'change', function(){
+	$('input[name="xoo-el-sy-options[sy-popup-style]"]').on( 'change', function(){
+
+		if( !$(this).is(':checked') ) return;
 
 		var $setting = $( '.xoo-as-setting:has(select[name="xoo-el-sy-options[sy-popup-height-type]"]), .xoo-as-setting:has(input[name="xoo-el-sy-options[sy-popup-height]"])' );
 
@@ -227,6 +232,41 @@ jQuery(document).ready(function($){
 		alert('Shortcode copied!');
 	});
 
+
+	$('.xoo-el-adpop img.xoo-as-patimg').on('click', function(){
+
+		var $cont 		= $(this).closest('.xoo-as-setting'),
+			fieldID 	= $cont.data('field_id'),
+			key			= $(this).data('key'),
+			$formField 	= $('.xoo-as-setting[data-field_id="'+fieldID+'"]').not($cont);
+
+
+		if( $formField.length ){
+			$formField.find( 'img.xoo-as-patimg[data-key="'+key+'"]' ).trigger('click');
+		}
+
+	})
+
+	 $('button.xoo-el-adpopup-go').on('click', function(){
+
+		$('body').removeClass('xoo-el-adpopup-active');
+
+		$('.xoo-as-form-save').trigger('click');
+
+		var $menuSelect = $('select[name="xoo-el-add-to-menu"]');
+
+		if( !$menuSelect.length || $menuSelect.val() === 'none' ){
+			$('.xoo-el-initnomenu').show();
+		}
+
+		$('.xoo-el-admin-popup').remove();
+
+		$('html, body').animate({ scrollTop: 0 }, 0);
+	});
 	
+	$('.xoo-el-init-done span').on('click', function(){
+		$('.xoo-el-init-done').remove();
+	})
+
 
 });
