@@ -38,7 +38,7 @@ class Xoo_El_Admin_Settings{
 
 		add_action( 'wp_loaded', array( $this, 'register_shortcode_tab' ) );
 
-		add_action('xoo_tab_page_start', array( $this, 'tab_html' ), 10, 2 );
+		add_action('xoo_tab_page_start', array( $this, 'tab_html' ), 20, 2 );
 
 		if( xoo_el_helper()->admin->is_settings_page() ){
 
@@ -93,14 +93,23 @@ class Xoo_El_Admin_Settings{
 				</div>
 
 
-				<div>
-					<span class="xoo-el-adpopup-head">Choose Form Layout</span>
-					<?php echo xoo_el_helper()->admin->get_setting_html_pop( 'general', 'gl_main', 'm-form-pattern' ); ?>
+				
+
+				<div class="xoo-el-adpop-bottom">
+					<div class="xoo-eladpop-menu">
+						<?php $this->menu_html(); ?>
+					</div>
+					<div class="xoo-el-adpop-autoopen">
+						<span class="xoo-el-adpopup-head">Auto open popup</span>
+						<?php echo xoo_el_helper()->admin->get_setting_html_pop( 'general', 'gl_ao', 'ao-enable' ); ?>
+						<span>You can toggle it later from the settings</span>
+					</div>
 				</div>
 
-				<div class="xoo-eladpop-menu">
-					<?php $this->menu_html(); ?>
-				</div>
+				<!-- <div>
+					<span class="xoo-el-adpopup-head">Choose Form Layout</span>
+					<?php //echo xoo_el_helper()->admin->get_setting_html_pop( 'general', 'gl_main', 'm-form-pattern' ); ?>
+				</div> -->
 
 
 				<button type="button" class="xoo-el-adpopup-go button-primary button">Let's Go!</button>
@@ -114,12 +123,11 @@ class Xoo_El_Admin_Settings{
 	}
 
 	public function init_done_notice( $tab_id, $tab_data ){
-		if( $tab_id !== 'general' ) return;
+		if( !class_exists('woocommerce') || $tab_id !== 'shortcodes' ) return;
 
 		?>
 			<div class="xoo-el-init-done" >
-				<span>All set! To see the login modal, view your website as a guest or in incognito mode.</span>
-				<span class="xoo-el-initnomenu" style="display: none;">Use shortcodes to create popup links and embed inline forms on your page (refer to the Shortcodes tab).</span>
+				<span>The WooCommerce My Account page form has been automatically replaced with the inline form. You can change this in the settings under the General tab → WooCommerce></span>
 				<span class="dashicons dashicons-no-alt"></span>
 			</div>
 		<?php
@@ -257,7 +265,7 @@ class Xoo_El_Admin_Settings{
 
 	public function register_shortcode_tab(){
 		xoo_el_helper()->admin->register_tab( 'Shortcodes', 'shortcodes', '', 'no', array(
-			'priority' => 40
+			'priority' => 30
 		) );
 	}
 

@@ -247,6 +247,10 @@ jQuery(document).ready(function($){
 
 	})
 
+	$('.xoo-el-adpop input[name="xoo-el-gl-options[ao-enable]"]').on('change', function(){
+		$('input[name="xoo-el-gl-options[ao-enable]"]').not(this).prop('checked', $(this).is(':checked') );
+	});
+
 	 $('button.xoo-el-adpopup-go').on('click', function(){
 
 		$('body').removeClass('xoo-el-adpopup-active');
@@ -260,6 +264,8 @@ jQuery(document).ready(function($){
 		}
 
 		$('.xoo-el-admin-popup').remove();
+
+		$('ul.xoo-sc-tabs li[data-tab="shortcodes"]').trigger('click');
 
 		$('html, body').animate({ scrollTop: 0 }, 0);
 	});

@@ -156,6 +156,15 @@ class Xoo_El_Core{
 				update_option( 'xoo-el-settings-init', 'yes' );
 			}
 
+			if( version_compare( $db_version, '2.9.4', '<') ){
+
+				$glOptions = (array) xoo_el_helper()->get_general_option();
+
+				$glOptions['m-myacclpw-sc'] = '';
+
+				update_option( 'xoo-el-gl-options', $glOptions );
+			}
+
 		}
 		
 

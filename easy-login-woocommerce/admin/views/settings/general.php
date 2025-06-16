@@ -144,6 +144,22 @@ if( class_exists( 'woocommerce' ) ){
 	);
 
 	$settings[] = array(
+		'callback' 		=> 'textarea',
+		'title' 		=> 'Lost Password page form shortcode',
+		'id' 			=> 'm-myacclpw-sc',
+		'section_id' 	=> 'gl_wc',
+		'default' 		=> '[xoo_el_inline_form active="lostpw"]',
+		'desc' 			=> 'Lost Password page form shortcode. See info tab for shortcode details',
+		'args' 			=> array(
+			'rows' => 2,
+			'cols' => 60,
+			'custom_attributes' => array(
+				'spellcheck' => 'false',
+			)
+		)
+	);
+
+	$settings[] = array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Replace Checkout page login',
 		'id' 			=> 'm-en-chkout',
@@ -243,7 +259,7 @@ $popup = array(
 		'title' 		=> 'Auto open Popup',
 		'id' 			=> 'ao-enable',
 		'section_id' 	=> 'gl_ao',
-		'default' 		=> 'no',
+		'default' 		=> 'yes',
 	),
 
 

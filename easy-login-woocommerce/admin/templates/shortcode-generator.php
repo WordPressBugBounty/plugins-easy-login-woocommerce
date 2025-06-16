@@ -2,11 +2,13 @@
 
 	<h3>Shortcode Generator</h3>
 
+	<span style="font-size: 15px; margin-top: 15px; display: block;">To see the login modal, view your website as a guest or in incognito mode.</span>
+
 	<div class="xoo-el-scgroup" data-attr="sctype">
 		<label>Shortcode For: </label>
 		<div>
-			<label><input type="radio" data-fname="xoo-elscg-sctype" value="popup">Open Popup</label>
 			<label><input type="radio" data-fname="xoo-elscg-sctype" value="inline">Inline Form</label>
+			<label><input type="radio" data-fname="xoo-elscg-sctype" value="popup">Open Popup</label>
 		</div>	
 	</div>
 
@@ -14,7 +16,7 @@
 	<div class="xoo-elscg-shortcode">
 		<div class="test"></div>
 		<div>
-			<div>Click<span class="xoo-elscg-copy dashicons dashicons-admin-page"></span>to copy</div>
+			<div>Click<span class="xoo-elscg-copy dashicons dashicons-admin-page"></span>to copy the <b>SHORTCODE</b></div>
 			<span class="xoo-elsc-updated-notice">Shortcode updated.</span>
 		</div>
 		<span class="xoo-elscg-copy dashicons dashicons-admin-page"></span>
@@ -22,7 +24,10 @@
 		<span class="xoo-elscg-copy dashicons dashicons-admin-page"></span>
 	</div>
 
+
 	<div class="xoo-elscg-fields" data-type="inline">
+
+		<span class="xoo-elsch-head">Below are the settings to adjust the shortcode</span>
 
 		<div class="xoo-el-scgroup" data-attr="forms" data-multiple="yes">
 			<label>Forms</label>
@@ -38,6 +43,7 @@
 				<select data-fname="xoo-elscg-formdefault">
 					<option value="login">Login</option>
 					<option value="register">Register</option>
+					<option value="lostpw">Lost Password</option>
 				</select>
 			</div>		
 		</div>
@@ -116,6 +122,8 @@
 
 
 	<div class="xoo-elscg-fields" data-type="popup">
+
+		<span class="xoo-elsch-head">Below are the settings to adjust the shortcode</span>
 
 		<div class="xoo-el-scgroup xoo-el-sc-haseditor" data-attr="text">
 			<label>Text before login</label>

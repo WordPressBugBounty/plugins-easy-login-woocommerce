@@ -338,6 +338,10 @@ function xoo_el_override_wc_login_form( $located, $template_name, $args, $templa
 		$located = xoo_el_helper()->locate_template( 'xoo-el-wc-form-login.php', XOO_EL_PATH.'/templates/' );
 	}
 
+	if( $template_name === 'myaccount/form-lost-password.php' && $glSettings['m-en-myaccount'] === "yes" && $glSettings['m-reset-pw'] === "yes" && !is_user_logged_in() && $glSettings['m-myacclpw-sc'] ){
+		$located = xoo_el_helper()->locate_template( 'xoo-el-wc-lost-password.php', XOO_EL_PATH.'/templates/' );
+	}
+
 	if( $template_name === 'global/form-login.php' && $glSettings['m-en-chkout'] === "yes" ){
 		$located = xoo_el_helper()->locate_template( 'xoo-el-wc-checkout-form-login.php', XOO_EL_PATH.'/templates/' );
 	}
@@ -354,9 +358,6 @@ function xoo_el_get_myaccount_fields(){
 	return xoo_el_fields()->get_fields('myaccount');
 
 }
-
-
-
 
 
 //Add fields to woocommerce account edit page

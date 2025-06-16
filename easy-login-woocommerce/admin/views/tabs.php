@@ -24,7 +24,7 @@ $tabs = array(
 		'id' 			=> 'advanced',
 		'option_key' 	=> 'xoo-el-av-options',
 		'args' 			=> array(
-			'priority' => 30
+			'priority' => 40
 		)
 	),
 );
