@@ -158,7 +158,7 @@ class Xoo_Admin{
 		$defaults 	= array(
 			'slug' 			=> $this->helper->slug,
 			'site_url' 		=> get_site_url(),
-			'wp_version' 	=> wp_get_wp_version(),
+			'wp_version' 	=> get_bloginfo( 'version' ),
 			'active' 		=> 1,
 		);
 
@@ -319,9 +319,15 @@ class Xoo_Admin{
 
 		do_action( 'xoo_admin_settings_'.$this->helper->slug.'_before_saving', $formData );
 
-		foreach ( $formData as $option_key => $option_data ) {
-			$option_data = stripslashes_deep( $option_data );
-			update_option( $option_key, $option_data );
+		foreach ( $this->settings as $tab_id => $sections_settings ) {
+
+			if( !isset( $this->tabs[ $tab_id ] ) ) continue;
+
+			$option_key = $this->tabs[ $tab_id ]['option_key'];
+
+			if( !isset( $formData[ $option_key ] ) ) continue;
+
+			$this->save_option( $option_key, $sections_settings, $formData[ $option_key ] );
 		}
 
 		do_action( 'xoo_admin_settings_'.$this->helper->slug.'_saved', $formData );
@@ -333,6 +339,50 @@ class Xoo_Admin{
 	}
 
 
+	public function save_option( $option_key, $sections_settings, $formData ){
+
+		$option_data = array();
+
+		foreach ( $sections_settings as $section_id => $settings ) {
+			
+			foreach ( $settings as $setting_id => $setting ) {
+
+				if( !isset( $formData[ $setting_id ] ) ) continue;
+
+				$value = $formData[ $setting_id ];
+
+				$sanitized = false;
+
+				
+				if(  ( isset( $setting['args']['group'] ) && $setting['args']['group'] === 'css' ) || strpos( $setting['title'], 'CSS' ) ){
+					$value = wp_strip_all_tags( $value );
+					$sanitized = true;
+				}
+
+				
+				if( !$sanitized ){
+					
+					switch ( $setting['callback'] ) {
+						case 'textarea':
+							$value = xoo_clean( $value, 'wp_kses_post' );
+						
+						default:
+							$value = xoo_clean($value);
+							break;
+					}
+
+				}
+
+				$option_data[ $setting_id ] = $value;
+
+			}
+
+		}
+	
+		$option_data = stripslashes_deep( $option_data );
+
+		update_option( $option_key, $option_data );
+	}
 
 
 	public function enqueue_scripts() {
@@ -805,23 +855,23 @@ class Xoo_Admin{
 
 			case 'text':
 			case 'number':
-				$field .= '<input type="'.$callback.'" name="'.$field_id.'" value="'.$value.'" '.$custom_attributes.'>';
+				$field .= '<input type="'.$callback.'" name="'.$field_id.'" value="'.esc_attr( $value ).'" '.$custom_attributes.'>';
 				break;
 
 			case 'textarea':
 				$rows  	= isset( $args['rows'] ) ? $args['rows'] : 4;
 				$cols 	= isset( $args['cols'] ) ? $args['cols'] : 50;
-				$field .= '<textarea name="'.$field_id.'" rows="'.$rows.'" cols="'.$cols.'" '.$custom_attributes.'>'.$value.'</textarea>';
+				$field .= '<textarea name="'.$field_id.'" rows="'.$rows.'" cols="'.$cols.'" '.$custom_attributes.'>'.esc_textarea( $value ).'</textarea>';
 				break;
 
 			case 'color':
-				$field .= '<input type="text" name="'.$field_id.'" class="xoo-as-color-input" value="'.$value.'" '.$custom_attributes.'>';
+				$field .= '<input type="text" name="'.$field_id.'" class="xoo-as-color-input" value="'.esc_attr($value).'" '.$custom_attributes.'>';
 				break;
 
 			case 'checkbox':
 				$field 	= '<label class="xoo-as-switch">';
 				$field .= '<input type="hidden" name="'.$field_id.'" value="no">';
-				$field .= '<input name='.$field_id.' type="checkbox" value="yes" '.checked( $value, 'yes', false ).' '.$custom_attributes.'>';
+				$field .= '<input name='.$field_id.' type="checkbox" value="yes" '.checked( esc_attr( $value ), 'yes', false ).' '.$custom_attributes.'>';
 				$field .= '<span class="xoo-as-slider"></span>';
 				$field .= '</label>';
 				break;
@@ -860,7 +910,7 @@ class Xoo_Admin{
 				foreach ( $args['options'] as $option_key => $option_label ) {
 					$selected = is_array( $value ) ? in_array( $option_key , $value ) : $value === $option_key;
 					$selected = $selected ? 'selected' : '';
-					$options .= '<option value="'.$option_key.'" '.$selected.' data-cc="asd">'.$option_label.'</option>';
+					$options .= '<option value="'.$option_key.'" '.$selected.'>'.$option_label.'</option>';
 				}
 
 				$select_field_id = isset( $args['multiple'] ) && $args['multiple'] ? $field_id.'[]' : $field_id;

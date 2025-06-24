@@ -9,9 +9,11 @@ $settings = array(
 		'section_id' 	=> 'av_main',
 		'default' 		=> '',
 		'args' 			=> array(
-			'rows' => 20,
-			'cols' => 70
-		)
+			'rows' 	=> 20,
+			'cols' 	=> 70,
+			'group' => 'css'
+		),
+
 	),
 
 	array(

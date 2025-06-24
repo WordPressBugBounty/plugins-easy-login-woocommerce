@@ -43,7 +43,7 @@ class Xoo_El_Frontend{
 
 		ob_start();
 		xoo_el_helper()->get_template( '/global/inline-style.php' );
-		wp_add_inline_style( 'xoo-el-style',  ob_get_clean() . stripslashes( xoo_el_helper()->get_advanced_option('m-custom-css') )  );
+		wp_add_inline_style( 'xoo-el-style',  ob_get_clean() .  xoo_el_helper()->get_advanced_option('m-custom-css')  );
 
 	}
 
@@ -130,8 +130,8 @@ class Xoo_El_Frontend{
 
 
 
-		$change_to_text = wp_kses_post( html_entity_decode( $atts['change_to_text'] ) );
-		$text 			= wp_kses_post( html_entity_decode( $atts['text'] ) );
+		$change_to_text = html_entity_decode( $atts['change_to_text'] );
+		$text 			= html_entity_decode( $atts['text'] );
 
 		if( is_user_logged_in() && $change_to_text ){
 
@@ -214,7 +214,7 @@ class Xoo_El_Frontend{
 
 		}
 
-		$contHTML = '<div class="xoo-el-action-sc">'.$html.'</div>';
+		$contHTML = '<div class="xoo-el-action-sc">'.wp_kses_post( $html ).'</div>';
 
 		return $contHTML;
 	}
@@ -273,7 +273,7 @@ class Xoo_El_Frontend{
 				$change_to_text =  !empty( $change_to_text ) ? $change_to_text : __('Logout','easy-login-woocommerce');
 			}
 
-			$html =  '<a href="'.esc_url( $change_to_link ).'" class="'.$class.'">'.$change_to_text.'</a>';
+			$html =  '<a href="'.esc_url( $change_to_link ).'" class="'.esc_attr( $class ).'">'.wp_kses_post( $change_to_text ).'</a>';
 		}
 		else{
 			$action_type = isset( $user_atts['action'] ) ? $user_atts['action'] : $atts['type'];
@@ -315,7 +315,7 @@ class Xoo_El_Frontend{
 
 			$redirect = $redirect ? 'data-redirect="'.esc_url( $redirect ).'"' : '';
 
-			$html = sprintf( '<a class="%1$s" %2$s>%3$s</a>', $class, $redirect, $text );
+			$html = sprintf( '<a class="%1$s" %2$s>%3$s</a>', esc_attr( $class ), esc_url( $redirect ), wp_kses_post( $text ) );
 
 		}
 		return $html;

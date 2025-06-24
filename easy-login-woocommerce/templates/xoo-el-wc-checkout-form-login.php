@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$shortcode = html_entity_decode( xoo_el_helper()->get_general_option('m-chkout-sc') );
+$shortcode = xoo_el_helper()->get_general_option('m-chkout-sc');
 
 do_action( 'woocommerce_before_customer_login_form' ); ?>
 

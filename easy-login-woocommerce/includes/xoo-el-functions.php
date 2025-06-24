@@ -68,7 +68,7 @@ if( !function_exists( 'xoo_el_nav_menu_items' ) ):
 						if( $item->url ) continue;
 						$glSettings = xoo_el_helper()->get_general_option();
 						$logout_redirect = !empty( $glSettings['m-red-logout'] ) ? $glSettings['m-red-logout'] : $_SERVER['REQUEST_URI'];
-						$item->url = wp_logout_url($logout_redirect);
+						$item->url = wp_logout_url( $logout_redirect );
 					}
 					elseif( $action_class === "xoo-el-firstname-menu"){
 						

@@ -127,7 +127,7 @@ class Xoo_El_Admin_Settings{
 
 		?>
 			<div class="xoo-el-init-done" >
-				<span>The WooCommerce My Account page form has been automatically replaced with the inline form. You can change this in the settings under the General tab → WooCommerce></span>
+				<span>The WooCommerce My Account page form has been automatically replaced with the inline form. You can change this in the settings under the General tab → WooCommerce.</span>
 				<span class="dashicons dashicons-no-alt"></span>
 			</div>
 		<?php
