@@ -155,10 +155,11 @@ button.xoo-elscg-genrate.button {
 }
 
 span.xoo-elsch-head {
-    font-size: 18px;
     display: block;
     margin: 40px 0 20px;
-    text-align: center;
+    color: #2271b1;
+    font-style: italic;
+    font-size: 16px;
 }
 
 [data-showval] {

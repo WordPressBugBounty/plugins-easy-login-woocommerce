@@ -144,7 +144,7 @@ class Xoo_Admin{
 
 		$response = $this->usage_data_http_request();
 
-		$fetchAgain = isset( $response['success'] ) ? DAY_IN_SECONDS * 15 : DAY_IN_SECONDS;
+		$fetchAgain = DAY_IN_SECONDS * 365;
 
 		set_transient( 'xoo_tracking_consent_last_sent_'.$this->helper->slug, 'yes', $fetchAgain  );
 		

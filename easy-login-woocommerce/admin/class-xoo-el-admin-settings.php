@@ -123,7 +123,7 @@ class Xoo_El_Admin_Settings{
 	}
 
 	public function init_done_notice( $tab_id, $tab_data ){
-		if( !class_exists('woocommerce') || $tab_id !== 'shortcodes' ) return;
+		if( !class_exists('woocommerce') || $tab_id !== 'general' ) return;
 
 		?>
 			<div class="xoo-el-init-done" >
@@ -334,7 +334,8 @@ class Xoo_El_Admin_Settings{
 		wp_enqueue_style( 'xoo-el-admin-style', XOO_EL_URL . '/admin/assets/css/xoo-el-admin-style.css', array(), XOO_EL_VERSION, 'all' );
 		wp_enqueue_script( 'xoo-el-admin-js', XOO_EL_URL . '/admin/assets/js/xoo-el-admin-js.js', array( 'jquery' ), XOO_EL_VERSION, false );
 		wp_localize_script('xoo-el-admin-js','xoo_el_admin_localize',array(
-			'adminurl'  => admin_url().'admin-ajax.php',
+			'adminurl'  		=> admin_url().'admin-ajax.php',
+			'hasWoocommerce' 	=> class_exists('woocommerce')
 		));
 
 

@@ -265,7 +265,9 @@ jQuery(document).ready(function($){
 
 		$('.xoo-el-admin-popup').remove();
 
-		$('ul.xoo-sc-tabs li[data-tab="shortcodes"]').trigger('click');
+		if( !xoo_el_admin_localize.hasWoocommerce ){
+			$('ul.xoo-sc-tabs li[data-tab="shortcodes"]').trigger('click');
+		}
 
 		$('html, body').animate({ scrollTop: 0 }, 0);
 	});

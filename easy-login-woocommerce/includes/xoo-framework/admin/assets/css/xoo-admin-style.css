@@ -121,7 +121,7 @@ form.xoo-as-form {
 .xoo-as-setting {
     margin-bottom: 38px;
     display: flex;
-    gap: 50px;
+    column-gap: 50px;
 }
 
 

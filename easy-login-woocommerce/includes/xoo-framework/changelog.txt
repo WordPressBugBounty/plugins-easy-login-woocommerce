@@ -1,3 +1,9 @@
+== 1.7.2 == 06-07-2025
+* Allow xoo_exception to return wp_error
+
+== 1.7.1 == 28-06-2025
+* Column gap fix
+
 == 1.7 == 24-06-2025
 * sanitization 
 

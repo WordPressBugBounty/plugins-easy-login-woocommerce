@@ -92,11 +92,11 @@ $settings = array(
 			'options' => array(
 				'popup' 	=> array(
 					'title' => 'Popup',
-					'asset' => XOO_EL_URL.'/admin/assets/images/Popup.jpg',
+					'asset' => XOO_EL_URL.'/admin/assets/images/popup.jpg',
 				),
 				'slider' 	=> array(
 					'title' => 'Slider',
-					'asset' => XOO_EL_URL.'/admin/assets/images/Slider.jpg',
+					'asset' => XOO_EL_URL.'/admin/assets/images/slider.jpg',
 				)
 			),
 			'custom_attributes' => array(
