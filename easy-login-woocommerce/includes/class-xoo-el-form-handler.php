@@ -18,15 +18,17 @@ class Xoo_El_Form_Handler{
 		add_action( 'wp_ajax_xoo_el_form_action', array( __CLASS__, 'form_action' ) );
 		add_action( 'wp_ajax_nopriv_xoo_el_form_action', array( __CLASS__, 'form_action' ) );
 
-		if( self::$glSettings['m-reset-pw'] === "yes" ){
+		if( self::$glSettings['m-reset-pw'] !== "disable" ){
 			add_action( 'template_redirect', array( __CLASS__, 'redirect_reset_password_link' ) );
 			add_action( 'template_redirect', array( __CLASS__, 'remove_query_args' ) );
 			add_filter( 'wp_new_user_notification_email', array( __CLASS__, 'newuser_notification_email' ), 20, 3 );
 			add_filter( 'lostpassword_url', array( __CLASS__, 'lost_password_url' ), 20, 1 );
 			add_filter( 'woocommerce_get_endpoint_url', array( __CLASS__, 'edit_wc_lost_password_url' ), 20, 4 );
+
+			add_action( 'woocommerce_reset_password_notification', array( __CLASS__, 'disable_wc_resetpw_email' ), 0 );
+
 		}
 	}
-
 
 	//Process form
 	public static function form_action(){
@@ -63,7 +65,7 @@ class Xoo_El_Form_Handler{
 				);
 		}
 
-		wp_send_json( $action );
+		wp_send_json( apply_filters( 'xoo_el_form_processed_data', $action, $form_action ) );
 		
 		die();
 
@@ -617,48 +619,103 @@ class Xoo_El_Form_Handler{
 
 			try{
 
-				$validation_error = apply_filters( 'xoo_el_process_lostpw_errors', new WP_Error() );
+				$user_login 		= trim( wp_unslash( $_POST['user_login'] ) );
+				$recover_pattern  	= self::$glSettings['m-reset-pw'];
+				$has_woocommmerce 	= class_exists('woocommerce');
+
+
+				$validation_error 	= apply_filters( 'xoo_el_process_lostpw_errors', new WP_Error() );
 
 				if ( $validation_error->get_error_code() ) {
 					throw new Xoo_Exception( $validation_error );
 				}
 
+				if ( empty( $user_login ) && !$has_woocommmerce ) {
+					throw new Xoo_Exception( __('<strong>ERROR</strong>: Enter a username or email address.','easy-login-woocommerce' ) );
+				} 
+
+				elseif ( strpos( $user_login, '@' ) ) {
+					$user_data = get_user_by( 'email', $user_login );
+
+					if ( empty( $user_data ) ) {
+						$user_data = get_user_by( 'login', $user_login );
+					}
+
+				} else {
+					$user_data = get_user_by( 'login', $user_login );
+				}
+
+				if ( empty( $user_data ) && !$has_woocommmerce ) {
+					throw new Xoo_Exception( __( 'There is no account with that username or email address.', 'easy-login-woocommerce' ) );
+				}
+
+				//Let woocommerce handle the inputs
 				if( class_exists( 'woocommerce' ) ){
 
 					wc_clear_notices(); // clear notices
+
 					$success = WC_Shortcode_My_Account::retrieve_password();
 
-					if($success){
-						ob_start();
-						wc_get_template( 'myaccount/lost-password-confirmation.php' );
-						$lost_password_confirmation = ob_get_clean();
-					}
-					else{
+					if( !$success ){
 						$errors = wc_get_notices('error');
 						$error = 1;
 						throw new Xoo_Exception(  $errors[0]['notice'] );
 					}
 
+					if( $recover_pattern !== 'code' ){
+						ob_start();
+						wc_get_template( 'myaccount/lost-password-confirmation.php' );
+						$lost_password_confirmation = ob_get_clean();
+					}
+
 				}
 				else{
 
-					$success = self::retrieve_password();
-					
-					if( is_wp_error( $success ) ){
-						throw new Xoo_Exception( $success );
-					}
-					else{
+					if( $recover_pattern !== 'code' ){
+
+						$success = self::retrieve_password( $user_data );
+
+						if( is_wp_error( $success ) ){
+							throw new Xoo_Exception( $success );
+						}
+						
 						$lost_password_confirmation = __( 'A password reset email has been sent to the email address on file for your account, but may take several minutes to show up in your inbox. Please wait at least 10 minutes before attempting another reset.', 'easy-login-woocommerce' );
+
 					}
+
+					
 				}
 
-				$notice = '<div class="xoo-el-lostpw-success">'.$lost_password_confirmation.'</div>';
-
-				return array(
+				$return = array(
 					'error' 	=> 0,
-					'notice' 	=> xoo_el_add_notice('success', $notice),
 					'redirect' 	=> false
 				);
+
+				if( $recover_pattern === 'code' ){
+
+					$resetpwCodeForm = xoo_el_code_forms()->forms['reset_password'];
+
+					if( !is_email( $user_login ) ){
+						$resetpwCodeForm->maskEmail = true;
+					}
+
+					$code_sent = $resetpwCodeForm->request_code( $user_data );
+
+					if( is_wp_error($code_sent) ){
+						throw new Xoo_Exception( $code_sent );
+					}
+
+					$return['code_txt'] = $code_sent['code_txt'];
+
+				}
+				else if( isset( $lost_password_confirmation )  ){
+
+					$return['notice'] = xoo_el_add_notice( 'success', '<div class="xoo-el-lostpw-success">'.$lost_password_confirmation.'</div>' );
+
+				}
+
+
+				return $return;
 
 			}
 			catch( Xoo_Exception $e ){
@@ -677,6 +734,14 @@ class Xoo_El_Form_Handler{
 		}
 	}
 
+	public static function disable_wc_resetpw_email(){
+
+		if(  self::$glSettings['m-reset-pw'] === "code" ){
+			remove_action( 'woocommerce_reset_password_notification', array( WC_Emails::instance()->emails['WC_Email_Customer_Reset_Password'], 'trigger' ), 10, 2 );
+		}
+
+	}
+
 
 	public static function process_reset_password(){
 
@@ -686,10 +751,31 @@ class Xoo_El_Form_Handler{
 
 		try {
 
-			$user = check_password_reset_key( $_POST['rp_key'], $_POST['rp_login'] );
+			if( self::$glSettings['m-reset-pw'] === 'link' ){
 
-			if( is_wp_error( $user ) ){
-				throw new Xoo_Exception( __( 'This key is invalid or has already been used. Please reset your password again if needed.', 'easy-login-woocommerce' ) );
+				$user = check_password_reset_key( $_POST['rp_key'], $_POST['rp_login'] );
+
+				if( is_wp_error( $user ) ){
+					throw new Xoo_Exception( __( 'This key is invalid or has already been used. Please reset your password again if needed.', 'easy-login-woocommerce' ) );
+				}
+
+			}
+			else{ //if reset password is set via code
+
+				$resetpwCodeForm 	= xoo_el_code_forms()->forms['reset_password'];
+				
+				if( !$resetpwCodeForm->is_user_verified() ){
+					throw new Xoo_Exception( __( 'Something went wrong. Please verify the code again to reset your password.', 'easy-login-woocommerce' ) , 'code_reset' );
+				}
+
+				$email = $resetpwCodeForm->get_user_data('sendTo');
+
+				if( !$email ){
+					throw new Xoo_Exception( __( 'Something went wrong. Please verify the code again to reset your password', 'easy-login-woocommerce' ), 'code_reset' );
+				}
+
+				$user = get_user_by( 'email', $email );
+
 			}
 
 			if ( $user instanceof WP_User ) {
@@ -737,8 +823,8 @@ class Xoo_El_Form_Handler{
 
 			return array(
 				'error' 		=> 1,
-				'error_code' 	=> $e->getWpErrorCode(),
-				'notice' 		=> xoo_el_add_notice( 'error', $message, $e->getWpErrorCode() ),
+				'error_code' 	=> $e->getErrorCode(),
+				'notice' 		=> xoo_el_add_notice( 'error', $message, $e->getErrorCode() ),
 			);
 		}
 		
@@ -747,34 +833,9 @@ class Xoo_El_Form_Handler{
 	}
 
 
-	public static function retrieve_password() {
+	public static function retrieve_password( $user_data ) {
 
 		$errors    = new WP_Error();
-
-		$user_data = false;
-
-		// Use the passed $user_login if available, otherwise use $_POST['user_login'].
-		if ( ! empty( $_POST['user_login'] ) ) {
-			$user_login = $_POST['user_login'];
-		}
-
-		$user_login = trim( wp_unslash( $user_login ) );
-
-		if ( empty( $user_login ) ) {
-			$$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or email address.','easy-login-woocommerce' ));
-		} elseif ( strpos( $user_login, '@' ) ) {
-			$user_data = get_user_by( 'email', $user_login );
-
-			if ( empty( $user_data ) ) {
-				$user_data = get_user_by( 'login', $user_login );
-			}
-
-			if ( empty( $user_data ) ) {
-				$errors->add( 'invalid_email', __( 'There is no account with that username or email address.', 'easy-login-woocommerce' ) );
-			}
-		} else {
-			$user_data = get_user_by( 'login', $user_login );
-		}
 
 		/**
 		* Fires before errors are returned from a password reset request.

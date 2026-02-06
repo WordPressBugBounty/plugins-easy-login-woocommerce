@@ -171,10 +171,6 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 	    display: none;
 	}
 
-	.xoo-el-modal, .xoo-el-opac {
-	    pointer-events: none;
-	}
-
 	.xoo-el-inmodal {
 	    pointer-events: all;
 	}

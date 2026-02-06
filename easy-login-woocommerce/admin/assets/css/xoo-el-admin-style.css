@@ -79,13 +79,6 @@ span.xoo-ao-title {
     text-align: center;
 }
 
-li#xoo-el-username:not(.active), li#xoo-el-password:not(.active) {
-    background-color: #00ffcd;
-}
-
-li#xoo-el-rp-pass:not(.active), li#xoo-el-rp-pass-again:not(.active) {
-    background-color: #ffe983;
-}
 
 .xoo-sc-bottom-btns {
     max-width: 300px;
@@ -167,7 +160,7 @@ span.xoo-elsch-head {
 }
 
 .xoo-el-scgroup[data-attr="sctype"] > div > label {
-    background-color: #2a9d8f;
+    background-color: #1a7dc7;
     padding: 10px;
     color: #fff;
     border-radius: 2px;

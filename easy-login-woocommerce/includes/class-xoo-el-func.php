@@ -9,6 +9,8 @@ class Xoo_El_Func{
 
 	private static $_instance = null;
 
+	public $glSettings;
+
 	public static function get_instance(){
 
 		if ( is_null( self::$_instance ) ) {
@@ -18,6 +20,7 @@ class Xoo_El_Func{
 	}
 
 	public function __construct(){
+		$this->glSettings = xoo_el_helper()->get_general_option();
 		$this->hooks();
 	}
 
@@ -31,6 +34,8 @@ class Xoo_El_Func{
 
 		add_action( 'xoo_el_login_add_fields', array( $this, 'custom_login_fields' ) );
 		add_action( 'xoo_el_single_add_fields', array( $this, 'custom_single_fields' ) );
+
+		add_filter( 'woocommerce_email_classes', array( $this, 'register_wc_resetpw_email' ) );
 
 	}
 
@@ -52,6 +57,13 @@ class Xoo_El_Func{
 			<?php
 		}
 	}
+
+
+	public function register_wc_resetpw_email( $emails ){
+		$emails[ 'xoo_el_wc_reset_password' ] = include XOO_EL_PATH.'/includes/emails/class-xoo-el-wc-reset-password.php';
+		return $emails;
+	}
+
 
 }
 

@@ -3,7 +3,7 @@
  * Woocommerce lost password form is replaced by this template
  *
  * This template can be overridden by copying it to yourtheme/templates/xoo-el-wc-lost-password.php.
- * @version 9.2.0
+ * @version 100.3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

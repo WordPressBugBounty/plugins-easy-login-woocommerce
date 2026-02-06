@@ -64,6 +64,31 @@ class Xoo_El_Admin_Settings{
 		
 	}
 
+
+	public function default_reset_email_text(){
+		ob_start();
+		?>
+
+		<p style="margin: 0px 0px 16px;">Hi {user_login},</p>
+
+		<p style="margin: 0px 0px 16px;">We received a request to reset your password for your account on <b>{site_title}</b>.</p>
+
+		<p style="margin: 0px 0px 16px;">Your 6-digit verification code is:</p>
+
+		<p style="margin: 0px 0px 16px; font-size: 27px; font-weight: bold; background-color: #f5f5f5; padding: 20px 10px; text-align: center;">{verify_code}</p>
+
+		<p style="margin: 0px 0px 16px;">Enter this code on the password reset page to create a new password.</p>
+
+		<p style="margin: 0px 0px 16px;">If you didn’t request a password reset, please ignore this email or contact our support team if you have concerns.</p>
+
+		<p style="margin: 0px 0px 16px;">Thanks,<br/>
+		The {site_title} Team</p>
+
+
+		<?php
+		return ob_get_clean();
+	}
+
 	public function shortcode_generator_rtl_fix($settings){
 		
 		if( is_rtl() ){

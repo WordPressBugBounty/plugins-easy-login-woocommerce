@@ -250,7 +250,8 @@ function xoo_el_get_form( $args = array() ){
 				'enable' 	=> 'yes'
 			),
 			'resetpw' 		=> array(
-				'enable' 	=> 'yes'
+				'enable' 	=> 'yes',
+				'pattern' 	=> $glSettings['m-reset-pw']
 			),
 		),
 		'tabs' 	=> array(
@@ -274,33 +275,40 @@ function xoo_el_get_form( $args = array() ){
 
 	$args['tabs'] = array_diff( $args['tabs'], $unsetTabs );
 
-	if( $glSettings['m-reset-pw'] === "yes" && ( isset( $_GET['reset_password'] ) || isset( $_GET['show-reset-form'] ) ) ){
+	
 
-		$args['form_active'] = 'resetpw';
+	if( $glSettings['m-reset-pw'] === 'link' ){
 
-		$user = new WP_Error();
+		if( ( isset( $_GET['reset_password'] ) || isset( $_GET['show-reset-form'] ) ) ){
 
-		if ( isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) && 0 < strpos( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ], ':' ) ) {  // @codingStandardsIgnoreLine
+			$args['form_active'] = 'resetpw';
 
-			list( $rp_id, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ); // @codingStandardsIgnoreLine
-			$userdata               = get_userdata( absint( $rp_id ) );
-			$rp_login               = $userdata ? $userdata->user_login : '';
-			$user                   = check_password_reset_key( $rp_key, $rp_login );
+			$user = new WP_Error();
 
-			$args['forms']['resetpw'] = array_merge( array(
-				'user' 		=> $user,
-				'rp_login'	=> $rp_login,
-				'rp_key' 	=> $rp_key 
-			), $args['forms']['resetpw'] );
+			if ( isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) && 0 < strpos( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ], ':' ) ) {  // @codingStandardsIgnoreLine
 
+				list( $rp_id, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ); // @codingStandardsIgnoreLine
+				$userdata               = get_userdata( absint( $rp_id ) );
+				$rp_login               = $userdata ? $userdata->user_login : '';
+				$user                   = check_password_reset_key( $rp_key, $rp_login );
+
+				$args['forms']['resetpw'] = array_merge( array(
+					'user' 		=> $user,
+					'rp_login'	=> $rp_login,
+					'rp_key' 	=> $rp_key 
+				), $args['forms']['resetpw'] );
+
+			}
+		}
+		else{
+			unset( $args['forms'][ 'resetpw' ] );
 		}
 
 	}
-	else{
+	else if( $glSettings['m-reset-pw'] === 'disable'  ){
 		unset( $args['forms'][ 'resetpw' ] );
 	}
-
-
+	
 
 	//Handling redirects
 	if( isset( $_GET['redirect_to'] ) && $_GET['redirect_to'] ){
@@ -323,6 +331,7 @@ function xoo_el_get_form( $args = array() ){
 
 
 	$args = apply_filters( 'xoo_el_form_args', $args );
+
 
 	return xoo_el_helper()->get_template( 'xoo-el-form.php', array( 'args' => $args ), '', $args['return'] );
 }
@@ -647,5 +656,6 @@ function xoo_el_paid_membership_compat(){
 
 }
 add_action( 'init', 'xoo_el_paid_membership_compat' );
+
 
 ?>

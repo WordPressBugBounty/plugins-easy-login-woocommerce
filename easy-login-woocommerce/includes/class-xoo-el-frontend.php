@@ -32,6 +32,13 @@ class Xoo_El_Frontend{
 		add_shortcode( 'xoo_el_pop', array( $this, 'pop_shortcode' ) );
 		
 		add_filter( 'xoo_easy-login-woocommerce_get_template', array( $this, 'force_plugin_templates_over_outdated' ), 10, 4 );
+
+		add_action( 'xoo_el_after_form', array( $this, 'lostpw_attach_code_form' ), 5, 2 );
+	}
+
+	public function lostpw_attach_code_form( $form, $args ){
+		if( $form !== 'lostpw' || $this->glSettings['m-reset-pw'] !== 'code' ) return;
+		xoo_el_code_forms()->forms['reset_password']->get_code_form();
 	}
 
 
@@ -60,7 +67,7 @@ class Xoo_El_Frontend{
 			'redirectDelay' 	=> apply_filters( 'xoo_el_redirect_delay', 300 ),
 			'html' 				=> array(
 				'spinner' 	=> '<i class="xoo-el-icon-spinner8 xoo-el-spinner"></i>',
-				'editField' => '<span class="xoo-el-edit-em">' . __( 'Change?', 'mobile-login-woocommerce' ) . '</span>',
+				'editField' => '<span class="xoo-el-edit-em">' . __( 'Change?', 'easy-login-woocommerce' ) . '</span>',
 				'notice' 	=> array(
 					'error' 	=> xoo_el_add_notice( 'error', "%s" ),
 					'success' 	=> xoo_el_add_notice( 'success', "%s" )
@@ -72,6 +79,11 @@ class Xoo_El_Frontend{
 			'loginClass' 		=> xoo_el_helper()->get_advanced_option('m-login-class'),
 			'registerClass' 	=> xoo_el_helper()->get_advanced_option('m-register-class'),
 			'errorLog' 			=> xoo_el_helper()->get_advanced_option('m-error-log'),
+			'resetPwPattern' 	=> $this->glSettings['m-reset-pw'],
+			'resend_wait' 		=> 90,
+			'preventClosing' 	=> $this->glSettings['popup-force'] === "yes",
+			'hasCodeForms' 		=> !empty( xoo_el_code_forms()->forms ),
+			'isLoggedIn' 		=> is_user_logged_in() ? 'yes' : 'no'
 		);
 
 		if( class_exists('woocommerce') ){

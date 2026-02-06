@@ -9,7 +9,7 @@ ul.xoo-sc-tabs {
     top: 0;
     z-index: 999999;
     background-color: #f0f0f1;
-    padding: 10px 20px;
+    padding: 10px 20px 5px;
     border-radius: 5px;
     display: table;
     margin: 0 auto;
@@ -20,7 +20,7 @@ ul.xoo-sc-tabs li {
     display: inline-block;
     padding: 10px 20px;
     background-color: #1d3557;
-    margin: 0 5px 0 0;
+    margin: 0 5px 5px 0;
     color: #f0f0f0;
     font-weight: 500;
     text-transform: uppercase;
@@ -31,7 +31,6 @@ ul.xoo-sc-tabs li {
 
 ul.xoo-sc-tabs li.xoo-sct-active {
     background-color: #1a7dc7;
-    transform: scale(1.05);
 }
 
 .xoo-as-slider {
@@ -279,6 +278,10 @@ button.xoo-as-form-save {
     color: #4CAF50;
     margin-left: 9px;
     font-weight: bold;
+}
+
+.xoo-ass-pro-sec > span:first-child:after {
+    color: #ffd700;
 }
 
 
@@ -736,10 +739,10 @@ html{
 
 .xoo-as-pattern-cont {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     user-select: none;
     flex-wrap: wrap;
-    column-gap: 25px;
+    gap: 25px;
     position: relative;
 }
 
@@ -804,4 +807,47 @@ ul.xoo-sc-tabs li[data-tab="pro"] {
 
 .xoo-sc-tab-content[data-tab="info"] h4 {
     font-weight: 400;
+}
+
+.xoo-as-val-desc {
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.xoo-as-placeholders {
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.xoo-as-placeholders > span {
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+
+
+.xoo-as-placeholders ul {
+    display: flex;
+    column-gap: 10px;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.xoo-as-placeholders ul li {
+    display: flex;
+    gap: 5px;
+}
+
+.xoo-as-placeholders ul li span:nth-child(1) {
+    color: #3c434a;
+    font-weight: 500;
+}
+
+textarea.wp-editor-area {
+    width: 100%;
+    max-width: 100%;
+}
+
+.xoo-as-field{
+    width: 100%;
 }

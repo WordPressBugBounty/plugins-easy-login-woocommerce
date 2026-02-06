@@ -12,6 +12,35 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			add_filter( 'xoo_aff_easy-login-woocommerce_default_field_settings', array( $this, 'modify_default_field_settings' ) );
 			add_filter( 'xoo_aff_easy-login-woocommerce_field_setting_options', array( $this, 'add_custom_settings_option' ) );
 			add_filter( 'xoo_aff_easy-login-woocommerce_default_field_types', array( $this, 'autocomplete_address_text_filter' ) );
+
+			add_action( 'xoo_aff_easy-login-woocommerce_add_predefined_fields', array( $this, 'group_otp_login_fields' ), 999 );
+
+		}
+
+		public function group_otp_login_fields(){
+
+			$fields = xoo_el()->aff->fields->get_fields_data();
+
+			if( !empty( $fields ) ){
+
+				$groups = array(
+					'xoo-el-username' 			=> 'login',
+					'xoo-el-password' 			=> 'login',
+					'user_login' 				=> 'resetpw',
+					'xoo-el-rp-pass' 			=> 'resetpw',
+					'xoo-el-rp-pass-again' 		=> 'resetpw',
+					'xoo-el-sing-user' 			=> 'others',
+				);
+
+
+				foreach ( $fields as $field_id => $data ) {
+					$fields[ $field_id ]['group'] = isset( $groups[ $field_id ] ) ? $groups[$field_id] : 'register';
+				}
+
+				xoo_el()->aff->fields->update_field_option( $fields );
+
+			}
+
 		}
 
 
@@ -37,7 +66,13 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 
 
 		public function add_el_predefined_fields(){
+
 			$this->fields = xoo_el()->aff->fields;
+
+			$this->fields->add_group( 'login', 'Login', false, 10 );
+			$this->fields->add_group( 'register', 'Register', true, 20 );
+			$this->fields->add_group( 'resetpw', 'Reset Password', false, 30 );
+
 			$this->predefined_field_username();
 			$this->predefined_field_userrole();
 			$this->predefined_field_useremail();
@@ -114,6 +149,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				array(
 					'unique_id' => $field_id,
 					'required' 	=> 'yes',
+				),
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 100,
 				)
 			);
 
@@ -190,6 +229,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				array(
 					'unique_id' => $field_id,
 					'required' 	=> 'yes',
+				),
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 200,
 				)
 			);
 
@@ -241,6 +284,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				$field_type_id,
 				array(
 					'unique_id' => $field_id,
+				),
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 300,
 				)			
 			);
 
@@ -308,7 +355,11 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 			$this->fields->add_field(
 				$field_type_id,
 				$field_id,
-				$settings_value
+				$settings_value,
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 400,
+				)
 			);
 
 		}
@@ -356,6 +407,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				array(
 					'required' 	=> 'yes',
 					'unique_id' 	=> $field_id,
+				),
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 500,
 				)	
 			);
 
@@ -412,6 +467,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				$field_type_id,
 				array(
 					'unique_id' => $field_id,
+				),
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 600,
 				)
 			);
 
@@ -468,6 +527,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				$field_type_id,
 				array(
 					'unique_id' => 'xoo_el_reg_lname',
+				),
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 700,
 				)
 			);
 
@@ -528,6 +591,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				$field_type_id,
 				array(
 					'unique_id' => $field_id,
+				),
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 800,
 				)
 			);
 		}
@@ -619,6 +686,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				$field_type_id,
 				array(
 					'unique_id' => $field_id,
+				),
+				array(
+					'group' 	=> 'register',
+					'priority' 	=> 700,
 				)
 			);
 
@@ -671,7 +742,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 					'elType'		=> 'login',
 					'autocomplete' 	=> 'username'
 				),
-				1000
+				array(
+					'group' 	=> 'login',
+					'priority' 	=> 100,
+				)
 			);
 
 		}
@@ -729,7 +803,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				$field_type_id,
 				$field_id,
 				$settings_value,
-				1010
+				array(
+					'group' 	=> 'login',
+					'priority' 	=> 200,
+				)
 			);
 
 		}
@@ -780,7 +857,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 					'active' 	=> 'yes',
 					'elType' 	=> 'lostpw'
 				),
-				1020
+				array(
+					'group' 	=> 'resetpw',
+					'priority' 	=> 100,
+				)
 			);
 
 		}		
@@ -843,7 +923,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				$field_type_id,
 				$field_id,
 				$settings_value,
-				1030
+				array(
+					'group' 	=> 'resetpw',
+					'priority' 	=> 200,
+				)
 			);
 
 		}
@@ -900,7 +983,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				$field_type_id,
 				$field_id,
 				$settings_value,
-				1040
+				array(
+					'group' 	=> 'resetpw',
+					'priority' 	=> 300,
+				)
 			);
 
 		}
@@ -965,7 +1051,10 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 					'elType'		=> 'single',
 					'autocomplete' 	=> 'username'
 				),
-				1050
+				array(
+					'group' 	=> 'others',
+					'priority' 	=> 300,
+				)
 			);
 
 		}

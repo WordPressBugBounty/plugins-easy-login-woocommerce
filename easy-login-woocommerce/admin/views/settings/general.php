@@ -54,6 +54,22 @@ $settings = array(
 
 	),
 
+	array(
+		'callback' 		=> 'select',
+		'title' 		=> 'Navigation Pattern',
+		'id' 			=> 'm-nav-pattern',
+		'section_id' 	=> 'gl_main',
+		'args'			=> array(
+			'options' => array(
+				'tabs' 		=> 'Header Tabs',
+				'links' 	=> 'Footer Links',
+				'disable' 	=> 'Disable'
+			)
+		),
+		'default' 		=> 'tabs',
+		'desc' 			=> 'Choose a way to switch between login and registration form.'
+	),
+
 
 
 	array(
@@ -86,36 +102,194 @@ $settings = array(
 
 
 	array(
-		'callback' 		=> 'checkbox',
-		'title' 		=> 'Handle Reset Password',
+		'callback' 		=> 'select',
+		'title' 		=> 'Reset Password Email',
 		'id' 			=> 'm-reset-pw',
 		'section_id' 	=> 'gl_main',
-		'default' 		=> 'yes',
-		'desc' 			=> 'If checked, allow users to set a new password in form.'
+		'args'			=> array(
+			'options' => array(
+				'link' 		=> 'Send Reset Link',
+				'code' 		=> 'Send Verification Code',
+				'disable' 	=> 'Do not Handle'
+			),
+			'value_desc' => array(
+				'link' 		=> class_exists( 'woocommerce' ) ? 'Reset password email is sent by woocommerce, plugin does not control the email and its content' : 'Sends reset password link to users',
+				'code' 		=> "Sends 6 digit code to user email address",
+				'disable' 	=> 'Plugin will let your site handle the reset password functionality'
+			),
+			'toggleSettings' => array( //hide elements if their value is
+				'xoo-el-gl-options[m-reset-pw-email]' => array( 'disable', 'link' ),
+				'xoo-el-gl-options[m-reset-pw-subject]' => array( 'disable', 'link' )
+			),
+		),
+		'default' 		=> 'link',
+		'desc' 			=> 'If you\'re not receiving emails, please check that the email functionality is working on your site. You can use the "WP Mail SMTP" plugin to set up your email.'
 	),
 
+	array(
+		'callback' 		=> 'text',
+		'title' 		=> 'Reset Password Email Subject',
+		'id' 			=> 'm-reset-pw-subject',
+		'section_id' 	=> 'gl_main',
+		'default' 		=> 'Reset your password for {site_title}',
+		'args' 			=> array(
+			'custom_attributes' => array(
+				'style' => 'max-width: 400px'
+			)
+		)
+	),
+
+	array(
+		'callback' 		=> 'wp_editor',
+		'title' 		=> 'Reset Password Email Text<br>[ Verification Code ]',
+		'id' 			=> 'm-reset-pw-email',
+		'section_id' 	=> 'gl_main',
+		'args' 			=> array(
+			'group' 	=> 'email_content',
+			'placeholders' => array(
+				'{verify_code}' 	=> 'Verification Code', 	
+				'{user_login}' 		=> 'Username',
+				'{user_firstname}'	=> 'User\'s Firstname',
+				'{site_title}' 		=> 'Site Title',
+			),
+			'editor_settings' => array(
+				'editor_height' => 400,
+			)
+
+		),
+		'default' 		=> xoo_el_admin_settings()->default_reset_email_text(),
+	),
+
+
+
+);
+
+
+
+$popup = array(
+
+	array(
+		'callback' 		=> 'checkbox_list',
+		'title' 		=> 'Forms',
+		'id' 			=> 'popup-forms',
+		'section_id' 	=> 'gl_popup',
+		'args' 			=> array(
+			'options' 	=> array(
+				'login' 		=> 'Login',
+				'register' 		=> 'Register',
+			),
+		),
+		'default' 	=> array(
+			'login', 'register',
+		)
+	),
+
+
+	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Prevent closing',
+		'id' 			=> 'popup-force',
+		'section_id' 	=> 'gl_popup',
+		'default' 		=> 'no',
+		'desc' 			=> 'Once popup is opened, this option will prevent user from closing it. Useful when you want to hide your website page content for guest users. You can also set "overlay opacity to 1" from style tab to completely blackout the background.'
+	),
+
+
+
+	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Auto open Popup',
+		'id' 			=> 'ao-enable',
+		'section_id' 	=> 'gl_ao',
+		'default' 		=> 'yes',
+	),
+
+
+	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Open on first visit only',
+		'id' 			=> 'ao-once',
+		'section_id' 	=> 'gl_ao',
+		'default' 		=> 'no',
+	),
 
 
 
 	array(
 		'callback' 		=> 'select',
-		'title' 		=> 'Navigation Pattern',
-		'id' 			=> 'm-nav-pattern',
-		'section_id' 	=> 'gl_main',
-		'args'			=> array(
-			'options' => array(
-				'tabs' 		=> 'Header Tabs',
-				'links' 	=> 'Footer Links',
-				'disable' 	=> 'Disable'
-			)
+		'title' 		=> 'Default Tab',
+		'id' 			=> 'ao-default-form',
+		'section_id' 	=> 'gl_ao',
+		'args' 			=> array(
+			'options' 		=> array(
+				'login' 	=> 'Login',
+				'register' 	=> 'Register',
+			),
 		),
-		'default' 		=> 'tabs',
-		'desc' 			=> 'Choose a way to switch between login and registration form.'
+		'default' 		=> 'login',
 	),
 
 
+
+	array(
+		'callback' 		=> 'textarea',
+		'title' 		=> 'On Pages',
+		'id' 			=> 'ao-pages',
+		'section_id' 	=> 'gl_ao',
+		'default' 		=> '',
+		'desc' 			=> 'Use post type/page id/slug separated by comma. For eg: 19,contact-us,shop .Leave empty for every page.'
+	),
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Delay',
+		'id' 			=> 'ao-delay',
+		'section_id' 	=> 'gl_ao',
+		'default' 		=> 500,
+		'desc' 			=> 'Trigger popup after seconds. 1000 = 1 second'
+	),
+
+
+	array(
+		'callback' 		=> 'text',
+		'title' 		=> 'Login Redirect',
+		'id' 			=> 'm-red-login',
+		'section_id' 	=> 'gl_red',
+		'default' 		=> '',
+		'desc' 			=> 'Leave empty to redirect on the same page.'
+	),
+
+	array(
+		'callback' 		=> 'text',
+		'title' 		=> 'Register Redirect',
+		'id' 			=> 'm-red-register',
+		'section_id' 	=> 'gl_red',
+		'default' 		=> '',
+		'desc' 			=> 'Leave empty to redirect on the same page.'
+	),
+
+	array(
+		'callback' 		=> 'text',
+		'title' 		=> 'Logout Redirect',
+		'id' 			=> 'm-red-logout',
+		'section_id' 	=> 'gl_red',
+		'default' 		=> '',
+		'desc' 			=> 'Leave empty to redirect on the same page.'
+	),
+
+
+	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Success Endpoint',
+		'id' 			=> 'm-ep-success',
+		'section_id' 	=> 'gl_red',
+		'default' 		=> 'yes',
+		'desc' 			=> 'Adds (login="success" & register="success") in URL bar on login & register. Clears cache on login/register if you have cache plugin enabled'
+	),
+
 );
 
+$settings = array_merge( $settings, $popup );
 
 if( class_exists( 'woocommerce' ) ){
 	$settings[] = array(
@@ -186,125 +360,8 @@ if( class_exists( 'woocommerce' ) ){
 }
 
 
-$popup = array(
 
-
-	array(
-		'callback' 		=> 'text',
-		'title' 		=> 'Login Redirect',
-		'id' 			=> 'm-red-login',
-		'section_id' 	=> 'gl_red',
-		'default' 		=> '',
-		'desc' 			=> 'Leave empty to redirect on the same page.'
-	),
-
-	array(
-		'callback' 		=> 'text',
-		'title' 		=> 'Register Redirect',
-		'id' 			=> 'm-red-register',
-		'section_id' 	=> 'gl_red',
-		'default' 		=> '',
-		'desc' 			=> 'Leave empty to redirect on the same page.'
-	),
-
-	array(
-		'callback' 		=> 'text',
-		'title' 		=> 'Logout Redirect',
-		'id' 			=> 'm-red-logout',
-		'section_id' 	=> 'gl_red',
-		'default' 		=> '',
-		'desc' 			=> 'Leave empty to redirect on the same page.'
-	),
-
-
-	array(
-		'callback' 		=> 'checkbox',
-		'title' 		=> 'Success Endpoint',
-		'id' 			=> 'm-ep-success',
-		'section_id' 	=> 'gl_red',
-		'default' 		=> 'yes',
-		'desc' 			=> 'Adds (login="success" & register="success") in URL bar on login & register. Clears cache on login/register if you have cache plugin enabled'
-	),
-
-	array(
-		'callback' 		=> 'checkbox_list',
-		'title' 		=> 'Forms',
-		'id' 			=> 'popup-forms',
-		'section_id' 	=> 'gl_popup',
-		'args' 			=> array(
-			'options' 	=> array(
-				'login' 		=> 'Login',
-				'register' 		=> 'Register',
-			),
-		),
-		'default' 	=> array(
-			'login', 'register',
-		)
-	),
-
-
-	array(
-		'callback' 		=> 'checkbox',
-		'title' 		=> 'Prevent closing',
-		'id' 			=> 'popup-force',
-		'section_id' 	=> 'gl_popup',
-		'default' 		=> 'no',
-		'desc' 			=> 'Once popup is opened, this option will prevent user from closing it. Useful when you want to hide your website page content for guest users. You can also set "overlay opacity to 1" from style tab to completely blackout the background.'
-	),
-
-
-
-	array(
-		'callback' 		=> 'checkbox',
-		'title' 		=> 'Auto open Popup',
-		'id' 			=> 'ao-enable',
-		'section_id' 	=> 'gl_ao',
-		'default' 		=> 'yes',
-	),
-
-
-	array(
-		'callback' 		=> 'select',
-		'title' 		=> 'Default Tab',
-		'id' 			=> 'ao-default-form',
-		'section_id' 	=> 'gl_ao',
-		'args' 			=> array(
-			'options' 		=> array(
-				'login' 	=> 'Login',
-				'register' 	=> 'Register',
-			),
-		),
-		'default' 		=> 'login',
-	),
-
-
-	array(
-		'callback' 		=> 'checkbox',
-		'title' 		=> 'Open once',
-		'id' 			=> 'ao-once',
-		'section_id' 	=> 'gl_ao',
-		'default' 		=> 'no',
-	),
-
-
-	array(
-		'callback' 		=> 'textarea',
-		'title' 		=> 'On Pages',
-		'id' 			=> 'ao-pages',
-		'section_id' 	=> 'gl_ao',
-		'default' 		=> '',
-		'desc' 			=> 'Use post type/page id/slug separated by comma. For eg: 19,contact-us,shop .Leave empty for every page.'
-	),
-
-	array(
-		'callback' 		=> 'number',
-		'title' 		=> 'Delay',
-		'id' 			=> 'ao-delay',
-		'section_id' 	=> 'gl_ao',
-		'default' 		=> 500,
-		'desc' 			=> 'Trigger popup after seconds. 1000 = 1 second'
-	),
-
+$texts = array(
 
 	array(
 		'callback' 		=> 'text',
@@ -374,11 +431,9 @@ $popup = array(
 	),
 
 
-
-
 );
 
-$settings = array_merge( $settings, $popup );
+$settings = array_merge( $settings, $texts );
 
 return apply_filters( 'xoo_el_admin_settings', $settings, 'general' );
 

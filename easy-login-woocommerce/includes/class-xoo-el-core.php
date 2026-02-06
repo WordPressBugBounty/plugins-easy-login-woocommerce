@@ -51,12 +51,16 @@ class Xoo_El_Core{
 
 		require_once XOO_EL_PATH.'includes/class-xoo-el-fields.php';
 
+		require_once XOO_EL_PATH.'includes/verification/class-xoo-el-code-forms.php';
+
 		if( xoo_el_helper()->is_request('frontend')){
 
 			require_once XOO_EL_PATH.'includes/class-xoo-el-frontend.php';
 			require_once XOO_EL_PATH.'includes/class-xoo-el-form-handler.php';
+			
 
 		}
+		
 
 		if( xoo_el_helper()->is_request('admin') || version_compare( $this->db_version, XOO_EL_VERSION, '<' ) ){
 			require_once XOO_EL_PATH.'admin/class-xoo-el-aff-fields.php';
@@ -79,6 +83,7 @@ class Xoo_El_Core{
 	}
 
 
+
 	/**
 	* On install
 	*/
@@ -93,6 +98,10 @@ class Xoo_El_Core{
 		}
 
 		if( $db_version ){
+
+			$glOptions = (array) xoo_el_helper()->get_general_option();
+			$syOptions = (array) xoo_el_helper()->get_style_option();
+			$avOptions = (array) xoo_el_helper()->get_advanced_option();
 
 			if( version_compare( $db_version, '2.3', '<') ){
 				//Map old values to new option
@@ -113,39 +122,28 @@ class Xoo_El_Core{
 
 			if( version_compare( $db_version, '2.6', '<') ){
 
-				$syOptions = (array) xoo_el_helper()->get_style_option();
-
 				$syOptions['sy-head-img'] = '';
 				$syOptions['sy-tab-padding'] = '12px 20px';
 				$syOptions['sy-tab-fsize'] = '16';
 				$syOptions['sy-popup-height-type'] = 'custom';
 
-				update_option( 'xoo-el-sy-options', $syOptions );
-
-				$glOptions = (array) xoo_el_helper()->get_general_option();
-
 				$glOptions['m-nav-pattern'] = 'tabs';
 				$glOptions['m-form-pattern'] = 'separate';
 
-				update_option( 'xoo-el-gl-options', $glOptions );
 			}
 
 			if( version_compare( $db_version, '2.7', '<') ){
 
-				$avOptions = (array) xoo_el_helper()->get_advanced_option();
-
 				$avOptions['m-error-log'] = 'no';
-
-				update_option( 'xoo-el-av-options', $glOptions );
+				
 			}
 
 			if( version_compare( $db_version, '2.7.4', '<') ){
-				$glOptions = (array) xoo_el_helper()->get_general_option();
 
 				if( isset( $glOptions['m-myacc-sc'] ) ){
 					$glOptions['m-chkout-sc'] = $glOptions['m-myacc-sc'];
 				}
-				update_option( 'xoo-el-gl-options', $glOptions );
+	
 			}
 
 			if( version_compare( $db_version, '2.9.2', '<')  ){
@@ -158,17 +156,26 @@ class Xoo_El_Core{
 
 			if( version_compare( $db_version, '2.9.4', '<') ){
 
-				$glOptions = (array) xoo_el_helper()->get_general_option();
-
 				$glOptions['m-myacclpw-sc'] = '';
 
-				update_option( 'xoo-el-gl-options', $glOptions );
 			}
+
+
+			if( version_compare( $db_version, '3.0.0', '<') ){
+				$glOptions['m-reset-pw'] 			= $glOptions['m-reset-pw'] === "yes" ? 'link' : 'disable';
+				$glOptions['m-reset-pw-subject'] 	= 'Reset your password for {site_title}';
+				$glOptions['m-reset-pw-email'] 		= xoo_el_admin_settings()->default_reset_email_text();
+			}
+
+			update_option( 'xoo-el-gl-options', $glOptions );
+			update_option( 'xoo-el-sy-options', $syOptions );
+			update_option( 'xoo-el-av-options', $avOptions );
 
 		}
 		
 
 		if( version_compare( $db_version, XOO_EL_VERSION, '<') ){
+
 
 			/* Including OTP Login fields file - Fix this later*/
 			if( defined('XOO_ML_PATH') ){

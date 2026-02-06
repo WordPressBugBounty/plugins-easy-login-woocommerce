@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: login, signup, register, woocommerce, popup
 Requires at least: 3.0.1
 Tested up to: 6.8
-Stable tag: 2.9.6
+Stable tag: 3.0.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,22 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 3.0.4 =
+* Fix - core files update
+
+= 3.0.3 =
+* Fix - compatibility with older safari versions
+
+= 3.0.2 =
+* Fix - Reset password email not working for non-woocommerce users
+
+= 3.0.1 =
+* Fix - auto opening of popup in 3.0.0
+
+= 3.0.0 =
+* New - Reset password using verification code
+* UI - Improved fields layout
 
 = 2.9.6 =
 * Settings UI Fix - image not loading

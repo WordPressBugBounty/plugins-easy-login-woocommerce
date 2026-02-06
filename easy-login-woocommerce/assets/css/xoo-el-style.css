@@ -718,3 +718,123 @@ body.rtl .xoo-aff-cont-tel .xoo-aff-input-group {
 .xoo-el-pop-sc {
     display: inline;
 }
+
+
+/** Code **/
+
+/* OTP */
+button.button.btn.xoo-el-code-submit-btn {
+    margin: 40px auto 0;
+}
+
+.xoo-el-code-form .xoo-el-code-submit-btn{
+    text-transform: uppercase;
+}
+
+
+form.xoo-el-code-form {
+    text-align: center;
+    display: none;
+    margin: 20px 0;
+}
+
+
+
+.xoo-el-code-sent-txt {
+    margin-bottom: 22px;
+    font-size: 20px;
+}
+
+span.xoo-el-code-no-change {
+    color: #0d81fe;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+form.xoo-el-code-form input.xoo-el-code-input:focus {
+    outline: 0;
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid #0d81fe;
+}
+
+form.xoo-el-code-form input.xoo-el-code-input {
+    max-width: 40px;
+    text-align: center;
+    background-color: transparent;
+    color: #000;
+    font-weight: 600;
+    font-size: 23px;
+    border-bottom: 1px solid #000;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    box-shadow: 0 0 0;
+    display: inline-block;
+    padding: 0;
+    width: 100%;
+}
+
+.xoo-el-code-notice-cont {
+    margin: 0 auto 22px;
+    width: 100%;
+}
+
+
+span.xoo-el-reg-phone-change{
+    display: none;
+}
+
+
+a.xoo-el-code-resend-link {
+    color: #0d81fe;
+    text-decoration: none!important;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.xoo-el-code-resend {
+    margin-top: 10px;
+}
+
+a.xoo-el-code-resend-link.xoo-el-disabled {
+    pointer-events: none!important;
+}
+
+.xoo-el-code-input-cont {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 20px;
+    row-gap: 10px;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+form.xoo-el-code-form[style="display: block;"] {
+    display: flex!important;
+    flex-direction: column;
+}
+.xoo-el-processing{
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.xoo-el-code-notice-cont .xoo-el-notice {
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width: 450px) {
+    .xoo-el-section{
+        padding-left: 0;
+    }
+    .xoo-el-notice{
+        width: 100%;
+    }
+    .xoo-el-form-container ul.xoo-el-tabs{
+        padding-left: 0;
+        padding-right: 0
+    }
+    .xoo-el-form-container button.button.btn.xoo-el-action-btn{
+        width: 100%;
+    }
+}
