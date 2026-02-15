@@ -2,22 +2,7 @@
 
 $option_key = $this->aff->field_option_key;
 
-$settings = array(
-
-	/** Fields Style **/
-	array(
-		'callback' 		=> 'links',
-		'title' 		=> 'Form Fields',
-		'id' 			=> 'fake',
-		'section_id' 	=> 'input',
-		'args' 			=> array(
-			'options' 	=> array(
-				admin_url('admin.php?page=xoo-el-fields') => 'Edit'
-			)
-		)
-	)
-
-);
+$settings = array();
 
 /**
  * Google Places & Geolocation (Conditional)
@@ -40,6 +25,21 @@ if ( $this->aff->en_autocompadr ) {
 	);
 
 }
+
+$settings[] = array(
+	'callback' 		=> 'links',
+	'title' 		=> 'Form Fields',
+	'id' 			=> 'fake',
+	'section_id' 	=> 'input',
+	'args' 			=> array(
+		'options' 	=> array(
+			admin_url('admin.php?page=xoo-el-fields') => 'Edit'
+		)
+	)
+);
+
+
+
 
 if( get_option( 'xoo_aff_'.$this->aff->plugin_slug.'_allow_old_layout' ) === "yes" ){
 	$settings[] = array(
@@ -267,10 +267,10 @@ $other_settings = array(
 		'id' 			=> 's-input-border',
 		'section_id' 	=> 'input',
 		'default' 		=> array(
-			'size' 			=> 2,
+			'size' 			=> 1,
 			'color' 		=> '#cccccc',
 			'style' 		=> 'solid',
-			'radius' 		=> 5,
+			'radius' 		=> 4,
 		),
 	),
 
@@ -280,10 +280,10 @@ $other_settings = array(
 		'id' 			=> 's-input-border-focus',
 		'section_id' 	=> 'input',
 		'default' 		=> array(
-			'size' 			=> 3,
+			'size' 			=> 2,
 			'color' 		=> '#000000',
 			'style' 		=> 'solid',
-			'radius' 		=> 5,
+			'radius' 		=> 4,
 		),
 	),
 

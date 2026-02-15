@@ -18,7 +18,7 @@ class Xoo_Aff_Settings{
 	public function hooks(){
 
 		if( $this->aff->ff_helper ){
-			add_action( 'init', array( $this, 'generate_plugin_settings' ), 0 );
+			add_action( 'init', array( $this, 'generate_plugin_settings' ), 5 );
 
 			if( $this->aff->ff_helper->admin->is_settings_page() ){
 				add_action( 'xoo_tab_page_start', array( $this, 'field_preview' ), 5 );
