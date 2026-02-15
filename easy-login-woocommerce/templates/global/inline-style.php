@@ -41,7 +41,7 @@ $pop_txt_color 		= $sySettings['sy-popup-txtcolor'];
 $overlay_color 		= $sySettings['sy-overlay-color'];
 $overlay_opac		= $sySettings['sy-overlay-opac'];
 
-$iconsEnabled 		= get_option( 'xoo-aff-easy-login-woocommerce-general-options', true )['s-show-icons'] === "yes";
+$iconsEnabled 		= xoo_el()->aff->get_field_option('s-show-icons') === "yes";
 
 $inputs = array(
 	'input[type="text"]', 'input[type="password"]', 'input[type="email"]' 

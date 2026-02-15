@@ -16,10 +16,81 @@ class Xoo_Aff_Settings{
 	}
 
 	public function hooks(){
-		add_action( 'admin_init', array( $this, 'generate_settings' ), 5 );
-		add_action( 'init', array( $this, 'set_default_options' ) );
+
+		if( $this->aff->ff_helper ){
+			add_action( 'init', array( $this, 'generate_plugin_settings' ), 0 );
+
+			if( $this->aff->ff_helper->admin->is_settings_page() ){
+				add_action( 'xoo_tab_page_start', array( $this, 'field_preview' ), 5 );
+			}
+			
+			
+		}
+		else{
+			add_action( 'admin_init', array( $this, 'generate_settings' ), 5 );
+			add_action( 'init', array( $this, 'set_default_options' ) );
+		}
+
 		add_action( 'admin_enqueue_scripts', array($this,'enqueue_scripts') );
+		
+		
 	}
+
+
+	public function field_preview($tab_id){
+		if( $tab_id !== 'fields' ) return;
+		include XOO_AFF_DIR.'/admin/settings/xoo-aff-field-preview.php';
+	}
+
+
+	public function generate_plugin_settings(){
+
+		//Register Tabs
+		 $this->aff->ff_helper->admin->register_tab(
+		 	'Fields Style',
+		 	'fields',
+		 	$this->aff->field_option_key,
+		 	'no',
+		 	array(
+		 		'priority' => 30
+		 	)
+		 );
+
+		$sections = (array) include XOO_AFF_DIR.'/admin/views/sections.php';
+
+		if( empty( $sections ) ) return;
+
+		//Register Sections
+		foreach ( $sections as $section_data ) {
+			$this->aff->ff_helper->admin->register_section(
+			 	$section_data['title'],
+			 	$section_data['id'],
+			 	$section_data['tab'],
+			 	isset( $section_data['desc'] ) ? $section_data['desc'] : '',
+			 	isset( $section_data['pro'] ) ? $section_data['pro'] : 'no',
+			 	isset( $section_data['args'] ) ? $section_data['args'] : array()
+			 );
+		}
+
+		//Register Settings
+		$settings = (array) require XOO_AFF_DIR.'/admin/views/settings/fields.php'; 
+
+		foreach ( $settings as $setting_data ) {
+			$this->aff->ff_helper->admin->register_setting(
+				$setting_data['callback'],
+			 	$setting_data['title'],
+			 	$setting_data['id'],
+			 	$setting_data['section_id'],
+			 	'fields',
+			 	isset( $setting_data['default'] ) ? $setting_data['default'] : '',
+			 	isset( $setting_data['desc'] ) ? $setting_data['desc'] : '',
+			 	isset( $setting_data['pro'] ) ? $setting_data['pro'] : 'no',
+			 	isset( $setting_data['args'] ) ? $setting_data['args'] : array()
+			);
+		}
+
+	}
+
 
 	public function prepare(){
 		$this->callbacks = require_once XOO_AFF_DIR.'/admin/settings/class-xoo-aff-options-callbacks.php';
@@ -72,6 +143,9 @@ class Xoo_Aff_Settings{
 	}
 
 	public function get_option_key( $option_slug ){
+		if( $this->aff->ff_helper ){
+			return $this->aff->field_option_key;
+		}
 		return 'xoo-aff-'.$this->aff->plugin_slug.'-'.$option_slug.'-options';
 	}
 
@@ -151,17 +225,25 @@ class Xoo_Aff_Settings{
 
 	public function enqueue_scripts($hook) {
 
-
 		//Enqueue Styles only on plugin settings page
-		if( !isset( $_GET['page'] ) || $_GET['page'] !== $this->aff->admin_page_slug || ( isset( $_GET['tab'] ) && $_GET['tab'] === 'fields' ) ) return;
-		
-		wp_enqueue_media(); // media gallery
-		wp_enqueue_style('wp-color-picker');
-		wp_enqueue_style( 'xoo-aff-admin-settings-style', XOO_AFF_URL . '/admin/assets/css/xoo-aff-admin-settings-style.css', array(), XOO_AFF_VERSION, 'all' );
-		wp_enqueue_script( 'xoo-aff-admin-settings-js', XOO_AFF_URL . '/admin/assets/js/xoo-aff-admin-settings-js.js', array( 'jquery','wp-color-picker'), XOO_AFF_VERSION, false );
-		wp_localize_script('xoo-aff-admin-settings-js','xoo_aff_admin_settings_localize',array(
-			'adminurl'  => admin_url().'admin-ajax.php',
-		));
+		if( ( $this->aff->ff_helper && $this->aff->ff_helper->admin->is_settings_page() ) || ( isset( $_GET['page'], $_GET['tab'] ) && $_GET['page'] === $this->aff->admin_page_slug && $_GET['tab'] === 'general' ) ){
+			wp_enqueue_style('wp-color-picker');
+			wp_enqueue_style( 'xoo-aff-admin-settings-style', XOO_AFF_URL . '/admin/assets/css/xoo-aff-admin-settings-style.css', array(), XOO_AFF_VERSION, 'all' );
+			wp_enqueue_script( 'xoo-aff-admin-settings-js', XOO_AFF_URL . '/admin/assets/js/xoo-aff-admin-settings-js.js', array( 'jquery','wp-color-picker'), XOO_AFF_VERSION, false );
+
+			$data = array(
+				'adminurl'  => admin_url().'admin-ajax.php',
+			);
+
+			if( $this->aff->ff_helper ){
+				wp_enqueue_script( 'xoo-aff-serializejson', XOO_AFF_URL . '/admin/assets/js/xoo-aff-serializejson.js', array( 'jquery' ), '1.0', true );
+				$data['field_option_key'] = $this->aff->field_option_key;
+				$data['enable_preview'] = true;
+			}
+
+			wp_localize_script('xoo-aff-admin-settings-js','xoo_aff_admin_settings_localize', $data );
+
+		}
 
 
 	}

@@ -2,20 +2,6 @@
 
 $settings = array(
 
-	/** Fields Style **/
-	array(
-		'callback' 		=> 'links',
-		'title' 		=> 'Form Fields Style',
-		'id' 			=> 'fake',
-		'section_id' 	=> 'sy_fields',
-		'args' 			=> array(
-			'options' 	=> array(
-				admin_url('admin.php?page=xoo-el-fields&tab=general') => 'Manage'
-			)
-		)
-	),
-
-
 	/* Form Style */
 	array(
 		'callback' 		=> 'upload',

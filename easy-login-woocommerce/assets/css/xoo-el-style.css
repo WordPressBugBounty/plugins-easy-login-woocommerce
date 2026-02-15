@@ -631,11 +631,6 @@ body.rtl .xoo-el-form-container {
     text-align: right;
 }
 
-body.rtl .xoo-aff-pw-toggle {
-    left: 5px;
-    right: auto;
-}
-
 body.rtl .xoo-aff-cont-tel .xoo-aff-input-group .xoo-el-edit-em {
     right: 55px;
 }
@@ -653,7 +648,7 @@ body.rtl .xoo-aff-cont-tel .xoo-aff-input-group {
     flex-wrap: wrap;
 }
 
-.xoo-el-popup-active .select2-container {
+.xoo-el-popup-active .select2-dropdown {
     z-index: 99999999999!important;
 }
 

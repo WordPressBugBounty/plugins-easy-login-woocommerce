@@ -22,7 +22,7 @@ class Xoo_Helper{
 
 	public function set_constants(){
 		$this->define( 'XOO_FW_URL', untrailingslashit(plugin_dir_url( XOO_FW_DIR .'/'.basename( XOO_FW_DIR ) ) ) );
-		$this->define( 'XOO_FW_VERSION', '1.7.3' );
+		$this->define( 'XOO_FW_VERSION', '1.7.5' );
 	}
 
 	public function define( $name, $value ){
@@ -454,6 +454,39 @@ class Xoo_Helper{
 
 	    return $return;
 
+	}
+
+
+	public function get_border_css_value( $border, $return = 'all' ){
+
+		$defaults = array(
+	        'size'   => 0,
+	        'color'  => 'transparent',
+	        'style'  => 'none',
+	        'radius' => 0,
+	    );
+
+	    $border = array_merge( $defaults, $border );
+
+	    // Sanitize values
+	    $size   = max( 0, (float) $border['size'] );
+	    $radius = max( 0, (float) $border['radius'] );
+	    $style  = strtolower( $border['style'] );
+	    $color  = trim( $border['color'] );
+
+	    $css = [];
+
+	    // Border
+	    if ( in_array( $return, [ 'border', 'all' ], true ) ) {
+	        $css[] = "border: {$size}px {$style} {$color};";
+	    }
+
+	    // Radius
+	    if ( in_array( $return, [ 'radius', 'all' ], true ) ) {
+	        $css[] = "border-radius: {$radius}px;";
+	    }
+
+	    return implode( ' ', $css );
 	}
 
 

@@ -43,7 +43,7 @@ class Xoo_El_Core{
 		//Field framework
 		require_once XOO_EL_PATH.'/xoo-form-fields-fw/xoo-aff.php';
 
-		$this->aff = xoo_aff_fire( 'easy-login-woocommerce', 'xoo-el-fields' ); // start framework
+		$this->aff = xoo_aff_fire( 'easy-login-woocommerce', 'xoo-el-fields', xoo_el_helper() ); // start framework
 
 		require_once XOO_EL_PATH.'includes/class-xoo-el-func.php';
 		

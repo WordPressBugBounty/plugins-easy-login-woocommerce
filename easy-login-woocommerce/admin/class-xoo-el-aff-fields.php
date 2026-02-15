@@ -249,7 +249,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-at',
+					'icon' 			=> 'far fa-envelope',
 				)
 			);
 
@@ -263,7 +263,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				'label',
 				'cols',
 				'icon' => array(
-					'value' => 'fas fa-at'
+					'value' => 'far fa-envelope'
 				),
 				'placeholder' => array(
 					'value' => 'Email',
@@ -304,7 +304,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-key'
+					'icon' 			=> 'fas fa-lock'
 				)
 			);
 
@@ -312,7 +312,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				'label',
 				'cols',
 				'icon' => array(
-					'value' => 'fas fa-key'
+					'value' => 'fas fa-lock'
 				),
 				'placeholder' => array(
 					'value' => 'Password',
@@ -375,7 +375,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				array(
 					'is_selectable' => 'no',
 					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-key'
+					'icon' 			=> 'fas fa-lock'
 				)
 			);
 
@@ -384,7 +384,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				'label',
 				'cols',
 				'icon' => array(
-					'value' => 'fas fa-key'
+					'value' => 'fas fa-lock'
 				),
 				'placeholder' => array(
 					'value' => 'Confirm Password',
@@ -716,7 +716,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				'label',
 				'cols',
 				'icon' => array(
-					'value' => 'fas fa-user-plus'
+					'value' => 'far fa-envelope'
 				),
 				'placeholder' => array(
 					'value' => __( 'Username / Email', 'easy-login-woocommerce' ),
@@ -1012,7 +1012,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				'label',
 				'cols',
 				'icon' => array(
-					'value' => 'fas fa-user-plus'
+					'value' => 'far fa-envelope'
 				),
 				'placeholder' => array(
 					'value' => __( 'Username / Email', 'easy-login-woocommerce' ),

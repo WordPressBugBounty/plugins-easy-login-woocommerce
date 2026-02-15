@@ -436,3 +436,7 @@ button.xoo-el-adpopup-go.button-primary {
     flex-direction: column;
     justify-content: space-between;
 }
+
+ul.xoo-sc-tabs li[data-tab="addon"] {
+    background-color: #2a9d8f;
+}

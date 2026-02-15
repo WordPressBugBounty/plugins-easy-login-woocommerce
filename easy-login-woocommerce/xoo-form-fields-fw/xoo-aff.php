@@ -9,17 +9,17 @@ if( !defined( 'XOO_AFF_URL' ) ){
 }
 
 if( !defined( 'XOO_AFF_VERSION' ) ){
-	define( 'XOO_AFF_VERSION', '2.1.0' );
+	define( 'XOO_AFF_VERSION', '2.2.0' );
 }
 
 require_once XOO_AFF_DIR.'/includes/class-xoo-aff.php';
 
 //Begin
 if( !function_exists('xoo_aff_fire') ){
-	function xoo_aff_fire( $plugin_slug, $admin_page_slug ){
+	function xoo_aff_fire( $plugin_slug, $admin_page_slug, $ff_helper = null ){
 		
 		if( !$plugin_slug ) return;
-		return new Xoo_Aff( $plugin_slug, $admin_page_slug );
+		return new Xoo_Aff( $plugin_slug, $admin_page_slug, $ff_helper );
 		do_action( 'xoo_aff_'.$plugin_slug.'_loaded' );
 		
 	}

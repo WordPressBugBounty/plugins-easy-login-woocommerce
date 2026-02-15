@@ -1,0 +1,305 @@
+<?php
+
+$option_key = $this->aff->field_option_key;
+
+$settings = array(
+
+	/** Fields Style **/
+	array(
+		'callback' 		=> 'links',
+		'title' 		=> 'Form Fields',
+		'id' 			=> 'fake',
+		'section_id' 	=> 'input',
+		'args' 			=> array(
+			'options' 	=> array(
+				admin_url('admin.php?page=xoo-el-fields') => 'Edit'
+			)
+		)
+	)
+
+);
+
+/**
+ * Google Places & Geolocation (Conditional)
+ */
+if ( $this->aff->en_autocompadr ) {
+
+	$settings[]	= array(
+		'callback' 		=> 'text',
+		'title' 		=> 'API Key',
+		'id' 			=> 'aca-apikey',
+		'section_id' 	=> 'main',
+	);
+
+	$settings[]	=	array(
+		'callback' 		=> 'text',
+		'title' 		=> 'Restrict results to specific countries',
+		'id' 			=> 'aca-countries',
+		'section_id' 	=> 'main',
+		'desc' 			=> 'Add the ISO codes, separated by comma. For eg: US,IN,UK',
+	);
+
+}
+
+if( get_option( 'xoo_aff_'.$this->aff->plugin_slug.'_allow_old_layout' ) === "yes" ){
+	$settings[] = array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'New Layout',
+		'id' 			=> 's-new-layout',
+		'section_id' 	=> 'input',
+		'default' 		=> 'yes',
+		'args' 			=> array(
+			'toggleSettings' => array( //hide elements if this field value is
+				"{$option_key}[s-icon-borcolor]" 		=> array( 'yes' ),
+				"{$option_key}[s-icon-borwidth]" 		=> array( 'yes' ),
+				"{$option_key}[s-input-borcolor]" 		=> array( 'yes' ),
+				"{$option_key}[s-input-borwidth]" 		=> array( 'yes' ),
+				"{$option_key}[s-input-fsize]" 			=> array( 'unchecked' ),
+				"{$option_key}[s-input-border-focus]" 	=> array( 'unchecked' ),
+				"{$option_key}[s-icon-color-focus]" 	=> array( 'unchecked' ),
+				"{$option_key}[s-icon-bgcolor-focus]" 	=> array( 'unchecked' ),
+				"{$option_key}[s-label-fsize]" 			=> array( 'unchecked' ),
+				"{$option_key}[s-icon-align]" 			=> array( 'unchecked' ),
+				"{$option_key}[s-input-border]" 		=> array( 'unchecked' ),
+			),
+		)
+	);
+}
+
+$other_settings = array(
+
+	/**
+	 * Style Section
+	 */
+
+	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Show Required(*) symbol',
+		'id' 			=> 's-show-reqicon',
+		'section_id' 	=> 'input',
+		'default' 		=> 'no',
+	),
+
+	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Show Icons',
+		'id' 			=> 's-show-icons',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> 'yes',
+	),
+
+
+	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Show Icons',
+		'id' 			=> 's-show-icons',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> 'yes',
+	),
+
+	array(
+		'callback' 		=> 'select',
+		'id'			=> 's-icon-align',
+		'title' 		=> 'Icon Position',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> is_rtl() ? 'right' : 'left',
+		'args' 			=> array(
+			'options' => array(
+				'left' => 'Left',
+				'right' => 'Right'
+			)
+		)
+	),
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Icon Size',
+		'id' 			=> 's-icon-size',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> '14',
+		'desc' 			=> 'in px',
+	),
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Icon Container Width',
+		'id' 			=> 's-icon-width',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> '40',
+		'desc' 			=> 'in px',
+	),
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Icon Background Color',
+		'id' 			=> 's-icon-bgcolor',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> '#eee',
+	),
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Icon Color',
+		'id' 			=> 's-icon-color',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> '#555',
+	),
+
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Icon Color on Focus',
+		'id' 			=> 's-icon-color-focus',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> '#000',
+	),
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Icon Background Color on Focus',
+		'id' 			=> 's-icon-bgcolor-focus',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> '#ededed',
+	),
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Icon Border Color',
+		'id' 			=> 's-icon-borcolor',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> '#cccccc',
+	),
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Icon Border Width',
+		'id' 			=> 's-icon-borwidth',
+		'section_id' 	=> 'input-icon',
+		'default' 		=> '1',
+	),
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Field Height',
+		'id' 			=> 's-input-height',
+		'section_id' 	=> 'input',
+		'default' 		=> '50',
+	),
+
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Font Size',
+		'id' 			=> 's-input-fsize',
+		'section_id' 	=> 'input',
+		'default' 		=> '14',
+	),
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Label Font Size',
+		'id' 			=> 's-label-fsize',
+		'section_id' 	=> 'input',
+		'default' 		=> '15',
+	),
+
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Input Background Color',
+		'id' 			=> 's-input-bgcolor',
+		'section_id' 	=> 'input',
+		'default' 		=> '#fff',
+	),
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Input Text Color',
+		'id' 			=> 's-input-txtcolor',
+		'section_id' 	=> 'input',
+		'default' 		=> '#777',
+	),
+
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Input Border Width',
+		'id' 			=> 's-input-borwidth',
+		'section_id' 	=> 'input',
+		'default' 		=> '1',
+	),
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Input Border Color',
+		'id' 			=> 's-input-borcolor',
+		'section_id' 	=> 'input',
+		'default' 		=> '#cccccc',
+	),
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Input Border Width',
+		'id' 			=> 's-input-borwidth',
+		'section_id' 	=> 'input',
+		'default' 		=> '1',
+	),
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Input on Focus Background color',
+		'id' 			=> 's-input-focusbgcolor',
+		'section_id' 	=> 'input',
+		'default' 		=> '#ededed',
+	),
+
+	array(
+		'callback' 		=> 'color',
+		'title' 		=> 'Input on Focus text color',
+		'id' 			=> 's-input-focustxtcolor',
+		'section_id' 	=> 'input',
+		'default' 		=> '#000',
+	),
+
+	array(
+		'callback' 		=> 'border',
+		'title' 		=> 'Border',
+		'id' 			=> 's-input-border',
+		'section_id' 	=> 'input',
+		'default' 		=> array(
+			'size' 			=> 2,
+			'color' 		=> '#cccccc',
+			'style' 		=> 'solid',
+			'radius' 		=> 5,
+		),
+	),
+
+	array(
+		'callback' 		=> 'border',
+		'title' 		=> 'Border on Focus',
+		'id' 			=> 's-input-border-focus',
+		'section_id' 	=> 'input',
+		'default' 		=> array(
+			'size' 			=> 3,
+			'color' 		=> '#000000',
+			'style' 		=> 'solid',
+			'radius' 		=> 5,
+		),
+	),
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Field Gap',
+		'id' 			=> 's-field-bmargin',
+		'section_id' 	=> 'input',
+		'default' 		=> '30',
+		'desc' 			=> 'gap between two field rows ( in px )',
+	),
+
+);
+
+
+$settings = array_merge( $settings, $other_settings );
+
+
+return apply_filters( 'xoo_'.$this->aff->plugin_slug.'_admin_settings', $settings, 'fields' );

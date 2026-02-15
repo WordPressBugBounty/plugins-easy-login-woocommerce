@@ -516,4 +516,29 @@ jQuery(document).ready(function($){
 
 	$('.xoo-as-setting[data-togglesettings] :input').trigger('change');
 
+
+	$(window).resize(function(){
+
+		$form = $('form.xoo-as-form');
+		if( !$form.length ) return
+
+		if( $form.innerWidth() <= 700 ){
+			$('.xoo-as-sidebar').addClass('xoo-as-sbar-collapsed');
+			$form.addClass('xoo-as-break');
+		}
+		else{
+			$form.removeClass('xoo-as-break');
+		}
+	}).trigger('resize');
+
+
+	$('.xoo-as-sbar-close').on( 'click', function(){
+		$('.xoo-as-sidebar').toggleClass('xoo-as-sbar-collapsed');
+	} );
+
+	$('.xoo-as-sidebar').css({
+		'margin-top': $('.xoo-sc-tabs').outerHeight(),
+		'top': $('#wpadminbar').outerHeight() + 10
+	}); 
+
 })

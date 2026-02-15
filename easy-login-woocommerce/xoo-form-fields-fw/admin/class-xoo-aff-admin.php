@@ -32,13 +32,16 @@ class Xoo_Aff_Admin{
 
 		if( $slug === $this->aff->plugin_slug ){
 			$options[ $this->aff->fields->db_field ] = array(
-				'title' 		=> 'Fields',
+				'title' 		=> 'Fields Data',
 				'option_key' 	=> $this->aff->fields->db_field 
 			);
-			$options[ 'xoo-aff-'.$this->aff->plugin_slug.'-general-options' ] = array(
-				'title' 		=> 'Fields Style',
-				'option_key' 	=> 'xoo-aff-'.$this->aff->plugin_slug.'-general-options'
-			);
+
+			if( !$this->aff->ff_helper ){
+				$options[ 'xoo-aff-'.$this->aff->plugin_slug.'-general-options' ] = array(
+					'title' 		=> 'Fields Style',
+					'option_key' 	=> 'xoo-aff-'.$this->aff->plugin_slug.'-general-options'
+				);
+			}
 		}
 		return $options;
 	}

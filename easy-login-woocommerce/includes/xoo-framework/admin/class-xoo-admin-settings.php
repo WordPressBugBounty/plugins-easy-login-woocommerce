@@ -72,7 +72,6 @@ class Xoo_Admin{
 			add_action( 'admin_notices', array( $this, 'usage_data_notice' ) );
 			add_action( 'admin_init', array( $this, 'handle_usage_click_response' ) );
 			add_action( 'admin_init', array( $this, 'on_plugin_reactivate' ) );
-			//add_action( 'admin_init', array( $this, 'send_usage_data_timely' ) );
 
 			if( $this->helper->helperArgs['pluginFile'] ){
 				register_deactivation_hook( $this->helper->helperArgs['pluginFile'] , array( $this, 'on_plugin_deactivate' ) );
@@ -113,15 +112,6 @@ class Xoo_Admin{
 
 	}
 
-	public function on_plugin_reactivate(){
-		if( $this->is_usage_allowed() && get_option('xoo_plugin_deactivated_'.$this->helper->slug) === "yes" ){
-			delete_option('xoo_plugin_deactivated_'.$this->helper->slug);
-			$this->usage_data_http_request(array(
-				'active' => 1
-			) );
-		}
-	}
-
 	public function handle_usage_click_response(){
 
 		if( !isset( $_POST['xoo_usage_handle'] ) ) return;
@@ -143,43 +133,20 @@ class Xoo_Admin{
 	}
 
 
+
 	public function is_usage_allowed(){
 		return get_option( 'xoo_tracking_consent_'.$this->helper->slug, true ) === 'yes';
 	}
 
 
-	public function send_usage_data_timely() {
-
-		if ( ! $this->is_usage_allowed() ) {
-			return; // Permission not given
+	public function on_plugin_reactivate(){
+		if( $this->is_usage_allowed() && get_option('xoo_plugin_deactivated_'.$this->helper->slug) === "yes" ){
+			delete_option('xoo_plugin_deactivated_'.$this->helper->slug);
+			$this->usage_data_http_request(array(
+				'active' => 1
+			) );
 		}
-
-		$key = 'xoo_tracking_consent_last_sent_' . $this->helper->slug;
-
-		// Primary check: transient
-		if ( get_transient( $key ) !== false ) {
-			return;
-		}
-
-		// Fallback check: option timestamp
-		$next_allowed_time = (int) get_option( $key );
-
-		if ( $next_allowed_time && current_time( 'timestamp' ) < $next_allowed_time ) {
-			return;
-		}
-
-		// Send data
-		$response = $this->usage_data_http_request();
-
-		$fetch_again = DAY_IN_SECONDS * 365;
-		$next_time   = current_time( 'timestamp' ) + $fetch_again;
-
-		// Store both
-		set_transient( $key, 'yes', $fetch_again );
-		update_option( $key, $next_time );
 	}
-
-
 
 
 	public function usage_data_http_request( $passed_data = array() ) {
@@ -241,9 +208,7 @@ class Xoo_Admin{
 			'active' => 0
 		) );
 		update_option( 'xoo_plugin_deactivated_'.$this->helper->slug, 'yes' );
-		//delete_transient( 'xoo_tracking_consent_last_sent_'.$this->helper->slug );
 	}
-
 
 	public function export_settings(){
 
@@ -795,7 +760,8 @@ class Xoo_Admin{
 			'adminObj' 	=> $this,
 			'settings' 	=> $this->settings,
 			'tabs' 		=> $this->tabs,
-			'hasPRO' 	=> $this->hasPRO
+			'hasPRO' 	=> $this->hasPRO,
+			'hasSidebar' 	=> isset( $this->helper->helperArgs['sidebar'] ) && $this->helper->helperArgs['sidebar']
 		);
 
 		$args = apply_filters( 'xoo_admin_settings_output_args', $args, $this->helper->slug, $this );
@@ -932,28 +898,56 @@ class Xoo_Admin{
 		) );
 
 
-		if( $callback === 'wp_editor' ){
+		if ( $callback === 'wp_editor' ) {
 
-			$editor_settings 	= isset( $args['editor_settings'] ) ? $args['editor_settings'] : array();
-			$editor_settings 	= xoo_recursive_parse_args( $editor_settings, array(
+			$editor_settings = isset( $args['editor_settings'] ) ? $args['editor_settings'] : array();
+			$editor_settings = xoo_recursive_parse_args( $editor_settings, array(
 				'textarea_name' => $field_id,
-				'wpautop' 		=> false
+				'wpautop'       => false,
 			) );
 
-			if( isset( $args['group'] ) && $args['group'] === 'email_content' ){
+			if ( isset( $args['group'] ) && $args['group'] === 'email_content' ) {
+
 				$editor_settings = xoo_recursive_parse_args( $editor_settings, array(
-					'teeny'         => false,
-					'tinymce'       => array(
-						'toolbar1' 					=> 'formatselect,bold,italic,underline,forecolor,backcolor,alignleft,aligncenter,alignright,undo,redo,removeformat,code,hr',
-						'forced_root_block' 		=> 'p',
-	            		'init_instance_callback' 	=> 'function(editor) {
-			                editor.settings.forced_root_block_attrs = { style: "margin:0 0 16px 0;" };
-			            }',
-					)
+					'teeny'   => false,
+					'tinymce' => array(
+
+						/* Toolbar */
+						'toolbar1' => 'formatselect,styleselect,fontsizeselect,bold,italic,underline,forecolor,backcolor,alignleft,aligncenter,alignright,undo,redo,removeformat,code,hr',
+
+						/* Font sizes */
+						'fontsize_formats' => '12px 14px 16px 18px 20px 24px 28px 32px',
+
+						/* Valid styles (JSON REQUIRED) */
+						'valid_styles' => wp_json_encode( array(
+							'*' => 'color,font-size,font-weight,font-style,text-decoration,background-color,text-align,margin,padding',
+						) ),
+
+						'extended_valid_elements' => 'span[style],a[href|style],p[style],div[style],br',
+
+						/* Protect placeholders (JSON REQUIRED) */
+						'protect' => wp_json_encode( array(
+							'/{[^}]+}/g',
+						) ),
+
+						/* Clean & predictable output */
+						'verify_html'        => false,
+						'cleanup'            => false,
+						'convert_urls'       => false,
+						'remove_script_host' => false,
+
+						/* Paragraph handling */
+						'forced_root_block' => 'p',
+
+						'init_instance_callback' => 'function(editor) {
+							editor.settings.forced_root_block_attrs = {
+								style: "margin:0 0 16px 0;"
+							};
+						}',
+					),
 				));
 			}
 		}
-
 
 		
 		$toggleDataHTML = isset( $args['toggleSettings'] )  ? "data-togglesettings=".esc_attr( wp_json_encode( $args['toggleSettings'] ) ) : '';
@@ -961,7 +955,50 @@ class Xoo_Admin{
 		$field_container = '<div class="%1$s" data-setting="%3$s" data-field_id="'.$field_id.'" '.$toggleDataHTML.'>%2$s</div>';
 
 		$field = '';
+
+
+
 		switch ( $callback ) {
+
+			case 'border':
+				$value = is_array( $value ) ? $value : array();
+				$value = wp_parse_args( $value, array(
+					'size' 	=> 1,
+					'color' => '#ccc',
+					'style' => 'solid',
+					'radius' => 0
+				) );
+				$styles = array( 'none', 'hidden', 'solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'inset', 'outset' );
+				ob_start();
+				?>
+				<div class="xoo-aff-border-inputs">
+					<div>
+						<input name="<?php echo $field_id ?>[size]" type="number" placeholder="Size" min=0 value="<?php echo  (float) $value['size'] ?>">
+						<i>Size</i>
+					</div>
+					<div>
+						<input name="<?php echo $field_id ?>[color]" type="text" class="xoo-as-color-input" value="<?php echo esc_attr( $value['color'] ) ?>">
+						<i>Color</i>
+					</div>
+					<div>
+						<select name="<?php echo esc_attr( $field_id ); ?>[style]">
+						    <?php foreach ( $styles as $style ) : ?>
+						        <option value="<?php echo esc_attr( $style ); ?>"
+						            <?php selected( $value['style'] ?? '', $style ); ?>>
+						            <?php echo ucfirst( $style ); ?>
+						        </option>
+						    <?php endforeach; ?>
+						</select>
+						<i>Style</i>
+					</div>
+					<div>
+						<input name="<?php echo $field_id ?>[radius]" type="number" placeholder="Border Radius"  min=0  value="<?php echo esc_attr( $value['radius'] ) ?>">
+						<i>Radius</i>
+					</div>
+				</div>
+				<?php
+				$field .= ob_get_clean();
+				break;
 
 			case 'wp_editor':
 				ob_start();
