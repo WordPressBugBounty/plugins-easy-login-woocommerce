@@ -457,7 +457,7 @@ class Xoo_Helper{
 	}
 
 
-	public function get_border_css_value( $border, $return = 'all' ){
+	public function get_border_options( $border ){
 
 		$defaults = array(
 	        'size'   => 0,
@@ -469,12 +469,22 @@ class Xoo_Helper{
 	    $border = array_merge( $defaults, $border );
 
 	    // Sanitize values
-	    $size   = max( 0, (float) $border['size'] );
-	    $radius = max( 0, (float) $border['radius'] );
-	    $style  = strtolower( $border['style'] );
-	    $color  = trim( $border['color'] );
+	    $border['size']   	= max( 0, (float) $border['size'] );
+	    $border['radius'] 	= max( 0, (float) $border['radius'] );
+	    $border['style']  	= strtolower( $border['style'] );
+	   	$border['color']  	= trim( $border['color'] );
 
-	    $css = [];
+	   	return $border;
+	}
+
+
+	public function get_border_css_value( $border, $return = 'all' ){
+
+		$border = $this->get_border_options( $border );
+
+		extract($border);
+
+    	$css = [];
 
 	    // Border
 	    if ( in_array( $return, [ 'border', 'all' ], true ) ) {
@@ -487,6 +497,8 @@ class Xoo_Helper{
 	    }
 
 	    return implode( ' ', $css );
+
+	    
 	}
 
 

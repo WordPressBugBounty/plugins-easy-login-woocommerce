@@ -47,7 +47,7 @@ class Xoo_Aff_Settings{
 
 		//Register Tabs
 		 $this->aff->ff_helper->admin->register_tab(
-		 	'Fields Style',
+		 	'Fields',
 		 	'fields',
 		 	$this->aff->field_option_key,
 		 	'no',

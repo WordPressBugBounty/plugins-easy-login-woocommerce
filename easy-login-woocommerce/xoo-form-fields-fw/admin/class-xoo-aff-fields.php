@@ -1057,6 +1057,8 @@ class Xoo_Aff_Fields{
 		}
 
 
+		$args['class'][] = 'xoo-aff-field';
+
 		$args = apply_filters( 'xoo_aff_'.$this->plugin_slug.'_before_html_input_args', $args );
 
 

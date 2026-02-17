@@ -38,7 +38,7 @@ class Xoo_Aff_Admin{
 
 			if( !$this->aff->ff_helper ){
 				$options[ 'xoo-aff-'.$this->aff->plugin_slug.'-general-options' ] = array(
-					'title' 		=> 'Fields Style',
+					'title' 		=> 'Fields Settings',
 					'option_key' 	=> 'xoo-aff-'.$this->aff->plugin_slug.'-general-options'
 				);
 			}

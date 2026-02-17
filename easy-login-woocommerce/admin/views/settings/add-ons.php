@@ -7,7 +7,7 @@ $addons = array(
 	'social_login' => array(
 		'title' => 'Social Login',
 		'icon' 	=> 'dashicons-facebook',
-		'desc' 	=> 'Allow users to login & register using their social accounts ( Facebook, Google, Apple & X ) with a single click.',
+		'desc' 	=> 'Allow users to login & register using their social accounts ( Facebook, Google, Apple, Line & X ) with a single click.',
 		'link' 	=> $link,
 		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
 	),

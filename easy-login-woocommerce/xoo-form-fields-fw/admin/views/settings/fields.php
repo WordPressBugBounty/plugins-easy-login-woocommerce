@@ -301,5 +301,12 @@ $other_settings = array(
 
 $settings = array_merge( $settings, $other_settings );
 
+if( get_option( 'xoo_aff_'.$this->aff->plugin_slug.'_allow_old_layout' ) !== "yes" ){
+	foreach  ($settings as $index => $setting ) {
+		if( in_array( $setting['id'], array( 's-icon-borcolor', 's-icon-borwidth', 's-input-borcolor', 's-input-borwidth' ) ) ){
+			unset( $settings[$index] );
+		}
+	}
+}
 
 return apply_filters( 'xoo_'.$this->aff->plugin_slug.'_admin_settings', $settings, 'fields' );

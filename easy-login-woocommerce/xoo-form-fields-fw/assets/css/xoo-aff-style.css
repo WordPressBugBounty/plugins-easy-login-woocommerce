@@ -196,7 +196,7 @@ body .select2-dropdown {
     outline: none;
 }
 
-div.xoo-aff-group select, div.xoo-aff-group select + .select2 {
+div.xoo-aff-group select.xoo-aff-field, div.xoo-aff-group select.xoo-aff-field + .select2 {
     padding-top: 0;
     padding-bottom: 0;
 }
