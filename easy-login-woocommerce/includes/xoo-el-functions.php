@@ -728,7 +728,7 @@ function xoo_el_ml_inline_style_glitch_fix(){
 
 	$instance = Xoo_Ml_Easy_Login_Functions::get_instance();
 
-	add_action( 'wp_enqueue_scripts', array( $instance, 'inline_style' ) );
+	remove_action( 'wp_enqueue_scripts', array( $instance, 'inline_style' ) );
 
 	add_action( 'wp_enqueue_scripts', function(){
 		
