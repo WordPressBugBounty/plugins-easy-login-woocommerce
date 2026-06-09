@@ -368,7 +368,8 @@ $texts = array(
 		'title' 		=> 'Login Tab text',
 		'id' 			=> 'txt-tab-login',
 		'section_id' 	=> 'gl_texts',
-		'default' 		=> $localizeTexts ? __( 'Login', 'easy-login-woocommerce' ) : 'Login',
+		'default' 		=> sprintf( '{icon} %s', $localizeTexts ? __( 'Login', 'easy-login-woocommerce' ) : 'Login' ),
+		'desc' 			=> 'Placeholder: {icon}'
 	),
 
 	array(
@@ -376,7 +377,8 @@ $texts = array(
 		'title' 		=> 'Register Tab text',
 		'id' 			=> 'txt-tab-reg',
 		'section_id' 	=> 'gl_texts',
-		'default' 		=> $localizeTexts ? __( 'Sign Up', 'easy-login-woocommerce' ) : 'Sign Up',
+		'default' 		=> sprintf( '{icon} %s', $localizeTexts ? __( 'Sign up', 'easy-login-woocommerce' ) : 'Sign up' ),
+		'desc' 			=> 'Placeholder: {icon}'
 	),
 
 
@@ -404,30 +406,62 @@ $texts = array(
 		'default' 		=> $localizeTexts ? __( 'Email Reset Link', 'easy-login-woocommerce' ) : 'Email Reset Link',
 	),
 
-
-	array(
-		'callback' 		=> 'text',
-		'title' 		=> 'Single Field Form Heading',
-		'id' 			=> 'txt-sing-head',
-		'section_id' 	=> 'gl_texts',
-		'default' 		=> 'Welcome to '.esc_attr( get_bloginfo( 'name' ) ),
-	),
-
-
-	array(
-		'callback' 		=> 'text',
-		'title' 		=> 'Single Field Form Subtext',
-		'id' 			=> 'txt-sing-subtxt',
-		'section_id' 	=> 'gl_texts',
-		'default' 		=> 'Log in or sign up with your email.',
-	),
-
 	array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Single Field Form Button text',
 		'id' 			=> 'txt-btn-single',
 		'section_id' 	=> 'gl_texts',
 		'default' 		=> 'Continue',
+	),
+
+	array(
+		'callback' 		=> 'wp_editor',
+		'title' 		=> 'Login Form Text',
+		'id' 			=> 'txt-login-form',
+		'section_id' 	=> 'gl_texts',
+
+		'args' 			=> array(
+			'editor_settings' => array(
+				'editor_height' => 400,
+
+			)
+
+		),
+		'default' 		=> xoo_el_admin_settings()->default_login_form_text(),
+	),
+
+
+	array(
+		'callback' 		=> 'wp_editor',
+		'title' 		=> 'Register Form Text',
+		'id' 			=> 'txt-register-form',
+		'section_id' 	=> 'gl_texts',
+
+		'args' 			=> array(
+			'editor_settings' => array(
+				'editor_height' => 400,
+
+			)
+
+		),
+		'default' 		=> xoo_el_admin_settings()->default_register_form_text(),
+	),
+
+
+	array(
+		'callback' 		=> 'wp_editor',
+		'title' 		=> 'Single Field Form Text',
+		'id' 			=> 'txt-single-form',
+		'section_id' 	=> 'gl_texts',
+
+		'args' 			=> array(
+			'editor_settings' => array(
+				'editor_height' => 400,
+
+			)
+
+		),
+		'default' 		=> xoo_el_admin_settings()->default_single_form_text(),
 	),
 
 

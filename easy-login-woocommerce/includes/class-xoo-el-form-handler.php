@@ -212,7 +212,7 @@ class Xoo_El_Form_Handler{
 						$message = __( 'Wrong password.', 'easy-login-woocommerce' ).$lost_pw_text;
 					}
 					else{
-						$message  = __( 'Incorrect Email or Username.','easy-login-woocommerce' ).$lost_pw_text;
+						$message  = __( 'Incorrect Email or Password.','easy-login-woocommerce' ).$lost_pw_text;
 					}
 				}
 				else{
@@ -229,7 +229,7 @@ class Xoo_El_Form_Handler{
 
 				$redirect = apply_filters( 'xoo_el_login_redirect', wp_validate_redirect( $redirect ), $user );
 
-				$success_notice = apply_filters( 'xoo_el_login_success_notice', '<i class="fa fa-check-circle" aria-hidden="true"></i> '.__( 'Login successful', 'easy-login-woocommerce' ), $user );
+				$success_notice = apply_filters( 'xoo_el_login_success_notice', __( 'Login successful', 'easy-login-woocommerce' ), $user );
 
 				do_action( 'xoo_el_login_success', $user );
 
@@ -398,7 +398,7 @@ class Xoo_El_Form_Handler{
 				}
 			
 
-				$success_notice = '<i class="fa fa-check-circle" aria-hidden="true"></i> '. $success_notice;
+				$success_notice = $success_notice;
 
 				if ( ! empty( $_POST['xoo_el_redirect'] ) && $redirect ) {
 					$redirect = wp_sanitize_redirect( $_POST['xoo_el_redirect'] );

@@ -9,7 +9,7 @@
  * maintain compatibility. We try to do this as little as possible, but it does
  * happen.
  * @see     https://docs.xootix.com/easy-login-woocommerce/
- * @version 2.6
+ * @version 3.2.0
  */
 
 
@@ -20,17 +20,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 //return if single form pattern
 if( $args['navstyle'] !== 'tabs' ) return;
 
+$loginTabText 		= xoo_el_helper()->parsePlaceHolders(  xoo_el_helper()->get_general_option( 'txt-tab-login' ), array( '{icon}' => '<span class="xoo-el-icon-user"></span>' ) );
+$registerTabText 	= xoo_el_helper()->parsePlaceHolders(  xoo_el_helper()->get_general_option( 'txt-tab-reg' ), array( '{icon}' => '<span class="xoo-el-icon-user-plus"></span>' ) );
+
 ?>
 
 <div class="xoo-el-header">
 	<ul class="xoo-el-tabs">
 		
-        <?php if( in_array( 'login', $args['tabs'] ) && xoo_el_helper()->get_general_option( 'txt-tab-login' ) ): ?>
-		  <li data-tab="login" class="xoo-el-login-tgr" style="order: <?php echo array_search('login', $args['tabs'] ) ?> "><?php esc_html_e( xoo_el_helper()->get_general_option( 'txt-tab-login' ) ) ?></li>
+        <?php if( in_array( 'login', $args['tabs'] ) && $loginTabText  ): ?>
+		  <li data-tab="login" class="xoo-el-login-tgr" style="order: <?php echo array_search('login', $args['tabs'] ) ?> "><?php echo wp_kses_post( $loginTabText  ) ?></li>
         <?php endif; ?>
 
 		<?php if( in_array( 'register', $args['tabs'] ) && xoo_el_helper()->get_general_option( 'txt-tab-reg' ) ):?> 
-			<li data-tab="register" class="xoo-el-reg-tgr" style="order: <?php echo array_search('register', $args['tabs'] ) ?>"><?php esc_html_e( xoo_el_helper()->get_general_option( 'txt-tab-reg' ) ) ?></li>
+			<li data-tab="register" class="xoo-el-reg-tgr" style="order: <?php echo array_search('register', $args['tabs'] ) ?>"><?php echo wp_kses_post( $registerTabText  ) ?></li>
 		<?php endif; ?>
 
 	</ul>

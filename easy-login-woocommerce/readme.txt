@@ -3,8 +3,8 @@ Contributors: XootiX, xootixsupport
 Donate link: https://www.paypal.me/xootix
 Tags: login, signup, register, woocommerce, popup
 Requires at least: 3.0.1
-Tested up to: 6.8
-Stable tag: 3.1.2
+Tested up to: 7.0
+Stable tag: 3.2.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,13 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 3.2.0 =
+* Improved design
+* New  - Login & register texts
+* New  - Button Styling
+* Settings UI update
+
 
 = 3.1.2 =
 * Fix - Astra theme styling

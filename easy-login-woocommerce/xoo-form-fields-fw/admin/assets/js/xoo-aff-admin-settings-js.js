@@ -93,7 +93,7 @@ jQuery(document).ready(function($){
 
 		var Field = {
 
-			settingsInPreview: ['xoo-wsc-gl-options[scb-show][]', 'xoo-wsc-gl-options[sch-show][]', 'xoo-wsc-gl-options[scf-show][]', 'xoo-wsc-sy-options[scf-button-pos][]'],
+			settingsInPreview: [],
 			previewSettingsRecorded: false,
 
 			init: function(){

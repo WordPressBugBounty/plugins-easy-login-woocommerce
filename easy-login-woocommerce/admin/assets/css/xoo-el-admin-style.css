@@ -438,5 +438,7 @@ button.xoo-el-adpopup-go.button-primary {
 }
 
 ul.xoo-sc-tabs li[data-tab="addon"] {
-    background-color: #2a9d8f;
+    background-color: #ffd739;
+    color: #000;
 }
+

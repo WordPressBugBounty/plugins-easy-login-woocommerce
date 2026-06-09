@@ -13,6 +13,26 @@ $settings = array(
 
 
 	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'New Button Layout',
+		'id' 			=> 'sy-btn-newlayout',
+		'section_id' 	=> 'sy_form',
+		'args' 			=> array(
+			'toggleSettings' => array(
+				'xoo-el-sy-options[sy-btns-theme]' 		=> array( 'yes' ),
+				'xoo-el-sy-options[sy-btn-bgcolor]' 	=> array( 'yes' ),
+				'xoo-el-sy-options[sy-btn-txtcolor]' 	=> array( 'yes' ),
+				'xoo-el-sy-options[sy-btn-border]' 		=> array( 'yes' ),
+				'xoo-el-sy-options[sy-btn-height]' 		=> array( 'yes' ),
+				'xoo-el-sy-options[sy-btn-main]' 		=> array('unchecked')
+			)
+		),
+		'default' => 'yes'
+		
+	),
+
+
+	array(
 		'callback' 		=> 'select',
 		'title' 		=> 'Button Design',
 		'id' 			=> 'sy-btns-theme',
@@ -27,13 +47,39 @@ $settings = array(
 		'desc' 		=> 'Below color options will be ineffective if set to theme design.'
 	),
 
+	array(
+		'callback' 		=> 'button',
+		'title' 		=> 'Button',
+		'id' 			=> 'sy-btn-main',
+		'section_id' 	=> 'sy_form',
+		'default' 		=> array(
+			'width'         => 100,
+			'width_unit' 	=> '%',
+			'height'        => 45,
+			'bgColor'       => '#27374d',
+			'txtColor'      => '#dde6ed',
+			'border' => array(
+				'color'     => '#dde6ed',
+			),
+
+			'hover' => array(
+				'bgColor'       => '#dde6ed',
+				'txtColor'      => '#27374d',
+				'border' => array(
+					'color'     => '#27374d',
+				),
+			),
+		)
+		
+	),
+
 
 	array(
 		'callback' 		=> 'color',
 		'title' 		=> 'Button Background Color',
 		'id' 			=> 'sy-btn-bgcolor',
 		'section_id' 	=> 'sy_form',
-		'default' 		=> '#000000',
+		'default' 		=> '#27374d',
 	),
 
 
@@ -113,7 +159,7 @@ $settings = array(
 		'title' 		=> 'Popup Width',
 		'id' 			=> 'sy-popup-width',
 		'section_id' 	=> 'sy_popup',
-		'default' 		=> 800,
+		'default' 		=> 850,
 		'desc' 			=> 'size in px'
 	),
 
@@ -173,7 +219,7 @@ $settings = array(
 		'title' 		=> 'Sidebar Image',
 		'id' 			=> 'sy-sidebar-img',
 		'section_id' 	=> 'sy_popup',
-		'default' 		=> XOO_EL_URL.'/assets/images/popup-sidebar.jpg',
+		'default' 		=> XOO_EL_URL.'/assets/images/login.jpg',
 	),
 
 
@@ -197,7 +243,7 @@ $settings = array(
 		'title' 		=> 'Sidebar width',
 		'id' 			=> 'sy-sidebar-width',
 		'section_id' 	=> 'sy_popup',
-		'default' 		=> 40,
+		'default' 		=> 43,
 		'desc' 			=> 'Width in percentage'
 	),
 
@@ -227,7 +273,7 @@ $settings = array(
 		'title' 		=> 'Tab Background Color',
 		'id' 			=> 'sy-tab-bgcolor',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '#eeeeee',
+		'default' 		=> '#dde6ed',
 	),
 
 	array(
@@ -235,7 +281,7 @@ $settings = array(
 		'title' 		=> 'Tab Text Color',
 		'id' 			=> 'sy-tab-txtcolor',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '#000000',
+		'default' 		=> '#27374d',
 	),
 
 		array(
@@ -243,7 +289,7 @@ $settings = array(
 		'title' 		=> 'Active Tab Background Color',
 		'id' 			=> 'sy-taba-bgcolor',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '#000000',
+		'default' 		=> '#27374d',
 	),
 
 
@@ -252,7 +298,7 @@ $settings = array(
 		'title' 		=> 'Active Tab Text Color',
 		'id' 			=> 'sy-taba-txtcolor',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '#ffffff',
+		'default' 		=> '#dde6ed',
 	),
 
 	array(

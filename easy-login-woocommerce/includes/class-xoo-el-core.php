@@ -167,6 +167,23 @@ class Xoo_El_Core{
 				$glOptions['m-reset-pw-email'] 		= xoo_el_admin_settings()->default_reset_email_text();
 			}
 
+
+			if( version_compare( $db_version, '3.2.0', '<') ){
+				$glOptions['txt-login-form'] 			= '';
+				$glOptions['txt-register-form'] 		= '';
+				ob_start();
+				?>
+				<p style="margin: 0 0 16px 0;">
+					<span class="xoo-el-sing-head" style="font-size: 32px;"><?php echo $glOptions['txt-sing-head'] ?></span><br />
+					<span class="xoo-el-sing-subtxt" style="font-size: 16px;"><?php echo $glOptions['txt-sing-subtxt'] ?></span>
+				</p>
+				<?php
+
+				$glOptions['txt-single-form'] 			= ob_get_clean();
+				$syOptions['sy-btn-newlayout'] 			= 'no'; 
+				update_option( 'xoo-el-old-btn-layout', 'yes' );
+			}
+
 			update_option( 'xoo-el-gl-options', $glOptions );
 			update_option( 'xoo-el-sy-options', $syOptions );
 			update_option( 'xoo-el-av-options', $avOptions );

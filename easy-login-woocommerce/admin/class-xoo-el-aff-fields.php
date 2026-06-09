@@ -763,7 +763,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 					'is_selectable' => 'no',
 					'is_sortable' 	=> 'no',
 					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-key'
+					'icon' 			=> 'fas fa-lock'
 				)
 			);
 
@@ -771,7 +771,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				'label',
 				'cols',
 				'icon' => array(
-					'value' => 'fas fa-key'
+					'value' => 'fas fa-lock'
 				),
 				'placeholder' => array(
 					'value' => __( 'Password', 'easy-login-woocommerce' ),
@@ -878,7 +878,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 					'is_selectable' => 'no',
 					'is_sortable' 	=> 'no',
 					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-key'
+					'icon' 			=> 'fas fa-lock'
 				)
 			);
 
@@ -886,7 +886,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				'label',
 				'cols',
 				'icon' => array(
-					'value' => 'fas fa-key'
+					'value' => 'fas fa-lock'
 				),
 				'placeholder' => array(
 					'value' => __( 'New Password', 'easy-login-woocommerce' ),
@@ -944,7 +944,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 					'is_selectable' => 'no',
 					'is_sortable' 	=> 'no',
 					'can_delete'	=> 'no',
-					'icon' 			=> 'fas fa-key'
+					'icon' 			=> 'fas fa-lock'
 				)
 			);
 
@@ -952,7 +952,7 @@ if( class_exists( 'Xoo_Aff_fields' ) ){
 				'label',
 				'cols',
 				'icon' => array(
-					'value' => 'fas fa-key'
+					'value' => 'fas fa-lock'
 				),
 				'placeholder' => array(
 					'value' => __( 'Confirm Password', 'easy-login-woocommerce' ),

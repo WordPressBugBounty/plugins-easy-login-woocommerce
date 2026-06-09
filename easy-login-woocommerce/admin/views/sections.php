@@ -48,13 +48,6 @@ $sections = array(
 
 	/* Style TAB Sections */
 	array(
-		'title' => 'Main',
-		'id' 	=> 'sy_main',
-		'tab' 	=> 'style',
-	),
-
-
-	array(
 		'title' => 'Pop-up',
 		'id' 	=> 'sy_popup',
 		'tab' 	=> 'style',

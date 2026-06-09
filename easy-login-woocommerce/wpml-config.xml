@@ -16,6 +16,9 @@
         <key name="txt-sing-subtxt" />
         <key name="txt-btn-single" />
         <key name="txt-btn-reg" />
+        <key name="txt-login-form" />
+        <key name="txt-register-form" />
+        <key name="txt-single-form" />
         <key name="m-reset-pw-subject" />
         <key name="m-reset-pw-email" />
 

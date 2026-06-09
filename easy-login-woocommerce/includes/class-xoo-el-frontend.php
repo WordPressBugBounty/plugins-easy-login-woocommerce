@@ -34,6 +34,28 @@ class Xoo_El_Frontend{
 		add_filter( 'xoo_easy-login-woocommerce_get_template', array( $this, 'force_plugin_templates_over_outdated' ), 10, 4 );
 
 		add_action( 'xoo_el_after_form', array( $this, 'lostpw_attach_code_form' ), 5, 2 );
+
+		add_action( 'xoo_el_before_form', array( $this, 'add_form_text' ), 10, 2 );
+	}
+
+	public function add_form_text( $form, $args ){
+
+		if( $form === 'login' ){
+			if( $this->glSettings['txt-login-form'] ){
+				echo '<div class="xoo-el-form-desc">'.$this->glSettings['txt-login-form'].'</div>';
+			}
+		}
+		else if( $form === 'register' ){
+			if( $this->glSettings['txt-register-form'] ){
+				echo '<div class="xoo-el-form-desc">'.$this->glSettings['txt-register-form'].'</div>';
+			}
+		}
+		else if( $form === 'single' ){
+			if( $this->glSettings['txt-single-form'] ){
+				echo '<div class="xoo-el-form-desc">'.$this->glSettings['txt-single-form'].'</div>';
+			}
+		}
+
 	}
 
 	public function lostpw_attach_code_form( $form, $args ){
@@ -45,9 +67,9 @@ class Xoo_El_Frontend{
 	//Enqueue stylesheets
 	public function enqueue_styles(){
 
-		wp_enqueue_style( 'xoo-el-style', XOO_EL_URL.'/assets/css/xoo-el-style.css', array(), XOO_EL_VERSION );
 		wp_enqueue_style( 'xoo-el-fonts', XOO_EL_URL.'/assets/css/xoo-el-fonts.css', array(), XOO_EL_VERSION );
-
+		wp_enqueue_style( 'xoo-el-style', XOO_EL_URL.'/assets/css/xoo-el-style.css', array(), XOO_EL_VERSION );
+	
 		ob_start();
 		xoo_el_helper()->get_template( '/global/inline-style.php' );
 		wp_add_inline_style( 'xoo-el-style',  ob_get_clean() .  xoo_el_helper()->get_advanced_option('m-custom-css')  );

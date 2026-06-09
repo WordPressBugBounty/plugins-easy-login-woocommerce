@@ -61,7 +61,21 @@ class Xoo_El_Admin_Settings{
 		
 
 		add_action( 'xoo_aff_admin_page_display_start', array( $this, 'documentation_link' ), 20 );
+
+		add_filter( 'xoo_el_admin_settings', array( $this, 'filter_settings' ), 10, 2 );
 		
+	}
+
+
+	public function filter_settings( $settings, $type ){
+		if( $type === 'style' && get_option( 'xoo-el-old-btn-layout',true ) !== "yes" ){
+			foreach  ($settings as $index => $setting ) {
+				if( in_array( $setting['id'], array( 'sy-btns-theme', 'sy-btn-bgcolor', 'sy-btn-txtcolor', 'sy-btn-border', 'sy-btn-height', 'sy-btn-newlayout' ) ) ){
+					unset( $settings[$index] );
+				}
+			}
+		}
+		return $settings;
 	}
 
 
@@ -405,6 +419,41 @@ class Xoo_El_Admin_Settings{
 			</style>
 			<?php
 		}
+	}
+
+
+	public function default_login_form_text(){
+		ob_start();
+		?>
+		<p style="margin: 0 0 16px 0;">
+			<strong><span style="font-size: 20px;">Welcome Back 👋</span><br /></strong>
+			<span style="color: #939393; font-size: 15px;">Sign in to access your account and continue where you left off.</span>
+		</p>
+		<?php
+		return ob_get_clean();
+	}
+
+	public function default_register_form_text(){
+		ob_start();
+		?>
+		<p style="margin: 0 0 16px 0;">
+			<strong><span style="font-size: 20px;">Welcome aboard 🚀</span><br /></strong>
+			<span style="color: #939393; font-size: 15px;">Create your account to access everything you need.</span>
+		</p>
+		<?php
+		return ob_get_clean();
+	}
+
+
+	public function default_Single_form_text(){
+		ob_start();
+		?>
+		<p style="margin: 0 0 16px 0;">
+			<strong><span class="xoo-el-sing-head" style="font-size: 32px;">Welcome to <?php esc_html_e( get_bloginfo( 'name' ) ); ?></span><br /></strong>
+			<span class="xoo-el-sing-subtxt" style="font-size: 16px;">Log in or sign up with your email.</span>
+		</p>
+		<?php
+		return ob_get_clean();
 	}
 
 

@@ -541,4 +541,151 @@ jQuery(document).ready(function($){
 		'top': $('#wpadminbar').outerHeight() + 10
 	}); 
 
+
+	$(document).on( 'click', '.xoo-set-tab', function(){
+
+		var $trigger 	= $(this),
+			target 		= $trigger.data('xootab'),
+			$wrapper 	= $trigger.closest('.xoo-tabs-cont');
+
+		$trigger.addClass('xoo-tabactive').siblings('[data-xootab]').removeClass('xoo-tabactive');
+
+		$wrapper.find('[data-xootab]').removeClass('xoo-tabactive');
+
+		$wrapper.find('[data-xootab="' + target + '"]').addClass('xoo-tabactive');
+
+	});
+
+
+
+
+	var settingPreviewer = {
+
+		init: function(){
+
+			this.events();
+
+			$('.xoo-btn-setting').each(function(){
+
+				var group = $(this).data('field_id');
+
+				if( group ){
+					settingPreviewer.update( group );
+				}
+
+			});
+
+		},
+
+		events: function(){
+
+			$(document).on(
+				'input change',
+				'.xoo-btn-setting input, .xoo-btn-setting select',
+				this.onChange
+			);
+
+		},
+
+		onChange: function(){
+
+			var group = $(this)
+				.closest('.xoo-btn-setting')
+				.data('field_id');
+
+			if( group ){
+				settingPreviewer.update( group );
+			}
+
+		},
+
+		update: function( group ){
+
+			var values = this.getValues( group );
+
+			this.render( group, values );
+
+		},
+
+		getValues: function( group ){
+
+			var values = {};
+
+			$('[name^="' + group + '["]').each(function(){
+
+				var path = this.name
+					.replace( group, '' )
+					.match( /\[([^\]]+)\]/g );
+
+				if( !path ) return;
+
+				path = path.map(function( key ){
+					return key.slice( 1, -1 );
+				});
+
+				var current = values;
+
+				for( var i = 0; i < path.length - 1; i++ ){
+					current[ path[i] ] = current[ path[i] ] || {};
+					current = current[ path[i] ];
+				}
+
+				current[ path[ path.length - 1 ] ] = $(this).val();
+
+			});
+
+			return values;
+
+		},
+
+		render: function( group, values ){
+
+			var border 			= values.border || {},
+				hover 			= values.hover || {},
+				hoverBorder 	= hover.border || {},
+				text 			= values.text || {},
+				styleID 		= 'xoo-btn-style-' + group.replace( /[^a-z0-9]/gi, '-' ),
+				selector 		= '.xoo-btn-setting[data-field_id="' + group + '"] .xoo-btn-preview button';
+
+			var css = `
+				${selector}{
+					width:${values.width || ''}${values.width_unit || ''};
+					height:${values.height || ''}${values.height_unit || ''};
+
+					background:${values.bgColor || ''};
+					color:${values.txtColor || ''};
+
+					font-weight:${text.fontWeight || 500};
+					font-style:${text.fontStyle || 'normal'};
+					font-size:${text.fontSize || 15}${text.fontSizeUnit || 'px'};
+					text-transform:${text.textTransform || 'none'};
+
+					border:${border.size || 0}px ${border.style || 'solid'} ${border.color || 'transparent'};
+					border-radius:${border.radius || 0}px;
+				}
+
+				${selector}:hover{
+					background:${hover.bgColor || values.bgColor || ''};
+					color:${hover.txtColor || values.txtColor || ''};
+
+					border:${hoverBorder.size || border.size || 0}px ${hoverBorder.style || border.style || 'solid'} ${hoverBorder.color || border.color || 'transparent'};
+					border-radius:${hoverBorder.radius || border.radius || 0}px;
+				}
+			`;
+
+			$('#' + styleID).remove();
+
+			$('<style>', {
+				id: styleID,
+				text: css
+			}).appendTo('head');
+
+		}
+
+	};
+
+
+	
+	settingPreviewer.init();
+	
 })

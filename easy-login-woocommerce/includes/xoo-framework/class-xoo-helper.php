@@ -22,7 +22,7 @@ class Xoo_Helper{
 
 	public function set_constants(){
 		$this->define( 'XOO_FW_URL', untrailingslashit(plugin_dir_url( XOO_FW_DIR .'/'.basename( XOO_FW_DIR ) ) ) );
-		$this->define( 'XOO_FW_VERSION', '1.7.5' );
+		$this->define( 'XOO_FW_VERSION', '1.7.6' );
 	}
 
 	public function define( $name, $value ){
@@ -499,6 +499,84 @@ class Xoo_Helper{
 	    return implode( ' ', $css );
 
 	    
+	}
+
+	public function get_button_css( $selector, $settings ) {
+
+		$settings = xoo_recursive_parse_args(
+			$settings,
+			array(
+				'width'         => 300,
+				'width_unit'    => 'px',
+				'height'        => 40,
+				'height_unit'   => 'px',
+				'bgColor'       => '#000000',
+				'txtColor'      => '#ffffff',
+
+				'text' => array(
+					'fontWeight'      => 500,
+					'fontStyle'       => 'normal',
+					'fontSize'        => 15,
+					'fontSizeUnit'    => 'px',
+					'textTransform'   => 'capitalize',
+				),
+
+				'border' => array(
+					'size'      => 1,
+					'color'     => '#cccccc',
+					'style'     => 'solid',
+					'radius'    => 5,
+				),
+
+				'hover' => array(
+					'bgColor'       => '#eeeeee',
+					'txtColor'      => '#000000',
+
+					'border' => array(
+						'size'      => 1,
+						'color'     => '#cccccc',
+						'style'     => 'solid',
+						'radius'    => 5,
+					),
+				),
+			)
+		);
+
+		$css = '';
+
+		$css .= $selector . '{';
+
+			$css .= 'max-width:' . $settings['width'] . $settings['width_unit'] . ';';
+			$css .= 'height:' . $settings['height'] . $settings['height_unit'] . ';';
+
+			$css .= 'background-color:' . $settings['bgColor'] . ';';
+			$css .= 'color:' . $settings['txtColor'] . ';';
+
+			$css .= 'font-weight:' . $settings['text']['fontWeight'] . ';';
+			$css .= 'font-style:' . $settings['text']['fontStyle'] . ';';
+			$css .= 'font-size:' . $settings['text']['fontSize'] . $settings['text']['fontSizeUnit'] . ';';
+			$css .= 'text-transform:' . $settings['text']['textTransform'] . ';';
+
+			$css .= 'border-width:' . $settings['border']['size'] . 'px;';
+			$css .= 'border-style:' . $settings['border']['style'] . ';';
+			$css .= 'border-color:' . $settings['border']['color'] . ';';
+			$css .= 'border-radius:' . $settings['border']['radius'] . 'px;';
+
+		$css .= '}';
+
+		$css .= $selector . ':hover{';
+
+			$css .= 'background-color:' . $settings['hover']['bgColor'] . ';';
+			$css .= 'color:' . $settings['hover']['txtColor'] . ';';
+
+			$css .= 'border-width:' . $settings['hover']['border']['size'] . 'px;';
+			$css .= 'border-style:' . $settings['hover']['border']['style'] . ';';
+			$css .= 'border-color:' . $settings['hover']['border']['color'] . ';';
+			$css .= 'border-radius:' . $settings['hover']['border']['radius'] . 'px;';
+
+		$css .= '}';
+
+		return $css;
 	}
 
 

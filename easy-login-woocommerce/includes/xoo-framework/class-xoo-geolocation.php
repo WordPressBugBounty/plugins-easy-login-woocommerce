@@ -48,14 +48,7 @@ class Xoo_Geolocation{
 			'countryCode' 	=> '',
 		);
 
-		$data = $this->geolocate_via_api( $ip_address );
-
-		if( isset( $data['geoplugin_status'] ) && $data['geoplugin_status'] === 200 ){
-
-			foreach ( $data as $key => $value) {
-				$mo_data[ str_replace( 'geoplugin_', '', $key ) ] = $value;
-			}
-		}
+		$mo_data = array_merge( $mo_data, self::geolocate_via_api( $ip_address ) );
 
 		//Setting data to cookie
 		@setcookie( 'xoo_user_ip_data', json_encode( $mo_data ) );
@@ -154,21 +147,57 @@ class Xoo_Geolocation{
 	}
 
 
+	
 	/**
 	 * Gets user geolocation
 	 * @return array
 	*/
-	public function geolocate_via_api( $ip_address ){
-	 	$wp_remote_get_args = array(
-	 		'headers' => array( 'Referer' => site_url() )
-        );
-		$response = wp_remote_get( "http://www.geoplugin.net/json.gp?ip=" . $ip_address, $wp_remote_get_args );
-		
-		if( !is_wp_error( $response ) && $response['response']['code'] === 200 ){
-			return json_decode( stripslashes( $response['body'] ), true );
-		}
-		
-		return false;
+	private static function geolocate_via_api( $ip_address ){
+
+	    $location = array(
+	        'countryCode' => '',
+	        'state'   => '',
+	        'city'    => '',
+	        'source'  => ''
+	    );
+
+	    // Step 2: Check if WooCommerce is active
+	    if ( class_exists( 'WooCommerce' ) && class_exists( 'WC_Geolocation' ) ) {
+
+	        $wc_location = WC_Geolocation::geolocate_ip( $ip_address );
+
+	        if ( ! empty( $wc_location['countryCode'] ) ) {
+	            $location['countryCode'] 	= $wc_location['country'];
+	            $location['state']   		= $wc_location['state'] ?? '';
+	            $location['city']    		= $wc_location['city'] ?? '';
+	            $location['source']  		= 'woocommerce';
+
+
+	            return $location; // ✅ Use WooCommerce result
+	        }
+	    }
+
+	    // Step 3: Fallback to external API (ip-api)
+	    $response = wp_remote_get( "http://ip-api.com/json/{$ip_address}" );
+
+	    if ( ! is_wp_error( $response ) ) {
+
+	        $data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	        if ( ! empty( $data['countryCode'] ) ) {
+	            $location['countryCode'] 	= $data['countryCode'];
+	            $location['state']   		= $data['region'] ?? '';
+	            $location['city']    		= $data['city'] ?? '';
+	            $location['source']  		= 'ip-api';
+
+	            return $location;
+	        }
+	    }
+
+	    // Step 4: Final fallback (unknown)
+	    $location['source'] = 'none';
+
+	    return $location;
 	}
 
 }

@@ -9,7 +9,7 @@
  * maintain compatibility. We try to do this as little as possible, but it does
  * happen.
  * @see     https://docs.xootix.com/easy-login-woocommerce/
- * @version 2.6
+ * @version 3.2.0
  */
 
 
@@ -20,9 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<span class="xoo-el-sing-head"><?php esc_html_e( xoo_el_helper()->get_general_option( 'txt-sing-head' ) ) ?></span>
-
-<span class="xoo-el-sing-subtxt"><?php esc_html_e( xoo_el_helper()->get_general_option( 'txt-sing-subtxt' ) ) ?></span>
 
 <?php do_action( 'xoo_el_single_before_fields', $args ); ?>
 

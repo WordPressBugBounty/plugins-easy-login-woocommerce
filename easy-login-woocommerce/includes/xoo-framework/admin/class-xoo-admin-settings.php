@@ -448,6 +448,7 @@ class Xoo_Admin{
 		wp_enqueue_media(); // media gallery
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_style( 'xoo-admin-style', XOO_FW_URL . '/admin/assets/css/xoo-admin-style.css', array(), XOO_FW_VERSION, 'all' );
+		wp_enqueue_style( 'xoo-admin-fonts', XOO_FW_URL.'/admin/assets/css/xoo-admin-fonts.css', array(), XOO_FW_VERSION );
 		wp_enqueue_script( 'xoo-admin-js', XOO_FW_URL . '/admin/assets/js/xoo-admin-js.js', array( 'jquery','wp-color-picker', 'jquery-ui-sortable' ), XOO_FW_VERSION, false );
 		
 
@@ -904,19 +905,30 @@ class Xoo_Admin{
 			$editor_settings = xoo_recursive_parse_args( $editor_settings, array(
 				'textarea_name' => $field_id,
 				'wpautop'       => false,
+
+				'tinymce' => array(
+					'teeny'   => false,
+					/* Toolbar */
+					'toolbar1' => 'formatselect,styleselect,fontsizeselect,bold,italic,underline,forecolor,backcolor,alignleft,aligncenter,alignright,undo,redo,removeformat,code,hr',
+
+					/* Font sizes */
+					'fontsize_formats' => '12px 14px 15px 16px 18px 20px 22px 24px 28px 32px',
+					/* Paragraph handling */
+					'forced_root_block' => 'p',
+
+					'init_instance_callback' => 'function(editor) {
+						editor.settings.forced_root_block_attrs = {
+							style: "margin:0 0 16px 0;"
+						};
+					}'
+				)
 			) );
 
 			if ( isset( $args['group'] ) && $args['group'] === 'email_content' ) {
 
 				$editor_settings = xoo_recursive_parse_args( $editor_settings, array(
-					'teeny'   => false,
+					
 					'tinymce' => array(
-
-						/* Toolbar */
-						'toolbar1' => 'formatselect,styleselect,fontsizeselect,bold,italic,underline,forecolor,backcolor,alignleft,aligncenter,alignright,undo,redo,removeformat,code,hr',
-
-						/* Font sizes */
-						'fontsize_formats' => '12px 14px 16px 18px 20px 24px 28px 32px',
 
 						/* Valid styles (JSON REQUIRED) */
 						'valid_styles' => wp_json_encode( array(
@@ -935,15 +947,6 @@ class Xoo_Admin{
 						'cleanup'            => false,
 						'convert_urls'       => false,
 						'remove_script_host' => false,
-
-						/* Paragraph handling */
-						'forced_root_block' => 'p',
-
-						'init_instance_callback' => 'function(editor) {
-							editor.settings.forced_root_block_attrs = {
-								style: "margin:0 0 16px 0;"
-							};
-						}',
 					),
 				));
 			}
@@ -962,42 +965,7 @@ class Xoo_Admin{
 
 			case 'border':
 				$value = is_array( $value ) ? $value : array();
-				$value = wp_parse_args( $value, array(
-					'size' 	=> 1,
-					'color' => '#ccc',
-					'style' => 'solid',
-					'radius' => 0
-				) );
-				$styles = array( 'none', 'hidden', 'solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'inset', 'outset' );
-				ob_start();
-				?>
-				<div class="xoo-aff-border-inputs">
-					<div>
-						<input name="<?php echo $field_id ?>[size]" type="number" placeholder="Size" min=0 value="<?php echo  (float) $value['size'] ?>">
-						<i>Size</i>
-					</div>
-					<div>
-						<input name="<?php echo $field_id ?>[color]" type="text" class="xoo-as-color-input" value="<?php echo esc_attr( $value['color'] ) ?>">
-						<i>Color</i>
-					</div>
-					<div>
-						<select name="<?php echo esc_attr( $field_id ); ?>[style]">
-						    <?php foreach ( $styles as $style ) : ?>
-						        <option value="<?php echo esc_attr( $style ); ?>"
-						            <?php selected( $value['style'] ?? '', $style ); ?>>
-						            <?php echo ucfirst( $style ); ?>
-						        </option>
-						    <?php endforeach; ?>
-						</select>
-						<i>Style</i>
-					</div>
-					<div>
-						<input name="<?php echo $field_id ?>[radius]" type="number" placeholder="Border Radius"  min=0  value="<?php echo esc_attr( $value['radius'] ) ?>">
-						<i>Radius</i>
-					</div>
-				</div>
-				<?php
-				$field .= ob_get_clean();
+				$field .= $this->get_border_setting_html( $field_id, $value );;
 				break;
 
 			case 'wp_editor':
@@ -1202,6 +1170,292 @@ class Xoo_Admin{
 				$field .= '</div>';
 
 				break;
+
+
+			case 'button':
+
+				$value = is_array( $value ) ? $value : array();
+
+				$value = xoo_recursive_parse_args(
+					$value,
+					array(
+						'width'         => 300,
+						'width_unit'    => 'px',
+						'height'        => 40,
+						'height_unit'   => 'px',
+						'bgColor'       => '#000000',
+						'txtColor'      => '#ffffff',
+
+						'text' => array(
+							'fontWeight' 		=> 500,
+							'fontStyle' 		=> 'normal',
+							'fontSize' 			=> 15,
+							'fontSizeUnit' 		=> 'px',
+							'textTransform' 	=> 'capitalize',
+						),
+
+						'border' => array(
+							'size'      => 1,
+							'color'     => '#cccccc',
+							'style'     => 'solid',
+							'radius'    => 5,
+						),
+
+						'hover' => array(
+							'bgColor'       => '#eee',
+							'txtColor'      => '#000',
+
+							'border' => array(
+								'size'      => 1,
+								'color'     => '#cccccc',
+								'style'     => 'solid',
+								'radius'    => 5,
+							),
+						),
+					)
+				);
+
+				$units = array(
+					'px' => 'px',
+					'%'  => '%',
+					'em' => 'em',
+					'rem'=> 'rem'
+				);
+
+				ob_start();
+				?>
+
+				<div class="xoo-btn-setting xoo-tabs-cont" data-field_id="<?php echo $field_id ?>">
+
+					<span class="xoo-btnset-desc">Customize the appearance of your button</span>
+
+					<div class="xoo-btn-preview-wrap">
+
+						<div class="xoo-btn-preview">
+							<button type="button">Button</button>
+						</div>
+
+					</div>
+
+					<div class="xoo-setting-tabs">
+
+						<span class="xoo-set-tab xoo-tabactive" data-xootab="normal"><span class="xoo-icon-light xoo-icon"></span>Normal</span>
+
+						<span class="xoo-set-tab" data-xootab="hover"><span class="xoo-icon-cursor xoo-icon"></span>Hover</span>
+
+					</div>
+
+					<!-- NORMAL -->
+					<div class="xoo-btn-group xoo-tabgroup xoo-tabactive" data-xootab="normal">
+
+						<!-- Colors -->
+						<div class="xoo-btn-row">
+
+							<span class="xoo-btnrow-head"><span class="xoo-icon-paint xoo-icon"></span>Colors</span>
+
+							<div class="xoo-row-settings">
+
+								<div>
+									<i>Background</i>
+									<input type="text" class="xoo-as-color-input" name="<?php echo $field_id; ?>[bgColor]" value="<?php echo esc_attr( $value['bgColor'] ); ?>" >
+								</div>
+
+								<div>
+									<i>Text Color</i>
+									<input type="text" class="xoo-as-color-input" name="<?php echo $field_id; ?>[txtColor]" value="<?php echo esc_attr( $value['txtColor'] ); ?>" >
+								</div>
+
+							</div>
+
+						</div>
+
+						<!-- Size -->
+						<div class="xoo-btn-row">
+
+							<span class="xoo-btnrow-head"><span class="xoo-icon-ruler xoo-icon"></span>Size</span>
+
+							<div class="xoo-row-settings">
+
+								<div>
+
+									<i>Width</i>
+									<input type="number" name="<?php echo $field_id; ?>[width]" value="<?php echo esc_attr( $value['width'] ); ?>" >
+
+								</div>
+
+								<div>
+
+									<i>Unit</i>
+									<select name="<?php echo $field_id; ?>[width_unit]">
+
+										<?php foreach ( $units as $unit ) : ?>
+
+											<option value="<?php echo $unit; ?>"
+												<?php selected( $value['width_unit'], $unit ); ?>>
+												<?php echo $unit; ?>
+											</option>
+
+										<?php endforeach; ?>
+									</select>
+
+
+								</div>
+
+								<div>
+
+									<i>Height</i>
+									<input type="number" name="<?php echo $field_id; ?>[height]" value="<?php echo esc_attr( $value['height'] ); ?>" >	
+
+								</div>
+
+
+
+								<div>
+
+									<i>Unit</i>
+									<select name="<?php echo $field_id; ?>[height_unit]">
+
+										<?php foreach ( $units as $unit ) : ?>
+											<option value="<?php echo $unit; ?>"
+												<?php selected( $value['height_unit'], $unit ); ?>>
+												<?php echo $unit; ?>
+											</option>
+										<?php endforeach; ?>
+
+									</select>	
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<!-- Text -->
+						<div class="xoo-btn-row">
+
+							<span class="xoo-btnrow-head"><span class="xoo-icon-font xoo-icon"></span>Text</span>
+
+							<div class="xoo-row-settings">
+
+								<div>
+
+									<i>Weight</i>
+
+									<select name="<?php echo $field_id; ?>[text][fontWeight]">
+
+										<option value="300" <?php selected( $value['text']['fontWeight'], 300 ); ?>>300</option>
+										<option value="400" <?php selected( $value['text']['fontWeight'], 400 ); ?>>400</option>
+										<option value="500" <?php selected( $value['text']['fontWeight'], 500 ); ?>>500</option>
+										<option value="600" <?php selected( $value['text']['fontWeight'], 600 ); ?>>600</option>
+										<option value="700" <?php selected( $value['text']['fontWeight'], 700 ); ?>>700</option>
+
+									</select>
+
+								</div>
+
+								<div>
+
+									<i>Style</i>
+
+									<select name="<?php echo $field_id; ?>[text][fontStyle]">
+
+										<option value="normal" <?php selected( $value['text']['fontStyle'], 'normal' ); ?>>Normal</option>
+										<option value="italic" <?php selected( $value['text']['fontStyle'], 'italic' ); ?>>Italic</option>
+
+									</select>
+
+								</div>
+
+								<div>
+
+									<i>Font Size</i>
+
+									<input type="number" name="<?php echo $field_id; ?>[text][fontSize]" value="<?php echo esc_attr( $value['text']['fontSize'] ); ?>">
+
+								</div>
+
+								<div>
+
+									<i>Unit</i>
+
+									<select name="<?php echo $field_id; ?>[text][fontSizeUnit]">
+
+										<?php foreach ( $units as $unit ) : ?>
+
+											<option value="<?php echo $unit; ?>" <?php selected( $value['text']['fontSizeUnit'], $unit ); ?>>
+												<?php echo $unit; ?>
+											</option>
+
+										<?php endforeach; ?>
+
+									</select>
+
+								</div>
+
+								<div>
+
+									<i>Transform</i>
+
+									<select name="<?php echo $field_id; ?>[text][textTransform]">
+
+										<option value="none" <?php selected( $value['text']['textTransform'], 'none' ); ?>>None</option>
+										<option value="uppercase" <?php selected( $value['text']['textTransform'], 'uppercase' ); ?>>Uppercase</option>
+										<option value="lowercase" <?php selected( $value['text']['textTransform'], 'lowercase' ); ?>>Lowercase</option>
+										<option value="capitalize" <?php selected( $value['text']['textTransform'], 'capitalize' ); ?>>Capitalize</option>
+
+									</select>
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<!-- Border -->
+						<div class="xoo-btn-row">
+							<span class="xoo-btnrow-head"><span class="xoo-icon-border xoo-icon"></span>Border</span>
+							<?php echo $this->get_border_setting_html( $field_id.'[border]', $value['border'] ); ?>
+						</div>
+
+					</div>
+
+					<!-- HOVER -->
+					<div class="xoo-btn-group xoo-tabgroup" data-xootab="hover">
+
+						<div class="xoo-btn-row">
+
+							<span class="xoo-btnrow-head"><span class="xoo-icon-paint xoo-icon"></span>Colors</span>
+
+							<div class="xoo-row-settings">
+
+								<div>
+									<i>Background</i>
+									<input type="text" class="xoo-as-color-input" name="<?php echo $field_id; ?>[hover][bgColor]" value="<?php echo esc_attr( $value['hover']['bgColor'] ); ?>">									
+								</div>
+
+								<div>
+									<i>Text Color</i>
+									<input type="text" class="xoo-as-color-input" name="<?php echo $field_id; ?>[hover][txtColor]" value="<?php echo esc_attr( $value['hover']['txtColor'] ); ?>" >
+								</div>
+
+							</div>
+
+						</div>
+
+						<div class="xoo-btn-row">
+							<span class="xoo-btnrow-head"><span class="xoo-icon-border xoo-icon"></span>Border</span>
+							<?php echo $this->get_border_setting_html( $field_id.'[hover][border]', $value['hover']['border'] ); ?>
+						</div>
+
+					</div>
+
+				</div>
+
+				<?php
+
+				$field .= ob_get_clean();
+
+				break;
 			
 			default:
 				# code...
@@ -1238,6 +1492,77 @@ class Xoo_Admin{
 		$field 				= sprintf( $field_container, $container_class, $field, $callback );
 
 		return apply_filters( 'xoo_admin_setting_field', $field, $field_id, $value, $args );
+
+	}
+
+	private function get_border_setting_html( $field_id, $value = array() ) {
+
+		$value = wp_parse_args(
+			$value,
+			array(
+				'size' 		=> 1,
+				'color' 	=> '#ccc',
+				'style' 	=> 'solid',
+				'radius' 	=> 0,
+			)
+		);
+
+		$styles = array(
+			'none',
+			'hidden',
+			'solid',
+			'dashed',
+			'dotted',
+			'double',
+			'groove',
+			'ridge',
+			'inset',
+			'outset'
+		);
+
+		ob_start();
+		?>
+
+		<div class="xoo-row-settings">
+
+			<div>
+				<i>Size</i>
+				<input name="<?php echo $field_id; ?>[size]" type="number" min="0" value="<?php echo esc_attr( $value['size'] ); ?>">
+			</div>
+
+			<div>
+				<i>Color</i>
+				<input name="<?php echo $field_id; ?>[color]" type="text" class="xoo-as-color-input" value="<?php echo esc_attr( $value['color'] ); ?>">
+			</div>
+
+			<div>
+
+				<i>Style</i>
+				<select name="<?php echo $field_id; ?>[style]">
+
+					<?php foreach ( $styles as $style ) : ?>
+
+						<option value="<?php echo esc_attr( $style ); ?>" <?php selected( $value['style'], $style ); ?>>
+							<?php echo ucfirst( $style ); ?>
+						</option>
+
+					<?php endforeach; ?>
+
+				</select>
+
+
+			</div>
+
+			<div>
+				<i>Radius</i>
+				<input name="<?php echo $field_id; ?>[radius]" type="number" min="0" value="<?php echo esc_attr( $value['radius'] ); ?>">
+			</div>
+
+		</div>
+
+		<?php
+
+		return ob_get_clean();
 
 	}
 

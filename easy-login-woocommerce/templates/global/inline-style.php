@@ -9,16 +9,15 @@
  * maintain compatibility. We try to do this as little as possible, but it does
  * happen.
  * @see     https://docs.xootix.com/easy-login-woocommerce/
- * @version 2.6
+ * @version 3.2
  */
 
 
 $sySettings 		= xoo_el_helper()->get_style_option();
 
-$btn_style 			= $sySettings['sy-btns-theme'];
-$btn_bg_color 		= $sySettings['sy-btn-bgcolor'];
-$btn_txt_color 		= $sySettings['sy-btn-txtcolor'];
-$btn_height 		= $sySettings['sy-btn-height'];	
+
+$new_btn_layout  	= !isset( $sySettings['sy-btn-newlayout'] ) || $sySettings['sy-btn-newlayout'] === "yes";
+
 $popup_width 		= $sySettings['sy-popup-width'];
 $popup_heightType  	= $sySettings['sy-popup-height-type'];
 $popup_height 		= $sySettings['sy-popup-height'];
@@ -62,14 +61,28 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 
 ?>
 
-<?php if( $btn_style === 'custom' ): ?>
-	.xoo-el-form-container button.btn.button.xoo-el-action-btn{
-		background-color: <?php echo esc_html( $btn_bg_color ) ?>;
-		color: <?php echo esc_html( $btn_txt_color ) ?>;
-		font-weight: 600;
-		font-size: 15px;
-		height: <?php echo esc_html( $btn_height ) ?>px;
-	}
+<?php if( $new_btn_layout  ): ?>
+	<?php echo xoo_el_helper()->get_button_css( '.xoo-el-form-container button.btn.button.xoo-el-action-btn', $sySettings['sy-btn-main'] ); ?>
+<?php else: ?>
+
+	<?php
+
+	$btn_style 			= $sySettings['sy-btns-theme'];
+	$btn_bg_color 		= $sySettings['sy-btn-bgcolor'];
+	$btn_txt_color 		= $sySettings['sy-btn-txtcolor'];
+	$btn_height 		= $sySettings['sy-btn-height'];	
+
+	?>
+	
+	<?php if( $btn_style === 'custom' ): ?>
+		.xoo-el-form-container button.btn.button.xoo-el-action-btn{
+			background-color: <?php echo esc_html( $btn_bg_color ) ?>;
+			color: <?php echo esc_html( $btn_txt_color ) ?>;
+			font-weight: 600;
+			font-size: 15px;
+			height: <?php echo esc_html( $btn_height ) ?>px;
+		}
+	<?php endif; ?>
 <?php endif; ?>
 
 .xoo-el-container:not(.xoo-el-style-slider) .xoo-el-inmodal{

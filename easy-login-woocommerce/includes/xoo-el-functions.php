@@ -108,11 +108,72 @@ endif;
 //Add notice
 function xoo_el_add_notice( $notice_type = 'error', $message = '', $notice_class = null ){
 
+	$title = $text = '';
+
+	if( !is_array( $message ) ){
+		$message = array(
+			'text' => $message
+		);
+	}
+
+	if( $notice_type === 'error' || $notice_type === 'warning' ){
+		$icon = 'xoo-el-icon-notice';
+	}
+	else if( $notice_type === 'success' ){
+		$icon = 'xoo-el-icon-check-badge';
+	}
+	else{
+		$icon = null;
+	}
+
+	$message = wp_parse_args( $message, array(
+		'icon' 		=> $icon,
+		'title' 	=> '',
+		'text' 		=> '' 
+	) );
+
+	$title 	= $message['title'];
+	$text  	= $message['text'];
+	$icon 	= $message['icon'];
+
+	
 	$classes = 'xoo-el-notice-'.$notice_type.' '.$notice_class;
 
-	$html = '<div class="'.$classes.'">'.$message.'</div>';
+	ob_start();
+
+	?>
+
+	<div class="<?php echo $classes ?>">
+
+		<?php if( $icon ): ?>
+
+			<div class="xoo-el-notice-icon <?php echo $icon ?>"></div>
+
+		<?php endif; ?>
+
+		<div class="xoo-el-notice-txtcont">
+
+			<?php if( $title ): ?>
+				<div class="xoo-el-noticetitle"><?php echo $title ?></div>
+			<?php endif; ?>
+
+			<?php if( $text ): ?>
+				<div class="xoo-el-noticetxt"><?php echo $text ?></div>
+			<?php endif; ?>
+
+		</div>
+
+	</div>
+
+	<?php
+
+	$html = ob_get_clean();
 	
-	return apply_filters('xoo_el_notice_html',$html,$message,$classes);
+	$notice_html = apply_filters( 'xoo_el_notice_html', $html, $text, $classes );
+
+	$notice_html = apply_filters( 'xoo_el_notice_html_v2', $html, $message, $classes );
+
+	return $notice_html;
 }
 
 //Print notices
@@ -132,7 +193,7 @@ function xoo_el_notice_container( $form, $args ){
 
 }
 
-add_action( 'xoo_el_before_form', 'xoo_el_notice_container',10, 2 );
+add_action( 'xoo_el_before_form', 'xoo_el_notice_container',20, 2 );
 
 //Is limit login ok
 function xoo_el_is_limit_login_ok(){
@@ -657,5 +718,148 @@ function xoo_el_paid_membership_compat(){
 }
 add_action( 'init', 'xoo_el_paid_membership_compat' );
 
+
+/* Fix for OTP Login version compare glitch in 3.2.5 & 3.2.6 */
+
+
+function xoo_el_ml_inline_style_glitch_fix(){
+
+	if( !function_exists('xoo_ml') || !in_array( XOO_ML_VERSION, array( '3.2.5', '3.2.6' ), true ) ) return;
+
+	$instance = Xoo_Ml_Easy_Login_Functions::get_instance();
+
+	add_action( 'wp_enqueue_scripts', array( $instance, 'inline_style' ) );
+
+	add_action( 'wp_enqueue_scripts', function(){
+		
+		if( version_compare( XOO_EL_VERSION, '3.1.2', '<' )  || xoo_el()->aff->has_old_field_layout() ){
+
+			$sy_options 	= get_option( xoo_el()->aff->admin->settings->get_option_key( 'general' ), true );
+
+			$focusBGColor 	= esc_html( $sy_options['s-input-focusbgcolor'] );
+			$focusTxtColor 	= esc_html( $sy_options['s-input-focustxtcolor'] );
+			$fieldmargin 	= esc_html( $sy_options['s-field-bmargin'] );
+			$textColor 		= esc_html( $sy_options['s-field-bmargin'] );
+			$inputbgcolor 	= esc_html( $sy_options['s-input-bgcolor'] );
+			$inputtxtcolor 	= esc_html( $sy_options['s-input-txtcolor'] );
+			$inputBorColor 	= esc_html( $sy_options['s-input-borcolor'] );
+			$iconBorColor 	= esc_html( $sy_options['s-icon-borcolor'] );
+			$iconBorWidth 	= esc_html( $sy_options['s-icon-borwidth'] );
+			$inputBorWidth 	= (int) $sy_options['s-input-borwidth'];
+			$inputHeight 	= (int) $sy_options['s-input-height']; 
+
+			$style = '.xoo-ml-merged-cc.xoo-ml-focused .xoo-aff-group select + .select2, .xoo-ml-merged-cc.xoo-ml-focused .xoo-aff-group input[type="tel"]{
+				background-color: '.$focusBGColor.';
+				color: '.$focusTxtColor.';
+			}
+			.xoo-ml-merged-cc.xoo-ml-focused .xoo-aff-group .select2-selection__rendered, .xoo-ml-merged-cc.xoo-ml-focused .xoo-aff-group .select2-container--default .select2-selection--single .select2-selection__rendered{
+				color: '.$focusTxtColor.';
+			}
+			.xoo-ml-merged-cc{
+	    		margin-bottom: '.$fieldmargin.'px;
+			}
+			.xoo-ml-merged-cc input:-webkit-autofill:focus{
+			    -webkit-text-fill-color: '.$focusTxtColor.';
+			    box-shadow: inset 0 0 20px 20px '.$focusBGColor.';
+			}
+			.xoo-ml-merged-cc input:-webkit-autofill,
+			.xoo-ml-merged-cc input:-webkit-autofill:active{
+			    -webkit-text-fill-color: '.$inputtxtcolor.';
+			    box-shadow: inset 0 0 0 30px '.$inputbgcolor.';
+			}
+			.xoo-ml-merged-cc-cont{
+				border-color: '.$inputBorColor.';
+				border-width: '.$inputBorWidth.'px;
+			}
+			.xoo-ml-merged-cc-cont span.select2, .xoo-ml-merged-cc-cont input[type="tel"]{
+				height: '. ($inputHeight - ($inputBorWidth * 2)) .'px;
+			}
+			body.rtl .xoo-aff-cont-phone_code span.xoo-aff-input-icon {
+			    border-right: 0;
+			    border-left: '.$iconBorWidth.'px solid '.$iconBorColor.';
+			}
+			body:not(.rtl) .xoo-ml-merged-cc .xoo-aff-input-group .xoo-aff-input-icon {
+				border-right: '.$inputBorWidth.'px solid '.$inputBorColor.';
+			}
+			.xoo-el-form-container form.xoo-ml-otp-form input.xoo-ml-otp-input{
+				background-color: '.$inputbgcolor.';
+				color: '.$inputtxtcolor.';
+				border-bottom: '.$inputBorWidth.'px solid '.$inputBorColor.';
+			}
+			.xoo-el-form-container form.xoo-ml-otp-form input.xoo-ml-otp-input:focus{
+				background-color: '.$focusBGColor.';
+				color: '.$focusTxtColor.';
+			}
+
+			body:not(.rtl) .xoo-ml-merged-cc-cont:has(.xoo-aff-input-group) {
+			    border-left: 0;
+			    border-top-left-radius: 0;
+			    border-bottom-left-radius: 0;
+			}
+			.xoo-ml-merged-cc select.xoo-ml-phone-cc + .select2.select2-container {
+			    padding: 0;
+			}
+			';
+
+		}
+		else{
+
+			$sy_options 	= xoo_el()->aff->get_field_option();
+
+			$inputBorderOptions 		= xoo_el()->aff->ff_helper->get_border_options( $sy_options['s-input-border'] );
+			$inputBorderCSS 			= xoo_el()->aff->ff_helper->get_border_css_value( $sy_options['s-input-border'] );
+			$inputBorderFocusOptions 	= xoo_el()->aff->ff_helper->get_border_options( $sy_options['s-input-border-focus'] );
+			$inputBorderFocus 			= xoo_el()->aff->ff_helper->get_border_css_value( $sy_options['s-input-border-focus'] );
+			$focusbgcolor 				= $sy_options['s-input-focusbgcolor'];
+			$focustxtcolor 				= $sy_options['s-input-focustxtcolor'];
+			$inputbgcolor 				= esc_html( $sy_options['s-input-bgcolor'] );
+			$inputHeight 				= (int) $sy_options['s-input-height']; 
+
+			
+
+			$style = "
+				.xoo-ml-merged-cc-cont .xoo-aff-input-group .xoo-aff-input-icon{
+					border: 0;
+					margin: 0;
+				}
+
+				.xoo-ml-merged-cc-cont{
+					{$inputBorderCSS};
+					background-color: {$inputbgcolor};
+				}
+				.xoo-ml-merged-cc-cont .xoo-ml-phone-cc + .select2 .select2-selection.select2-selection--single{
+					padding: 0;
+				}
+				.xoo-ml-focused .xoo-ml-merged-cc-cont{
+					{$inputBorderFocus}
+					background-color: {$focusbgcolor};
+				}
+				.xoo-ml-focused .xoo-aff-group select.xoo-aff-field + .select2{
+					background-color: {$focusbgcolor};
+					color: {$focustxtcolor};
+				}
+				.xoo-ml-focused .xoo-aff-group .select2-selection__rendered, .xoo-ml-focused .xoo-aff-group .select2-container--default .select2-selection--single .select2-selection__rendered{
+					color: {$focustxtcolor};
+				}
+				.xoo-ml-merged-cc .xoo-aff-group select.xoo-aff-field, .xoo-ml-merged-cc .xoo-aff-group select.xoo-aff-field + .select2, .xoo-ml-merged-cc .xoo-aff-group input[type=tel].xoo-aff-field{
+					height: calc( {$inputHeight}px - ".$inputBorderOptions['size'] * 2 ."px );
+					line-height: calc( {$inputHeight}px - ".$inputBorderOptions['size'] * 2 ."px );
+					border: 0;
+				}
+				.xoo-ml-merged-cc .xoo-aff-group input[type=tel].xoo-aff-field:focus, .xoo-ml-merged-cc.xoo-ml-focused .xoo-aff-group select.xoo-aff-field + .select2{
+					height: calc( {$inputHeight}px - ".$inputBorderFocusOptions['size'] * 2 ."px );
+					line-height: calc( {$inputHeight}px - ".$inputBorderFocusOptions['size'] * 2 ."px );
+					border: 0;
+				}
+				
+			";
+		}
+
+		wp_add_inline_style( 'xoo-ml-style', $style );
+	}, 10 );
+
+}
+
+add_action( 'wp_enqueue_scripts', 'xoo_el_ml_inline_style_glitch_fix', 5 );
 
 ?>
