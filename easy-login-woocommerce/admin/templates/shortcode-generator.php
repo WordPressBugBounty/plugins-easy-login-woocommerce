@@ -1,14 +1,14 @@
-<div class="xoo-el-scgen-cont">
+<div class="xoo-el-scgen-cont xoo-ass-section">
 
-	<h3>Shortcode Generator</h3>
+	<div class="xoo-asc-head"><span class="xoo-asch-title ">Shortcode Generator</span></div>
 
 	<span style="font-size: 15px; margin-top: 15px; display: block;">To see the login modal, view your website as a guest or in incognito mode.</span>
 
 	<div class="xoo-el-scgroup" data-attr="sctype">
 		<label>Shortcode For: </label>
 		<div>
-			<label><input type="radio" data-fname="xoo-elscg-sctype" value="inline">Inline Form</label>
-			<label><input type="radio" data-fname="xoo-elscg-sctype" value="popup">Open Popup</label>
+			<label class="xoo-btn-primary"><input type="radio" data-fname="xoo-elscg-sctype" value="inline">Inline Form</label>
+			<label class="xoo-btn-primary"><input type="radio" data-fname="xoo-elscg-sctype" value="popup">Open Popup</label>
 		</div>	
 	</div>
 

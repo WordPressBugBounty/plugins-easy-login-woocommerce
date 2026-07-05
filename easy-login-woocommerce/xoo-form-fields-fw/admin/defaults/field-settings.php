@@ -140,7 +140,7 @@ $field_settings = array(
 		'countries',
 		'default' => array(
 			'type' 			=> 'select',
-			'options' 		=> array_merge( array( 'xoo_ff_placeholder' => 'Placeholder' ), (array) include XOO_AFF_DIR.'/countries/countries.php' ),
+			'options' 		=> array_merge( array( 'xoo_ff_placeholder' => 'Placeholder' ), (array) include $this->aff->dir.'/countries/countries.php' ),
 		),
 		'unique_id',
 		'class',
@@ -179,7 +179,7 @@ $field_settings = array(
 		'country_choose',
 		'default' => array(
 			'type' 			=> 'select',
-			'options' 		=> (array) include XOO_AFF_DIR.'/countries/countries.php',
+			'options' 		=> (array) include $this->aff->dir.'/countries/countries.php',
 		),
 		'for_country_id' => array(
 			'required' => 'no',

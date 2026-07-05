@@ -1,5 +1,7 @@
 <?php
 
+use XooEL\Framework\Xoo_Exception;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

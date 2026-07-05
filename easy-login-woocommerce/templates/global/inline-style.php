@@ -61,11 +61,34 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 
 ?>
 
-<?php if( $new_btn_layout  ): ?>
-	<?php echo xoo_el_helper()->get_button_css( '.xoo-el-form-container button.btn.button.xoo-el-action-btn', $sySettings['sy-btn-main'] ); ?>
-<?php else: ?>
+<?php if( $new_btn_layout  ){
 
-	<?php
+	$buttonThemes = $sySettings['sy-btnthemes'];
+
+	$buttonThemeSelectorMap = array(
+		'sy-btntheme-action' 	=> '.xoo-el-form-container button[type="submit"].btn.button.xoo-el-action-btn',
+		'sy-btntheme-toggle' 	=> '.xoo-el-form-container button.btn.button.xoo-el-action-btn:not(button[type="submit"])',
+	);
+
+
+
+	foreach ($buttonThemeSelectorMap as $themeOption => $themeClasses ) {
+
+		if( !isset( $sySettings[ $themeOption ] ) ) continue;
+
+		$buttonThemeValues = $buttonThemes[ $sySettings[ $themeOption ] ];
+
+		echo xoo_el_helper()->get_button_css( $themeClasses, $buttonThemeValues );
+
+		if( $buttonThemeValues['size_type'] === 'custom' ){
+			echo $themeClasses. '{width: calc('.$buttonThemeValues['width'].$buttonThemeValues[ 'width_unit' ].' - 20px );}';
+		}
+
+	}
+
+	
+
+}else{
 
 	$btn_style 			= $sySettings['sy-btns-theme'];
 	$btn_bg_color 		= $sySettings['sy-btn-bgcolor'];
@@ -73,6 +96,8 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 	$btn_height 		= $sySettings['sy-btn-height'];	
 
 	?>
+
+	
 	
 	<?php if( $btn_style === 'custom' ): ?>
 		.xoo-el-form-container button.btn.button.xoo-el-action-btn{
@@ -83,7 +108,12 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 			height: <?php echo esc_html( $btn_height ) ?>px;
 		}
 	<?php endif; ?>
-<?php endif; ?>
+
+	<?php
+
+}
+
+?>
 
 .xoo-el-container:not(.xoo-el-style-slider) .xoo-el-inmodal{
 	max-width: <?php echo esc_html( $popup_width ) ?>px;
@@ -134,6 +164,27 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 	}
 	.xoo-el-wrap > div{
 		direction: ltr;
+	}
+
+	.xoo-el-sidebar{
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
+
+	.xoo-el-srcont{
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
+<?php else: ?>
+
+	.xoo-el-sidebar{
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
+
+	.xoo-el-srcont{
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
 	}
 
 <?php endif; ?>

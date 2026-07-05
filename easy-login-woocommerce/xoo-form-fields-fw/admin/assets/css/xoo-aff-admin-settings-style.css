@@ -38,11 +38,11 @@ span.xoo-aff-break {
 
 .xoo-as-field-preview {
     position: sticky;
-    top: 50px;
+    top: 95px;
     background-color: #fff;
     padding: 20px 0;
     margin-bottom: 10px;
-    z-index: 999;
+    z-index: 995;
 }
 
 

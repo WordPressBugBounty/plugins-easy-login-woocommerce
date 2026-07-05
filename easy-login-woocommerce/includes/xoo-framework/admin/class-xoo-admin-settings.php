@@ -1,5 +1,7 @@
 <?php
 
+namespace XooEL\Framework;
+
 class Xoo_Admin{
 
 	public $data 		= array();
@@ -254,7 +256,11 @@ class Xoo_Admin{
 
 	//Add info tab
 	public function set_info_tab(){
-		$this->register_tab( 'Info', 'info', '' );
+		$this->register_tab( 'Info', 'info', '', false, array(
+			'priority' 			=> 99,
+			'icon' 						=> 'xoo-icon-info',
+			'section_sidebar_disable' 	=> 'yes',
+		) );
 	}
 
 	public function info_tab_data( $tab_id, $tab_data ){
@@ -447,9 +453,10 @@ class Xoo_Admin{
 		
 		wp_enqueue_media(); // media gallery
 		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_style( 'xoo-admin-style', XOO_FW_URL . '/admin/assets/css/xoo-admin-style.css', array(), XOO_FW_VERSION, 'all' );
-		wp_enqueue_style( 'xoo-admin-fonts', XOO_FW_URL.'/admin/assets/css/xoo-admin-fonts.css', array(), XOO_FW_VERSION );
-		wp_enqueue_script( 'xoo-admin-js', XOO_FW_URL . '/admin/assets/js/xoo-admin-js.js', array( 'jquery','wp-color-picker', 'jquery-ui-sortable' ), XOO_FW_VERSION, false );
+		wp_enqueue_style( 'xoo-admin-style', $this->helper->fw_url . '/admin/assets/css/xoo-admin-style.css', array(), XOO_FW_VERSION, 'all' );
+		wp_enqueue_style( 'xoo-admin-fonts', $this->helper->fw_url.'/admin/assets/css/xoo-admin-fonts.css', array(), XOO_FW_VERSION );
+		wp_enqueue_script( 'xoo-admin-serializejson', $this->helper->fw_url . '/admin/assets/js/xoo-admin-serializejson.js', array( 'jquery' ), '1.0', true );
+		wp_enqueue_script( 'xoo-admin-js', $this->helper->fw_url . '/admin/assets/js/xoo-admin-js.js', array( 'jquery','wp-color-picker', 'jquery-ui-sortable' ), XOO_FW_VERSION, false );
 		
 
 		wp_localize_script( 'xoo-admin-js', 'xoo_admin_params', array(
@@ -700,24 +707,38 @@ class Xoo_Admin{
 
 		//Register Tabs
 		foreach ( $tabs as $tab_id => $tab_data ) {
+
+			$args = isset( $tab_data['args'] ) ? $tab_data['args'] : array();
+
+			if( isset( $tab_data['icon'] ) ){
+				$args['icon'] = $tab_data['icon'];
+			}
+
 			 $this->register_tab(
 			 	$tab_data['title'],
 			 	$tab_data['id'],
 			 	$tab_data['option_key'],
 			 	isset( $tab_data['pro'] ) ? $tab_data['pro'] : 'no',
-			 	isset( $tab_data['args'] ) ? $tab_data['args'] : array()
+			 	$args
 			 );
 		}
 
 		//Register Sections
 		foreach ( $sections as $section_data ) {
+
+			$args = isset( $section_data['args'] ) ? $section_data['args'] : array();
+
+			if( isset( $section_data['icon'] ) ){
+				$args['icon'] = $section_data['icon'];
+			}
+
 			$this->register_section(
 			 	$section_data['title'],
 			 	$section_data['id'],
 			 	$section_data['tab'],
 			 	isset( $section_data['desc'] ) ? $section_data['desc'] : '',
 			 	isset( $section_data['pro'] ) ? $section_data['pro'] : 'no',
-			 	isset( $section_data['args'] ) ? $section_data['args'] : array()
+			 	$args
 			 );
 		}
 
@@ -767,7 +788,7 @@ class Xoo_Admin{
 
 		$args = apply_filters( 'xoo_admin_settings_output_args', $args, $this->helper->slug, $this );
 
-		$this->helper->get_template( '/admin/templates/xoo-admin-settings-output.php', $args, XOO_FW_DIR  );
+		$this->helper->get_template( '/admin/templates/xoo-admin-settings-output-new.php', $args, XOO_FW_DIR  );
 	}
 
 
@@ -780,52 +801,83 @@ class Xoo_Admin{
 	}
 
 
-	public function create_settings_html( $tab_id ){
+	public function create_settings_html( $tab_id ) {
 
-		if( !isset( $this->settings[ $tab_id ] ) ) return;
+		if ( ! isset( $this->settings[ $tab_id ] ) ) {
+			return;
+		}
 
-		$html = '';
+		$tab_settings = $this->settings[ $tab_id ];
+		$option_key   = $this->tabs[ $tab_id ]['option_key'];
+		$option_value = (array) get_option( $option_key, true );
 
-		$tab_settings 	= $this->settings[ $tab_id ];
-		$option_key 	= $this->tabs[ $tab_id ]['option_key'];
-		$option_value 	= (array) get_option( $option_key, true );
+		ob_start();
 
-		foreach ( $tab_settings as $section_id => $settings ) {
-				
-			$section_container 	= '<div class="%1$s">%2$s</div>';
-			$section_settings  	= $section_heading = '';
-			$section_data 		= $this->sections[ $tab_id ][ $section_id ];
+		foreach ( $tab_settings as $section_id => $settings ) :
+
+			$section_data     = $this->sections[ $tab_id ][ $section_id ];
+			$section_settings = '';
 
 			foreach ( $settings as $setting_id => $setting_data ) {
-				$id 	= $option_key.'['.$setting_id.']';
-				$value 	= isset( $option_value[ $setting_id ] ) ? $option_value[ $setting_id ] : null;
-				$section_settings .= $this->get_setting_html( $id, $setting_data, $value );
+
+				$id    = $option_key . '[' . $setting_id . ']';
+				$value = $option_value[ $setting_id ] ?? null;
+
+				$section_settings .= $this->get_setting_html(
+					$id,
+					$setting_data,
+					$value
+				);
+
 			}
 
-			if( $section_settings ){
-
-				$section_heading = '<span id="'.$tab_id.'_'.$section_id.'" class="xoo-asc-head xoo-asc-'.$section_id.'">'.$section_data['title'].'</span>';
-
-				if( $section_data['desc'] ){
-					$section_heading .= '<span class="xoo-asc-desc">'.$section_data['desc'].'</span>';
-				}
-
+			if ( ! $section_settings ) {
+				continue;
 			}
 
 			$section_class = array(
-				'xoo-ass-'.$tab_id.'-'.$section_id
+				'xoo-ass-section',
+				'xoo-ass-' . $tab_id . '-' . $section_id,
 			);
 
-			if( $section_data['pro'] === "yes" ){
+			if ( $section_data['pro'] === 'yes' ) {
 				$section_class[] = 'xoo-ass-pro-sec';
 			}
+			?>
 
-			$html .= sprintf( $section_container, implode( " ", $section_class ) , $section_heading . $section_settings );
+			<div id="<?php echo esc_attr( $tab_id . '_' . $section_id ); ?>" class="<?php echo esc_attr( implode( ' ', $section_class ) ); ?>">
 
-		} 
+				<div  class="<?php echo esc_attr( 'xoo-asc-head xoo-asc-' . $section_id ); ?>" >
 
-		echo $html;
+					<div>
 
+						<?php if ( ! empty( $section_data['args']['icon'] ) ) : ?>
+							<span class="<?php echo esc_attr( 'xoo-as-icon ' . $section_data['args']['icon'] ); ?>"></span>
+						<?php endif; ?>
+
+						<span class="xoo-asch-title <?php if ( $section_data['pro'] === 'yes' ) echo 'xoo-as-is-pro' ?>"><?php echo esc_html( $section_data['title'] ); ?></span>
+
+					</div>
+
+					<?php if ( ! empty( $section_data['desc'] ) ) : ?>
+						<span class="xoo-asc-desc">
+							<?php echo wp_kses_post( $section_data['desc'] ); ?>
+						</span>
+					<?php endif; ?>
+
+				</div>
+
+				
+
+				<?php echo $section_settings; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
+			</div>
+
+			<?php
+
+		endforeach;
+
+		echo ob_get_clean();
 	}
 
 
@@ -909,7 +961,7 @@ class Xoo_Admin{
 				'tinymce' => array(
 					'teeny'   => false,
 					/* Toolbar */
-					'toolbar1' => 'formatselect,styleselect,fontsizeselect,bold,italic,underline,forecolor,backcolor,alignleft,aligncenter,alignright,undo,redo,removeformat,code,hr',
+					'toolbar1' => 'formatselect,fontselect,styleselect,fontsizeselect,bold,italic,underline,forecolor,backcolor,alignleft,aligncenter,alignright,removeformat,code,hr',
 
 					/* Font sizes */
 					'fontsize_formats' => '12px 14px 15px 16px 18px 20px 22px 24px 28px 32px',
@@ -1172,6 +1224,64 @@ class Xoo_Admin{
 				break;
 
 
+
+			case 'button_theme_creator':
+
+				$value = is_array( $value ) ? $value : array();
+
+				$defaults = array_merge( array(
+					'theme_id' 		=> '',
+					'title' 		=> 'Theme [%^]',
+				), $this->helper->get_button_values() );
+
+
+				if( !empty( $value ) ){
+
+					foreach ( $value as $theme_id => $theme_values ) {
+						$value[ $theme_id ] =  xoo_recursive_parse_args(
+							$theme_values,
+							$defaults
+						);
+					}
+					
+				}
+
+
+				$units = array(
+					'px' => 'px',
+					'%'  => '%',
+					'em' => 'em',
+					'rem'=> 'rem'
+				);
+
+				ob_start();
+				?>
+
+				<div class="xoo-btntheme-cont" data-value="<?php echo esc_attr( wp_json_encode( $value ) ); ?>" data-defaults='<?php echo esc_attr( wp_json_encode( $defaults ) ); ?>'>
+
+					<button type="button" class="xoo-btn xoo-btn-primary xoo-add-btntheme"><span class="xoo-as-icon xoo-icon-plus"></span>New Theme</button>
+
+					<div class="xoo-btnthemes"></div>
+
+				</div>
+
+				<?php
+
+				$field .= ob_get_clean();
+
+				$field .= $this->helper->get_template( '/admin/templates/global/button-theme.php', array( 'adminObj' => $this, 'field_id' => $field_id ), XOO_FW_DIR );
+
+				break;
+
+			case 'button_theme_selector':
+
+				$select 	= '<select name="'.$field_id.'" '.$custom_attributes.' data-default="'.$value.'"></select>';
+
+				$field 		.= $select;
+
+				break;
+
+		
 			case 'button':
 
 				$value = is_array( $value ) ? $value : array();
@@ -1401,7 +1511,7 @@ class Xoo_Admin{
 										<option value="none" <?php selected( $value['text']['textTransform'], 'none' ); ?>>None</option>
 										<option value="uppercase" <?php selected( $value['text']['textTransform'], 'uppercase' ); ?>>Uppercase</option>
 										<option value="lowercase" <?php selected( $value['text']['textTransform'], 'lowercase' ); ?>>Lowercase</option>
-										<option value="capitalize" <?php selected( $value['text']['textTransform'], 'capitalize' ); ?>>Capitalize</option>
+										<option value="capitalize" <?php selected( $value['text']['textTransform'], 'apitalize' ); ?>>Capitalize</option>
 
 									</select>
 
@@ -1464,6 +1574,10 @@ class Xoo_Admin{
 
 		$field = apply_filters( 'xoo_admin_setting_field_callback_html', $field, $field_id, $value, $args );
 
+		if( isset( $args['reset'] ) && $args['reset'] === "yes" ){
+			$field .= '<span class="xoo-as-resetval" data-default="'.esc_attr( wp_json_encode( $default) ).'">Reset to default value</span>';
+		}
+
 		if( isset( $args['value_desc'] ) && !empty( $args['value_desc'] ) ){
 			$defaultValueDesc = isset( $args['value_desc'][$value] ) ? $args['value_desc'][$value] : '';
 			$field .= '<div class="xoo-as-val-desc" data-desc="'.esc_attr( wp_json_encode( $args['value_desc'] ) ).'">'.$defaultValueDesc.'</div>';
@@ -1485,8 +1599,12 @@ class Xoo_Admin{
 			
 		}
 
-		$label = '<div class="xoo-as-label">'.$title.'</div>';
-		$field = $label.'<div class="xoo-as-field">'.$field.'</div>';
+		if( isset( $title ) && $title ){
+			$label = '<div class="xoo-as-label">'.$title.'</div>';
+			$field = $label.'<div class="xoo-as-field">'.$field.'</div>';
+		}
+		
+		
 
 		$container_class 	= implode( ' ' , $container_class );
 		$field 				= sprintf( $field_container, $container_class, $field, $callback );
@@ -1565,5 +1683,108 @@ class Xoo_Admin{
 		return ob_get_clean();
 
 	}
+
+
+	private function get_border_setting_template_html( $field_id, $path ) {
+
+		$styles = array(
+			'none',
+			'hidden',
+			'solid',
+			'dashed',
+			'dotted',
+			'double',
+			'groove',
+			'ridge',
+			'inset',
+			'outset'
+		);
+
+		ob_start();
+		?>
+
+		<div class="xoo-row-settings">
+
+			<div>
+				<i>Size</i>
+				<input
+					name="<?php echo $field_id; ?>[size]"
+					type="number"
+					min="0"
+					value="{{data.<?php echo $path; ?>.size}}">
+			</div>
+
+			<div>
+				<i>Color</i>
+				<input
+					name="<?php echo $field_id; ?>[color]"
+					type="text"
+					class="xoo-as-color-input"
+					value="{{data.<?php echo $path; ?>.color}}">
+			</div>
+
+			<div>
+
+				<i>Style</i>
+
+				<select name="<?php echo $field_id; ?>[style]">
+
+					<?php foreach ( $styles as $style ) : ?>
+
+						<option
+							value="<?php echo esc_attr( $style ); ?>"
+							<# if ( data.<?php echo $path; ?>.style === '<?php echo esc_js( $style ); ?>' ) { #>
+								selected
+							<# } #>
+						>
+							<?php echo ucfirst( $style ); ?>
+						</option>
+
+					<?php endforeach; ?>
+
+				</select>
+
+			</div>
+
+			<div>
+				<i>Radius</i>
+				<input
+					name="<?php echo $field_id; ?>[radius]"
+					type="number"
+					min="0"
+					value="{{data.<?php echo $path; ?>.radius}}">
+			</div>
+
+		</div>
+
+		<?php
+
+		return ob_get_clean();
+	}
+
+
+	public function add_button_theme_creator(){
+		?>
+
+		<div class="xoo-wsc-btntheme-cont">
+
+			<button type="button" class="button button-primary xoo-wsc-add-btntheme">+ Add a new button theme</button>
+
+			<div class="xoo-wsc-btnthemes"></div>
+
+		</div>
+
+		<?php
+		include XOO_FW_DIR.'/admin/templates/global/button-theme.php';
+	}
+
+	public function templatejs_select_options( $name, $options ){
+		foreach ( $options as $option_value => $title) {
+			?>
+			<option value="<?php echo $option_value ?>" {{ data.<?php echo $name; ?> == '<?php echo $option_value ?>' ? 'selected' : '' }} ><?php echo $title ?></option>
+			<?php
+		}
+	}
+
 
 }

@@ -1,13 +1,18 @@
 <?php
 
+namespace XooEL\Aff;
+
 class Xoo_Aff{
 
-	public $plugin_slug, $admin_page_slug, $fields, $admin, $en_autocompadr, $hasUpdated, $ff_helper, $field_option_key;
+	public $plugin_slug, $admin_page_slug, $fields, $admin, $en_autocompadr, $hasUpdated, $ff_helper, $field_option_key, $dir, $url;
 
 	public static $style_enqueued = false;
 
 	public function __construct( $plugin_slug, $admin_page_slug, $ff_helper = null ){
 
+
+		$this->dir 				= dirname(__DIR__);
+		$this->url 				= plugins_url( '', __DIR__  );
 		$this->plugin_slug 		= $plugin_slug;
 		$this->admin_page_slug 	= $admin_page_slug;
 		$this->ff_helper 		= $ff_helper;
@@ -24,10 +29,8 @@ class Xoo_Aff{
 	}
 
 	public function includes(){
-
-		include_once XOO_AFF_DIR.'/includes/xoo-aff-functions.php';
-		include_once XOO_AFF_DIR.'/admin/class-xoo-aff-fields.php';
-		include_once XOO_AFF_DIR.'/admin/class-xoo-aff-admin.php';
+		include_once $this->dir .'/admin/class-xoo-aff-fields.php';
+		include_once $this->dir .'/admin/class-xoo-aff-admin.php';
 
 	}
 
@@ -72,10 +75,10 @@ class Xoo_Aff{
 
 		$sy_options 	= $this->get_field_option();
 
-		wp_enqueue_style( 'xoo-aff-style', XOO_AFF_URL.'/assets/css/xoo-aff-style.css', array(), XOO_AFF_VERSION) ;
+		wp_enqueue_style( 'xoo-aff-style', $this->url.'/assets/css/xoo-aff-style.css', array(), XOO_AFF_VERSION) ;
 
 		if( $sy_options['s-show-icons'] === "yes" ){
-			wp_enqueue_style( 'xoo-aff-font-awesome5', XOO_AFF_URL.'/lib/fontawesome5/css/all.min.css' );
+			wp_enqueue_style( 'xoo-aff-font-awesome5', $this->url.'/lib/fontawesome5/css/all.min.css' );
 		}
 
 
@@ -146,7 +149,7 @@ class Xoo_Aff{
 		}
 
 		if( $has_phonecode ){
-			wp_enqueue_style( 'xoo-aff-flags', XOO_AFF_URL.'/countries/flags.css', array(), XOO_AFF_VERSION );
+			wp_enqueue_style( 'xoo-aff-flags', $this->url.'/countries/flags.css', array(), XOO_AFF_VERSION );
 		}
 
 		if( $has_meter ){
@@ -154,7 +157,7 @@ class Xoo_Aff{
 		}
 
 		if( $has_date ){
-			wp_enqueue_style( 'jquery-ui-css', XOO_AFF_URL.'/lib/jqueryui/uicss.css' );
+			wp_enqueue_style( 'jquery-ui-css', $this->url.'/lib/jqueryui/uicss.css' );
 			wp_enqueue_script('jquery-ui-datepicker');
 		}
 
@@ -162,11 +165,11 @@ class Xoo_Aff{
 		if( $has_select2 ){
 
 			if( !wp_style_is( 'wc-select2' ) ){
-				wp_enqueue_style( 'xoo-select2', XOO_AFF_URL.'/lib/select2/select2.css');
+				wp_enqueue_style( 'xoo-select2', $this->url.'/lib/select2/select2.css');
 			}
 
 			if( !wp_script_is( 'wc-select2' ) ){
-				wp_enqueue_script( 'xoo-select2', XOO_AFF_URL.'/lib/select2/select2.js', array('jquery'), XOO_AFF_VERSION, $strategy ); // Main JS
+				wp_enqueue_script( 'xoo-select2', $this->url.'/lib/select2/select2.js', array('jquery'), XOO_AFF_VERSION, $strategy ); // Main JS
 			}
 
 		}
@@ -178,7 +181,7 @@ class Xoo_Aff{
 			}
 		}
 
-		wp_enqueue_script( 'xoo-aff-js', XOO_AFF_URL.'/assets/js/xoo-aff-js.js', array( 'jquery' ), XOO_AFF_VERSION, $strategy );
+		wp_enqueue_script( 'xoo-aff-js', $this->url.'/assets/js/xoo-aff-js.js', array( 'jquery' ), XOO_AFF_VERSION, $strategy );
 
 
 		$localize_args = array(
@@ -191,9 +194,9 @@ class Xoo_Aff{
 		);
 
 		if( $has_states ){
-			$localize_args['states'] = json_encode( include XOO_AFF_DIR.'/countries/states.php' );
+			$localize_args['states'] = json_encode( include $this->dir .'/countries/states.php' );
 			if( $has_country && $has_countries_locale ){
-				$localize_args['countries_locale'] = json_encode( include XOO_AFF_DIR.'/countries/country-locale.php' );
+				$localize_args['countries_locale'] = json_encode( include $this->dir .'/countries/country-locale.php' );
 			}
 		}
 
@@ -215,7 +218,7 @@ class Xoo_Aff{
 
 			$inline_style = xoo_aff_get_template(
 				$this->has_old_field_layout() ? 'xoo-aff-inline-style.php' : 'xoo-aff-new-inline-style.php',
-				XOO_AFF_DIR.'/includes/templates/', array( 'sy_options' => $sy_options, 'ff_helper' => $this->ff_helper ),
+				$this->dir .'/includes/templates/', array( 'sy_options' => $sy_options, 'ff_helper' => $this->ff_helper ),
 				true
 			) . $inline_style ;
 

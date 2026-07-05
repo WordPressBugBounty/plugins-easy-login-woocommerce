@@ -1,6 +1,6 @@
 <?php
 
-$countries = (array) include XOO_AFF_DIR.'/countries/countries.php';
+$countries = (array) include $this->aff->dir.'/countries/countries.php';
 
 $field_settings = array(
 

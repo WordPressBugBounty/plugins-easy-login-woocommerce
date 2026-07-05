@@ -1,5 +1,7 @@
 <?php
 
+namespace XooEL\Aff;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

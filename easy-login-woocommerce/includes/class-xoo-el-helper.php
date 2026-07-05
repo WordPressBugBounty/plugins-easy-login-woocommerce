@@ -1,5 +1,7 @@
 <?php
 
+use XooEL\Framework\Xoo_Helper;
+
 class Xoo_El_Helper extends Xoo_Helper{
 
 	protected static $_instance = null;

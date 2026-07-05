@@ -1,5 +1,7 @@
 <?php
 
+use XooEL\Framework\Xoo_Exception;
+
 class Xoo_El_Code_Form{
 
     public $form_id;

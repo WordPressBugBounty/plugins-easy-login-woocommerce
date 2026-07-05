@@ -43,7 +43,7 @@ class Xoo_El_Core{
 		//Field framework
 		require_once XOO_EL_PATH.'/xoo-form-fields-fw/xoo-aff.php';
 
-		$this->aff = xoo_aff_fire( 'easy-login-woocommerce', 'xoo-el-fields', xoo_el_helper() ); // start framework
+		$this->aff = \XooEL\Aff\xoo_aff_fire( 'easy-login-woocommerce', 'xoo-el-fields', xoo_el_helper() ); // start framework
 
 		require_once XOO_EL_PATH.'includes/class-xoo-el-func.php';
 		
@@ -182,6 +182,34 @@ class Xoo_El_Core{
 				$glOptions['txt-single-form'] 			= ob_get_clean();
 				$syOptions['sy-btn-newlayout'] 			= 'no'; 
 				update_option( 'xoo-el-old-btn-layout', 'yes' );
+			}
+
+
+			if( version_compare( $db_version, '3.2.2', '<')  ){
+
+
+				//Create theme from older button settings
+				if( isset( $syOptions['sy-btn-main'] ) && !empty( $syOptions['sy-btn-main'] ) && ( !isset( $syOptions['sy-btn-newlayout'] ) || $syOptions['sy-btn-newlayout'] === "yes" ) ){
+
+					$button_settings = xoo_el_helper()->get_button_values( $syOptions['sy-btn-main'] );
+
+					$default_theme1 = array_merge(
+						$button_settings,
+						array(
+							'theme_id' => 'theme_default1',
+							'title'    => 'Default Theme #1',
+						)
+					);
+
+					$syOptions['sy-btnthemes'] = array(
+						'theme_default1' => $default_theme1,
+					);
+
+					$syOptions['sy-btntheme-action'] = 'theme_default1';
+				
+					
+				}
+
 			}
 
 			update_option( 'xoo-el-gl-options', $glOptions );

@@ -72,9 +72,9 @@ $addons = array(
 			<span class="xoo-ao-title"><?php echo $data['title'] ?></span>
 			<div class="xoo-ao-desc"><?php echo $data['desc']; ?></div>
 			<div class="xoo-ao-btns">
-				<a target="_blank" href="<?php echo esc_url( $data['link'] ) ?>">BUY</a>
+				<a class="xoo-btn xoo-btn-primary" target="_blank" href="<?php echo esc_url( $data['link'] ) ?>">BUY</a>
 				<?php if( isset( $data['demo'] ) ): ?>
-					<a target="_blank" href="<?php echo esc_url( $data['demo'] ) ?>">DEMO</a>
+					<a class="xoo-btn xoo-btn-secondary" target="_blank" href="<?php echo esc_url( $data['demo'] ) ?>">DEMO</a>
 				<?php endif; ?>
 			</div>
 		</div>

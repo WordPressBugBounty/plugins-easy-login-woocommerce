@@ -18,13 +18,9 @@
 
 
 
-.xoo-settings-container[active-tab="addon"] .xoo-sc-bottom-btns {
-    display: none;
-}
-
 .xoo-addon {
     display: inline-block;
-    max-width: 300px;
+    max-width: 350px;
     padding: 20px 20px 60px 20px;
     border: 2px solid #eee;
     margin: 20px;
@@ -32,6 +28,7 @@
     position: relative;
     width: 100%;
     line-height: 27px;
+    background-color: #fff;
 }
 
 .xoo-addon-container {
@@ -41,10 +38,14 @@
 }
 
 .xoo-addon .dashicons {
-    font-size: 42px;
+    font-size: 31px;
     display: table;
     margin: 0 auto;
-    color: #1d3557;
+    color: #3e659e;
+    background-color: #ffffff;
+    padding: 14px;
+    border-radius: 50%;
+    box-shadow: 0 0px 12px #eee;
 }
 
 span.xoo-ao-title {
@@ -80,9 +81,7 @@ span.xoo-ao-title {
 }
 
 
-.xoo-sc-bottom-btns {
-    max-width: 300px;
-}
+
 
 li#xoo-el-sing-user:not(.active) {
     background-color: #3d3d3d;
@@ -110,8 +109,9 @@ li#xoo-el-sing-user:not(.active) .xoo-aff-type-icon {
 .xoo-el-li-info li > span {
     display: block;
     padding: 8px 10px;
-    background-color: #eee;
+    background-color: #f9f9f9;
     border-radius: 5px;
+    font-weight: 500;
 }
 
 .xoo-ao-btns a:nth-child(2) {
@@ -202,7 +202,7 @@ span.xoo-elscg-copy {
     margin: 0 10px;
 }
 
-.xoo-settings-container[active-tab="shortcodes"] .xoo-sc-bottom-btns {
+.xoo-as-container[data-active_tab="shortcodes"] .xoo-sc-bottom-btns, .xoo-as-container[data-active_tab="addon"] .xoo-sc-bottom-btns {
     display: none;
 }
 
@@ -385,10 +385,9 @@ button.xoo-el-adpopup-go.button-primary {
     background-color: #dff0d8;
     border-color: #d6e9c6;
     padding: 10px 20px;
-    margin-left: -15px;
     border-radius: 5px;
     margin-bottom: 20px;
-    margin-top: 15px;
+    margin-top: 10px;
     font-size: 16px;
     display: flex;
     flex-wrap: wrap;
@@ -442,3 +441,23 @@ ul.xoo-sc-tabs li[data-tab="addon"] {
     color: #000;
 }
 
+.xoo-sc-tab-content[data-tab="info"] {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .05);
+    border-radius: 5px;
+    border: 1px solid #e5e7eb;
+}
+
+
+
+.xoo-sc-tbar-tabs li[data-tab="addon"] span:nth-child(2){
+    background-color: #fde5ae;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+
+.xoo-el-adpopup-active .xoo-sc-tabs, .xoo-el-adpopup-active .xoo-sc-bottom-btns, .xoo-el-adpopup-active .xoo-sc-sections, .xoo-el-adpopup-active .xoo-as-topbar, .xoo-el-adpopup-active .xoo-as-setsidebar{
+    display: none;
+}

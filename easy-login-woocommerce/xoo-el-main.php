@@ -1,15 +1,16 @@
 <?php
 /**
-* Plugin Name: Login & Register Customizer – Popup | Slider | Inline | WooCommerce
+* Plugin Name: Login & Register Forms – Popup | Slider | Inline | WooCommerce
 * Plugin URI: http://xootix.com/easy-login-for-woocommerce
 * Author: XootiX
-* Version: 3.2.1
+* Version: 3.2.2
 * Text Domain: easy-login-woocommerce
 * Domain Path: /languages
 * Author URI: http://xootix.com
 * Description: Allow users to login/signup using interactive popup design.
-* Tags: login, signup, register, woocommerce, popup
+* Tags: woocommerce login, login popup, ajax login, otp login, registration
 */
+
 
 
 //Exit if accessed directly
@@ -23,7 +24,7 @@ define( 'XOO_EL_PLUGIN_FILE', __FILE__ );
 define( "XOO_EL_PATH", plugin_dir_path( XOO_EL_PLUGIN_FILE ) ); // Plugin path
 define( "XOO_EL_URL", untrailingslashit( plugins_url( '/', XOO_EL_PLUGIN_FILE ) ) ); // plugin url
 define( "XOO_EL_PLUGIN_BASENAME", plugin_basename( XOO_EL_PLUGIN_FILE ) );
-define( "XOO_EL_VERSION", "3.2.1" ); //Plugin version
+define( "XOO_EL_VERSION", "3.2.2" ); //Plugin version
 
 require_once XOO_EL_PATH.'/includes/xoo-framework/xoo-framework.php';
 

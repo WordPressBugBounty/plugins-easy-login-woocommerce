@@ -1,5 +1,7 @@
 <?php
 
+namespace XooEL\Aff;
+
 class Xoo_Aff_Fields{
 
 	public $types = array(), $sections = array(), $settings = array(),  $fields = array(), $setting_options = array(), $cached_field_html_args_for_value;
@@ -386,7 +388,7 @@ class Xoo_Aff_Fields{
 
 		//Get default field settings
 		if( empty( $this->setting_options ) ){
-			$this->setting_options = include XOO_AFF_DIR.'/admin/defaults/field-setting-options.php';
+			$this->setting_options = include $this->aff->dir.'/admin/defaults/field-setting-options.php';
 		}
 
 		//Field Types
@@ -816,7 +818,7 @@ class Xoo_Aff_Fields{
 		$field_data = $this->get_field_data( $field_id );
 		if( !$field_data  ) return;
 
-		$countries 			= include XOO_AFF_DIR.'/countries/countries.php';
+		$countries 			= include $this->aff->dir.'/countries/countries.php';
 		$list_country 		= 'all';
 		$settings 			= $selected_countries = array();
 
@@ -863,7 +865,7 @@ class Xoo_Aff_Fields{
 	public function get_field_phone_codes( $field_id ){
 
 		$countries 			= $this->get_field_countries( $field_id );
-		$all_phone_codes 	= include XOO_AFF_DIR.'/countries/phone.php';
+		$all_phone_codes 	= include $this->aff->dir.'/countries/phone.php';
 
 		$phone_codes = array_intersect_key( $all_phone_codes, $countries ); 
 
@@ -877,7 +879,7 @@ class Xoo_Aff_Fields{
 	 * @param  	string 		$country_code 		Country Code
 	*/
 	public function get_country_states( $country_code = '' ){
-		$all_states = (array) include XOO_AFF_DIR.'/countries/states.php';
+		$all_states = (array) include $this->aff->dir.'/countries/states.php';
 		if( $country_code ){
 			return isset( $all_states[ $country_code ] ) ? $all_states[ $country_code ] : array();
 		}
@@ -1290,7 +1292,7 @@ class Xoo_Aff_Fields{
 	 * Add default field types
 	*/
 	public function set_default_field_types(){
-		$types = include XOO_AFF_DIR.'/admin/defaults/field-types.php';
+		$types = include $this->aff->dir.'/admin/defaults/field-types.php';
 
 		foreach ( $types as $type ) {
 			$args = isset( $type[3] ) ? $type[3] : array();
@@ -1313,7 +1315,7 @@ class Xoo_Aff_Fields{
  	*/
 	public function set_default_field_settings(){
 
-		$field_settings = include XOO_AFF_DIR.'/admin/defaults/field-settings.php';
+		$field_settings = include $this->aff->dir.'/admin/defaults/field-settings.php';
 
 		foreach ( $field_settings as $field_type_id => $field_setting_options ) {
 			$this->create_field_settings( $field_type_id, $field_setting_options );

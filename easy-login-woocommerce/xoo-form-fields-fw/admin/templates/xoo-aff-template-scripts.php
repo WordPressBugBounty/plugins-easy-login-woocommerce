@@ -1,7 +1,7 @@
 <?php
 
 //Include all files under templates folder
-$path  = XOO_AFF_DIR . '/admin/templates/scripts/';
+$path  = $aff->dir . '/admin/templates/scripts/';
 
 ?>
 

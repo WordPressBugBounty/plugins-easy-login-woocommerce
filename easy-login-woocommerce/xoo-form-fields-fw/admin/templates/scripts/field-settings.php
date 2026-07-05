@@ -1,6 +1,6 @@
 <?php
 
-$countries = include XOO_AFF_DIR.'/countries/countries.php';
+$countries = include $aff->dir.'/countries/countries.php';
 
 ?>
 <# if ( "section" === data.type ) { #>

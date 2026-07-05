@@ -42,7 +42,7 @@
     vertical-align: middle;
     width: 90%;
     text-align: left;
-    border-radius: 5px;
+    border-radius: 10px;
     height: 90%;
 }
 
@@ -107,7 +107,7 @@ span.xoo-el-close:hover, .xoo-el-notice-close:hover {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin: 10px 0;
+    margin: 8px 0;
     padding: 5px 20px;
     justify-self: center;
     margin-right: 20px;
@@ -254,6 +254,9 @@ body.xoo-el-popup-active, body.xoo-el-popup-notice-active {
     .xoo-el-wrap , .xoo-el-main {
         display: block;
         width: auto;
+    }
+    .xoo-el-srcont{
+        border-radius: 10px;
     }
 }
 
@@ -524,8 +527,8 @@ form.xoo-el-action-form {
 
 @media only screen and (max-width: 600px) {
     body .xoo-el-main {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-left: 25px;
+        padding-right: 25px;
     }
 }
 
@@ -864,7 +867,8 @@ form.xoo-el-code-form[style="display: block;"] {
 
 
 body .xoo-el-form-container button.button.btn.xoo-ml-login-otp-btn{
-    margin-right: 15px;
+    margin: 8px 0;
+    margin-right: 20px;
 }
 
 @media only screen and (max-width: 450px) {
@@ -879,6 +883,6 @@ body .xoo-el-form-container button.button.btn.xoo-ml-login-otp-btn{
         padding-right: 0
     }
     .xoo-el-form-container button.button.btn.xoo-el-action-btn{
-        width: 100%;
+        width: 100%!important;
     }
 }

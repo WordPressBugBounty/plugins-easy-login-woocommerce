@@ -1,35 +1,30 @@
 <?php
 
+namespace XooEL\Framework;
+
 class Xoo_Helper{
 
 	public $slug, $path, $helperArgs;
 	public $admin;
 
+	public $fw_url;
+
 	public function __construct( $slug, $path, $helperArgs = array() ){
 
 		$this->slug 		= $slug;
 		$this->path 		= $path;
+		$this->fw_url 		= untrailingslashit(plugin_dir_url( XOO_FW_DIR .'/'.basename( XOO_FW_DIR ) ) );
 		$this->helperArgs 	= wp_parse_args( $helperArgs, array(
 			'pluginFile' 	=> '',
 			'pluginName' 	=> ''
 		) );
 
-		$this->set_constants();
+
 		$this->includes(); 
 		$this->hooks();
 	}
 
 
-	public function set_constants(){
-		$this->define( 'XOO_FW_URL', untrailingslashit(plugin_dir_url( XOO_FW_DIR .'/'.basename( XOO_FW_DIR ) ) ) );
-		$this->define( 'XOO_FW_VERSION', '1.7.6' );
-	}
-
-	public function define( $name, $value ){
-		if( !defined( $name ) ){
-			define( $name, $value );
-		}
-	}
 
 	public function includes(){
 		require_once __DIR__.'/admin/class-xoo-admin-settings.php';
@@ -38,8 +33,8 @@ class Xoo_Helper{
 
 
 	public function hooks(){
-		add_action( 'init', array( $this, 'internationalize' ) );
-		add_action( 'admin_init', array( $this, 'time_to_update_theme_templates_data' ) );
+		\add_action( 'init', array( $this, 'internationalize' ) );
+		\add_action( 'admin_init', array( $this, 'time_to_update_theme_templates_data' ) );
 	}
 
 
@@ -501,40 +496,45 @@ class Xoo_Helper{
 	    
 	}
 
-	public function get_button_css( $selector, $settings ) {
 
-		$settings = xoo_recursive_parse_args(
-			$settings,
+	public function get_button_values( $values = array() ){
+
+		$values = xoo_recursive_parse_args(
+			$values,
 			array(
-				'width'         => 300,
-				'width_unit'    => 'px',
-				'height'        => 40,
+				'size_type' 	=> 'custom',
+				'width'         => 100,
+				'width_unit'    => '%',
 				'height_unit'   => 'px',
-				'bgColor'       => '#000000',
-				'txtColor'      => '#ffffff',
+				'height'        => 47,
+				'bgColor'       => '#27374d',
+				'txtColor'      => '#dde6ed',
+
+				'padding_v' 	=> 10,
+				'padding_h' 	=> 20,
 
 				'text' => array(
-					'fontWeight'      => 500,
-					'fontStyle'       => 'normal',
-					'fontSize'        => 15,
-					'fontSizeUnit'    => 'px',
-					'textTransform'   => 'capitalize',
+					'fontWeight' 		=> 500,
+					'fontStyle' 		=> 'normal',
+					'fontSize' 			=> 15,
+					'fontSizeUnit' 		=> 'px',
+					'textTransform' 	=> 'capitalize',
 				),
 
 				'border' => array(
 					'size'      => 1,
-					'color'     => '#cccccc',
+					'color'     => '#dde6ed',
 					'style'     => 'solid',
 					'radius'    => 5,
 				),
 
 				'hover' => array(
-					'bgColor'       => '#eeeeee',
-					'txtColor'      => '#000000',
+					'bgColor'       => '#dde6ed',
+					'txtColor'      => '#27374d',
 
 					'border' => array(
 						'size'      => 1,
-						'color'     => '#cccccc',
+						'color'     => '#27374d',
 						'style'     => 'solid',
 						'radius'    => 5,
 					),
@@ -542,41 +542,116 @@ class Xoo_Helper{
 			)
 		);
 
-		$css = '';
+		return $values;
 
-		$css .= $selector . '{';
+	}
 
-			$css .= 'max-width:' . $settings['width'] . $settings['width_unit'] . ';';
-			$css .= 'height:' . $settings['height'] . $settings['height_unit'] . ';';
+	public function get_button_css( $selectors, $settings ) {
 
-			$css .= 'background-color:' . $settings['bgColor'] . ';';
-			$css .= 'color:' . $settings['txtColor'] . ';';
+		$settings = $this->get_button_values( $settings );
 
-			$css .= 'font-weight:' . $settings['text']['fontWeight'] . ';';
-			$css .= 'font-style:' . $settings['text']['fontStyle'] . ';';
-			$css .= 'font-size:' . $settings['text']['fontSize'] . $settings['text']['fontSizeUnit'] . ';';
-			$css .= 'text-transform:' . $settings['text']['textTransform'] . ';';
+		$selectors = (array) $selectors;
 
-			$css .= 'border-width:' . $settings['border']['size'] . 'px;';
-			$css .= 'border-style:' . $settings['border']['style'] . ';';
-			$css .= 'border-color:' . $settings['border']['color'] . ';';
-			$css .= 'border-radius:' . $settings['border']['radius'] . 'px;';
+		if ( empty( $selectors ) ) {
+			return '';
+		}
+
+		$normal_selectors = implode( ',', $selectors );
+
+		$hover_selectors = implode(
+			',',
+			array_map(
+				static fn( $selector ) => $selector . ':hover',
+				$selectors
+			)
+		);
+
+		$is_auto = $settings['size_type'] === 'auto';
+
+		$normal_css = array(
+			'max-width'        => $is_auto ? 'none' : $settings['width'] . $settings['width_unit'],
+			'width'            => $is_auto ? 'max-content' : '100%',
+			'height'           => $is_auto ? 'auto' : $settings['height'] . $settings['height_unit'],
+			'padding'          => $is_auto ? $settings['padding_v'] . 'px ' . $settings['padding_h'] . 'px' : '5px 10px',
+
+			'background-color' => $settings['bgColor'],
+			'color'            => $settings['txtColor'],
+
+			'font-weight'      => $settings['text']['fontWeight'],
+			'font-style'       => $settings['text']['fontStyle'],
+			'font-size'        => $settings['text']['fontSize'] . $settings['text']['fontSizeUnit'],
+			'text-transform'   => $settings['text']['textTransform'],
+
+			'border-width'     => $settings['border']['size'] . 'px',
+			'border-style'     => $settings['border']['style'],
+			'border-color'     => $settings['border']['color'],
+			'border-radius'    => $settings['border']['radius'] . 'px',
+			'display' 			=> 'flex',
+			'align-items' 		=> 'center',
+			'justify-content' 	=> 'center'
+		);
+
+		$hover_css = array(
+			'background-color' => $settings['hover']['bgColor'],
+			'color'            => $settings['hover']['txtColor'],
+
+			'border-width'     => $settings['hover']['border']['size'] . 'px',
+			'border-style'     => $settings['hover']['border']['style'],
+			'border-color'     => $settings['hover']['border']['color'],
+			'border-radius'    => $settings['hover']['border']['radius'] . 'px',
+		);
+
+		$css = $normal_selectors . '{';
+
+		foreach ( $normal_css as $property => $value ) {
+			$css .= $property . ':' . $value . ';';
+		}
 
 		$css .= '}';
 
-		$css .= $selector . ':hover{';
+		$css .= $hover_selectors . '{';
 
-			$css .= 'background-color:' . $settings['hover']['bgColor'] . ';';
-			$css .= 'color:' . $settings['hover']['txtColor'] . ';';
-
-			$css .= 'border-width:' . $settings['hover']['border']['size'] . 'px;';
-			$css .= 'border-style:' . $settings['hover']['border']['style'] . ';';
-			$css .= 'border-color:' . $settings['hover']['border']['color'] . ';';
-			$css .= 'border-radius:' . $settings['hover']['border']['radius'] . 'px;';
+		foreach ( $hover_css as $property => $value ) {
+			$css .= $property . ':' . $value . ';';
+		}
 
 		$css .= '}';
 
 		return $css;
+	}
+
+
+	public function print_button_themed_css( $selectors_map, $settings, $themes ) {
+
+		if( empty( $themes ) ) return;
+
+		$theme_selectors = array();
+
+		foreach ( $selectors_map as $option_key => $selector ) {
+
+			if ( empty( $settings[ $option_key ] ) ) {
+				continue;
+			}
+
+			$theme_id = $settings[ $option_key ];
+
+			if ( empty( $themes[ $theme_id ] ) ) {
+				continue;
+			}
+
+			$theme_selectors[ $theme_id ][] = $selector;
+
+		}
+
+		foreach ( $theme_selectors as $theme_id => $selectors ) {
+
+			echo $this->get_button_css(
+				$selectors,
+				$themes[ $theme_id ]
+			);
+
+		}
+
 	}
 
 

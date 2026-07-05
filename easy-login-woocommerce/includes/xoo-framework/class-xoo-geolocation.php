@@ -1,5 +1,8 @@
 <?php
 
+namespace XooEL\Framework;
+use WC_Geolocation;
+
 class Xoo_Geolocation{
 
 	private static $_instance;

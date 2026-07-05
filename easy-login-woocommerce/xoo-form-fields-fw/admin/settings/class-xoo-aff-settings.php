@@ -1,5 +1,7 @@
 <?php
 
+namespace XooEL\Aff;
+
 class Xoo_Aff_Settings{
 
 	public $aff;
@@ -39,7 +41,7 @@ class Xoo_Aff_Settings{
 
 	public function field_preview($tab_id){
 		if( $tab_id !== 'fields' ) return;
-		include XOO_AFF_DIR.'/admin/settings/xoo-aff-field-preview.php';
+		include $this->aff->dir.'/admin/settings/xoo-aff-field-preview.php';
 	}
 
 
@@ -52,11 +54,13 @@ class Xoo_Aff_Settings{
 		 	$this->aff->field_option_key,
 		 	'no',
 		 	array(
-		 		'priority' => 30
+		 		'priority' => 30,
+		 		'icon' => 'xoo-icon-page'
 		 	)
+
 		 );
 
-		$sections = (array) include XOO_AFF_DIR.'/admin/views/sections.php';
+		$sections = (array) include $this->aff->dir.'/admin/views/sections.php';
 
 		if( empty( $sections ) ) return;
 
@@ -73,7 +77,7 @@ class Xoo_Aff_Settings{
 		}
 
 		//Register Settings
-		$settings = (array) require XOO_AFF_DIR.'/admin/views/settings/fields.php'; 
+		$settings = (array) require $this->aff->dir.'/admin/views/settings/fields.php'; 
 
 		foreach ( $settings as $setting_data ) {
 			$this->aff->ff_helper->admin->register_setting(
@@ -93,7 +97,7 @@ class Xoo_Aff_Settings{
 
 
 	public function prepare(){
-		$this->callbacks = require_once XOO_AFF_DIR.'/admin/settings/class-xoo-aff-options-callbacks.php';
+		$this->callbacks = require_once $this->aff->dir.'/admin/settings/class-xoo-aff-options-callbacks.php';
 		$this->set_tabs();
 		$this->set_options();
 	}
@@ -112,8 +116,8 @@ class Xoo_Aff_Settings{
 		if( empty( $this->tabs ) ) return;
 
 		foreach ( $this->tabs as $tab_id => $tab_data ) {
-			if( file_exists( XOO_AFF_DIR.'/admin/settings/options/'.$tab_id.'.php' ) )
-			$this->options[ $this->get_option_key( $tab_id ) ] = include XOO_AFF_DIR.'/admin/settings/options/'.$tab_id.'.php'; 
+			if( file_exists( $this->aff->dir.'/admin/settings/options/'.$tab_id.'.php' ) )
+			$this->options[ $this->get_option_key( $tab_id ) ] = include $this->aff->dir.'/admin/settings/options/'.$tab_id.'.php'; 
 		}
 
 	}
@@ -228,15 +232,15 @@ class Xoo_Aff_Settings{
 		//Enqueue Styles only on plugin settings page
 		if( ( $this->aff->ff_helper && $this->aff->ff_helper->admin->is_settings_page() ) || ( isset( $_GET['page'], $_GET['tab'] ) && $_GET['page'] === $this->aff->admin_page_slug && $_GET['tab'] === 'general' ) ){
 			wp_enqueue_style('wp-color-picker');
-			wp_enqueue_style( 'xoo-aff-admin-settings-style', XOO_AFF_URL . '/admin/assets/css/xoo-aff-admin-settings-style.css', array(), XOO_AFF_VERSION, 'all' );
-			wp_enqueue_script( 'xoo-aff-admin-settings-js', XOO_AFF_URL . '/admin/assets/js/xoo-aff-admin-settings-js.js', array( 'jquery','wp-color-picker'), XOO_AFF_VERSION, false );
+			wp_enqueue_style( 'xoo-aff-admin-settings-style', $this->aff->url . '/admin/assets/css/xoo-aff-admin-settings-style.css', array(), XOO_AFF_VERSION, 'all' );
+			wp_enqueue_script( 'xoo-aff-admin-settings-js', $this->aff->url . '/admin/assets/js/xoo-aff-admin-settings-js.js', array( 'jquery','wp-color-picker'), XOO_AFF_VERSION, false );
 
 			$data = array(
 				'adminurl'  => admin_url().'admin-ajax.php',
 			);
 
 			if( $this->aff->ff_helper ){
-				wp_enqueue_script( 'xoo-aff-serializejson', XOO_AFF_URL . '/admin/assets/js/xoo-aff-serializejson.js', array( 'jquery' ), '1.0', true );
+				wp_enqueue_script( 'xoo-aff-serializejson', $this->aff->url . '/admin/assets/js/xoo-aff-serializejson.js', array( 'jquery' ), '1.0', true );
 				$data['field_option_key'] = $this->aff->field_option_key;
 				$data['enable_preview'] = true;
 			}
@@ -255,7 +259,7 @@ class Xoo_Aff_Settings{
 			'admin_page_slug' 	=> $this->aff->admin_page_slug,
 			'aff' 				=> $this->aff
 		);
-		xoo_aff_get_template( "xoo-aff-admin-display.php", XOO_AFF_DIR.'/admin/templates/', $args );
+		xoo_aff_get_template( "xoo-aff-admin-display.php", $this->aff->dir.'/admin/templates/', $args );
 	}
 
 

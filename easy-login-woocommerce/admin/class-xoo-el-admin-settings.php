@@ -34,9 +34,6 @@ class Xoo_El_Admin_Settings{
 		add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'));
 		add_action( 'admin_footer', array( $this, 'inline_css' ) );
 
-		add_action( 'wp_loaded', array( $this, 'register_addon_tab' ), 20 );
-
-		add_action( 'wp_loaded', array( $this, 'register_shortcode_tab' ) );
 
 		add_action('xoo_tab_page_start', array( $this, 'tab_html' ), 20, 2 );
 
@@ -295,18 +292,6 @@ class Xoo_El_Admin_Settings{
 		<?php
 	}
 
-	public function register_addon_tab(){
-		xoo_el_helper()->admin->register_tab( 'Add-ons', 'addon', '', 'no', array(
-			'priority' => 100
-		) );
-		xoo_el_helper()->admin->tabs['info']['priority'] = 50;
-	}
-
-	public function register_shortcode_tab(){
-		xoo_el_helper()->admin->register_tab( 'Shortcodes', 'shortcodes', '', 'no', array(
-			'priority' => 30
-		) );
-	}
 
 	public function tab_html( $tab_id, $tab_data ){
 

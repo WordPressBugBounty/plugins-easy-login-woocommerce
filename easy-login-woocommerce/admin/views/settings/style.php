@@ -1,15 +1,65 @@
 <?php
 
-$settings = array(
+$buttonThemesSettings = array(
 
-	/* Form Style */
 	array(
-		'callback' 		=> 'upload',
-		'title' 		=> 'Header Image',
-		'id' 			=> 'sy-head-img',
-		'section_id' 	=> 'sy_form',
-		'default' 		=> '',
+		'callback' 		=> 'button_theme_creator',
+		'title' 		=> '',
+		'id' 			=> 'sy-btnthemes',
+		'section_id' 	=> 'sy_button_theme_creator',
+		'default' 		=> array(
+			'theme_default1' => xoo_el_helper()->get_button_values( array(
+				'theme_id' => 'theme_default1',
+				'title' => 'Default Theme #1',
+				'width'         => 100,
+			) ),
+		)
 	),
+
+	array(
+		'callback' 		=> 'button_theme_selector',
+		'title' 		=> 'Submit Button',
+		'id' 			=> 'sy-btntheme-action',
+		'section_id' 	=> 'sy_button_theme_creator',
+		'default' 		=> 'theme_default1'
+	)
+);
+
+
+if( function_exists('xoo_ml') ){
+
+	$buttonThemesSettings[0]['default']['theme_default2'] = xoo_el_helper()->get_button_values( array(
+		'theme_id' => 'theme_default2',
+		'title' 	=> 'Default Theme #2',
+		'bgColor' 	=> '#dde6ed',
+		'txtColor' 	=> '#27374d',
+		'height' 	=> 40,
+		'border' 	=> array(
+			'size' => 1,
+			'color' => '#d1d1d1'
+		),
+		'hover' => array(
+			'bgColor' 	=> '#27374d',
+			'txtColor' 	=> '#dde6ed',
+			'border' 	=> array(
+				'size' => 1,
+				'color' => '#dde6ed'
+			),
+		)
+	) );
+
+	$buttonThemesSettings[] = array(
+		'callback' 		=> 'button_theme_selector',
+		'title' 		=> 'Toggle Buttons',
+		'id' 			=> 'sy-btntheme-toggle',
+		'section_id' 	=> 'sy_button_theme_creator',
+		'default' 		=> 'theme_default2'
+	);
+}
+
+
+
+$settings = array(
 
 
 	array(
@@ -24,13 +74,12 @@ $settings = array(
 				'xoo-el-sy-options[sy-btn-txtcolor]' 	=> array( 'yes' ),
 				'xoo-el-sy-options[sy-btn-border]' 		=> array( 'yes' ),
 				'xoo-el-sy-options[sy-btn-height]' 		=> array( 'yes' ),
-				'xoo-el-sy-options[sy-btn-main]' 		=> array('unchecked')
+				'xoo-el-sy-options[sy-btntheme-action]' => array('unchecked'),
 			)
 		),
 		'default' => 'yes'
 		
 	),
-
 
 	array(
 		'callback' 		=> 'select',
@@ -46,33 +95,6 @@ $settings = array(
 		'default' 	=> 'custom',
 		'desc' 		=> 'Below color options will be ineffective if set to theme design.'
 	),
-
-	array(
-		'callback' 		=> 'button',
-		'title' 		=> 'Button',
-		'id' 			=> 'sy-btn-main',
-		'section_id' 	=> 'sy_form',
-		'default' 		=> array(
-			'width'         => 100,
-			'width_unit' 	=> '%',
-			'height'        => 45,
-			'bgColor'       => '#27374d',
-			'txtColor'      => '#dde6ed',
-			'border' => array(
-				'color'     => '#dde6ed',
-			),
-
-			'hover' => array(
-				'bgColor'       => '#dde6ed',
-				'txtColor'      => '#27374d',
-				'border' => array(
-					'color'     => '#27374d',
-				),
-			),
-		)
-		
-	),
-
 
 	array(
 		'callback' 		=> 'color',
@@ -319,6 +341,19 @@ $settings = array(
 		'desc' 			=> '↨ ⟷ ( Default: 12px 20px )'
 	),
 
+		/* Form Style */
+	array(
+		'callback' 		=> 'upload',
+		'title' 		=> 'Header Image',
+		'id' 			=> 'sy-head-img',
+		'section_id' 	=> 'sy_form',
+		'default' 		=> '',
+	),
+
+
+
 );
+
+$settings = array_merge( $buttonThemesSettings, $settings );
 
 return apply_filters( 'xoo_el_admin_settings', $settings, 'style' );

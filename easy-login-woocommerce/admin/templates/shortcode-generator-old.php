@@ -5,8 +5,8 @@
 	<div class="xoo-el-scgroup" data-attr="sctype">
 		<label>Shortcode For: </label>
 		<div>
-			<label><input type="radio" data-fname="xoo-elscg-sctype" value="popup">Open Popup</label>
-			<label><input type="radio" data-fname="xoo-elscg-sctype" value="inline">Inline Form</label>
+			<label class="xoo-btn-primary"><input type="radio" data-fname="xoo-elscg-sctype" value="popup">Open Popup</label>
+			<label class="xoo-btn-primary"><input type="radio" data-fname="xoo-elscg-sctype" value="inline">Inline Form</label>
 		</div>	
 	</div>
 
