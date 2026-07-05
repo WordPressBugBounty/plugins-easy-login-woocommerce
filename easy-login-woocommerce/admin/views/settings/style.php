@@ -75,6 +75,7 @@ $settings = array(
 				'xoo-el-sy-options[sy-btn-border]' 		=> array( 'yes' ),
 				'xoo-el-sy-options[sy-btn-height]' 		=> array( 'yes' ),
 				'xoo-el-sy-options[sy-btntheme-action]' => array('unchecked'),
+				'xoo-el-sy-options[sy-btntheme-toggle]' => array('unchecked'),
 			)
 		),
 		'default' => 'yes'

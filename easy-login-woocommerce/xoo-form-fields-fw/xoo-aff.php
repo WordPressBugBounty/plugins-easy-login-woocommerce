@@ -4,6 +4,17 @@ namespace XooEL\Aff;
 
 const XOO_AFF_VERSION = '2.2.0';
 
+//Remove it later since otp login uses it
+if( !defined( 'XOO_AFF_URL' ) ){
+	define( 'XOO_AFF_URL', plugins_url( '', __FILE__  ) );
+}
+
+if( !defined( 'XOO_AFF_VERSION' ) ){
+	define( 'XOO_AFF_VERSION', '2.2.0' );
+}
+
+
+
 
 require_once dirname(__FILE__).'/includes/class-xoo-aff.php';
 

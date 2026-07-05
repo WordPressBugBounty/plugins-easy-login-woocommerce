@@ -206,6 +206,10 @@ class Xoo_El_Core{
 					);
 
 					$syOptions['sy-btntheme-action'] = 'theme_default1';
+
+					if( function_exists( 'xoo_ml' ) ){
+						$syOptions['sy-btntheme-toggle'] = 'theme_default1';
+					}
 				
 					
 				}
