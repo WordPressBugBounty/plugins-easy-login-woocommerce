@@ -165,7 +165,7 @@ class Xoo_El_Aff_Fields{
 		$field_type_id = $field_id = 'xoo_el_reg_userrole';
 
 		if (!isset($wp_roles)) {
-			$wp_roles = new WP_Roles();
+			$wp_roles = new \WP_Roles();
 		}
 
 		$user_roles = array();

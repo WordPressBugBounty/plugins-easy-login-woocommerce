@@ -1416,7 +1416,7 @@ class Xoo_Aff_Fields{
 
 	public function validate_submitted_field_values( $values = array(), $do_not_validate_ids = array() ){
 
-		$errors = new WP_Error();
+		$errors = new \WP_Error();
 
 		//If no values are provided , use POST
 		if( empty( $values ) ){

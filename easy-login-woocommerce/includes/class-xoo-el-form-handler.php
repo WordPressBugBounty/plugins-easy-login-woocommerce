@@ -83,7 +83,7 @@ class Xoo_El_Form_Handler{
 			$userInput 				= sanitize_user( trim( $_POST['xoo-el-sing-user'] ) );
 			$allowUsernameSearch	= xoo_el()->aff->fields->get_field_data('xoo-el-sing-user')['settings']['xoo_el_username'] === 'yes';
 
-			$validation_error = apply_filters( 'xoo_el_process_single_errors', new WP_Error(), $userInput );
+			$validation_error = apply_filters( 'xoo_el_process_single_errors', new \WP_Error(), $userInput );
 
 			if ( $validation_error->get_error_code() ) {
 				throw new Xoo_Exception( '<strong>' . __( 'Error:', 'easy-login-woocommerce' ) . '</strong> ' . $validation_error->get_error_message() );
@@ -170,7 +170,7 @@ class Xoo_El_Form_Handler{
 				'remember'      => isset( $_POST['xoo-el-rememberme'] ),
 			);
 
-			$validation_error = apply_filters( 'xoo_el_process_login_errors', new WP_Error(), $creds );
+			$validation_error = apply_filters( 'xoo_el_process_login_errors', new \WP_Error(), $creds );
 
 			if ( $validation_error->get_error_code() ) {
 				throw new Xoo_Exception( '<strong>' . __( 'Error:', 'easy-login-woocommerce' ) . '</strong> ' . $validation_error->get_error_message() );
@@ -273,7 +273,7 @@ class Xoo_El_Form_Handler{
 
 			try {
 
-				$validation_error = apply_filters( 'xoo_el_process_registration_errors', new WP_Error(), $username, $password, $email );
+				$validation_error = apply_filters( 'xoo_el_process_registration_errors', new \WP_Error(), $username, $password, $email );
 
 				if ( $validation_error->get_error_code() ) {
 					throw new Xoo_Exception( $validation_error );
@@ -441,11 +441,11 @@ class Xoo_El_Form_Handler{
 		if ( !empty( $email ) ) {
 
 			if ( email_exists( $email ) ) {
-				return new WP_Error( 'registration-error-email-exists',  __( 'An account is already registered with your email address. Please log in.', 'easy-login-woocommerce' ) );
+				return new \WP_Error( 'registration-error-email-exists',  __( 'An account is already registered with your email address. Please log in.', 'easy-login-woocommerce' ) );
 			}
 
 			if( !is_email( $email ) ){
-				return new WP_Error( 'registration-error-invalid-email', __( 'Please provide a valid email address.', 'easy-login-woocommerce' ) );
+				return new \WP_Error( 'registration-error-invalid-email', __( 'Please provide a valid email address.', 'easy-login-woocommerce' ) );
 			}
 			
 		}
@@ -457,11 +457,11 @@ class Xoo_El_Form_Handler{
 			$username = sanitize_user( $username );
 
 			if ( !validate_username( $username ) ) {
-				return new WP_Error( 'registration-error-invalid-username', __( 'Please enter a valid account username.', 'easy-login-woocommerce' ) );
+				return new \WP_Error( 'registration-error-invalid-username', __( 'Please enter a valid account username.', 'easy-login-woocommerce' ) );
 			}
 
 			if ( username_exists( $username ) ) {
-				return new WP_Error( 'registration-error-username-exists', __( 'An account is already registered with that username. Please choose another.', 'easy-login-woocommerce' ) );
+				return new \WP_Error( 'registration-error-username-exists', __( 'An account is already registered with that username. Please choose another.', 'easy-login-woocommerce' ) );
 			}
 		} else {
 			$username = self::create_new_username( $email, $extra_data );
@@ -486,7 +486,7 @@ class Xoo_El_Form_Handler{
 		$customer_id = wp_insert_user( $new_customer_data );
 
 		if ( is_wp_error( $customer_id ) ) {
-			return new WP_Error( 'registration-error', __( 'Couldn&#8217;t register you&hellip; please contact us if you continue to have problems.', 'easy-login-woocommerce' ) );
+			return new \WP_Error( 'registration-error', __( 'Couldn&#8217;t register you&hellip; please contact us if you continue to have problems.', 'easy-login-woocommerce' ) );
 		}
 
 		$extra_data = apply_filters( 'xoo_el_register_customer_extra_data', $extra_data );
@@ -626,7 +626,7 @@ class Xoo_El_Form_Handler{
 				$has_woocommmerce 	= class_exists('woocommerce');
 
 
-				$validation_error 	= apply_filters( 'xoo_el_process_lostpw_errors', new WP_Error() );
+				$validation_error 	= apply_filters( 'xoo_el_process_lostpw_errors', new \WP_Error() );
 
 				if ( $validation_error->get_error_code() ) {
 					throw new Xoo_Exception( $validation_error );
@@ -788,7 +788,7 @@ class Xoo_El_Form_Handler{
 
 				$new_pass = $_POST['xoo-el-rp-pass'];
 
-				$errors = new WP_Error();
+				$errors = new \WP_Error();
 
 				do_action( 'validate_password_reset', $errors, $user );
 
@@ -837,7 +837,7 @@ class Xoo_El_Form_Handler{
 
 	public static function retrieve_password( $user_data ) {
 
-		$errors    = new WP_Error();
+		$errors    = new \WP_Error();
 
 		/**
 		* Fires before errors are returned from a password reset request.

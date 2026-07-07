@@ -46,7 +46,7 @@ class Xoo_Exception extends \Exception{
      */
     public function to_wp_error() {
         $code = $this->wpErrorCode ? $this->wpErrorCode : 'xoo_exception';
-        return new WP_Error($code, $this->getMessage());
+        return new \WP_Error($code, $this->getMessage());
     }
 
 

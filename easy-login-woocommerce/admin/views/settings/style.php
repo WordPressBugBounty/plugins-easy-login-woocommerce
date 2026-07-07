@@ -182,7 +182,7 @@ $settings = array(
 		'title' 		=> 'Popup Width',
 		'id' 			=> 'sy-popup-width',
 		'section_id' 	=> 'sy_popup',
-		'default' 		=> 850,
+		'default' 		=> 880,
 		'desc' 			=> 'size in px'
 	),
 

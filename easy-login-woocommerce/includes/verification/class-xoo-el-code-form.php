@@ -121,7 +121,7 @@ class Xoo_El_Code_Form{
                 $this->set_user_data( array( 'sent_times' => 0 ) );
             }
             else{
-                return new WP_Error( 'limit-reached', sprintf( __( 'Code Limit reached. Please try again in %s.', 'easy-login-woocommerce' ), self::getTimeDuration( $unban_time_left) ) );
+                return new \WP_Error( 'limit-reached', sprintf( __( 'Code Limit reached. Please try again in %s.', 'easy-login-woocommerce' ), self::getTimeDuration( $unban_time_left) ) );
             }
         }
 
@@ -129,7 +129,7 @@ class Xoo_El_Code_Form{
         //For resend
        /* if( $limits['resend_wait_time'] > $time_passed ){
             $unban_time_left = $limits['resend_wait_time'] - $time_passed;
-            return new WP_Error( 'resend-wait', sprintf( __( 'Please wait %s for a new code.', 'easy-login-woocommerce' ), self::getTimeDuration( $unban_time_left) ) );
+            return new \WP_Error( 'resend-wait', sprintf( __( 'Please wait %s for a new code.', 'easy-login-woocommerce' ), self::getTimeDuration( $unban_time_left) ) );
         }*/
 
 
@@ -156,7 +156,7 @@ class Xoo_El_Code_Form{
         $user_data = $this->get_user_data();
 
         if( isset( $user_data['incorrect'] ) && $user_data['incorrect'] >= $this->limits['incorrect_limit'] ){
-            return new WP_Error( 'tries-exceeded', __( 'Number of tries exceeded, Please try again in few minutes', 'easy-login-woocommerce' ) );
+            return new \WP_Error( 'tries-exceeded', __( 'Number of tries exceeded, Please try again in few minutes', 'easy-login-woocommerce' ) );
         }
 
         return false;
@@ -169,7 +169,7 @@ class Xoo_El_Code_Form{
         $user_data = $this->get_user_data();
 
         if( isset( $user_data['expiry'] ) && strtotime('now') > (int) $user_data['expiry'] ){
-            return new WP_Error( 'code-expired', __( 'Code Expired', 'easy-login-woocommerce' ) );
+            return new \WP_Error( 'code-expired', __( 'Code Expired', 'easy-login-woocommerce' ) );
         }
 
         return false;
@@ -224,7 +224,7 @@ class Xoo_El_Code_Form{
         $sendTo = $this->get_user_data('sendTo');
 
         if( !$sendTo ){
-            return new Wp_Error( 'no-phone', __( "Phone Number not found", 'mobile-login-woocommerce' ) );
+            return new \Wp_Error( 'no-phone', __( "Phone Number not found", 'mobile-login-woocommerce' ) );
         }
         $code = $this->sendEmailCode( $user_data['sendTo'] );
         return $code;
