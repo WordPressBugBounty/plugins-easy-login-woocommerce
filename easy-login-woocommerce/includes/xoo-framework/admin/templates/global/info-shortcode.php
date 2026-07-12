@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php if( empty( $shortcodes ) ) return; ?>
 
 <div class="xoo-sc-shortcodes">

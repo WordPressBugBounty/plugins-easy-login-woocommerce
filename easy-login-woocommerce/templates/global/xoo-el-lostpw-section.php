@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 
-<span class="xoo-el-form-txt"><?php _e('Lost your password? Please enter your username or email address. You will receive a link to create a new password via email.','easy-login-woocommerce'); ?></span>
+<span class="xoo-el-form-txt"><?php esc_html_e('Lost your password? Please enter your username or email address. You will receive a link to create a new password via email.','easy-login-woocommerce'); ?></span>
 
 <?php  xoo_el_fields()->get_fields_html('lostpw'); //Lost Password Fields ?>
 

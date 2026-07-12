@@ -2,6 +2,10 @@
 
 namespace XooEL\Aff;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Xoo_Aff_Fields{
 
 	public $types = array(), $sections = array(), $settings = array(),  $fields = array(), $setting_options = array(), $cached_field_html_args_for_value;
@@ -34,6 +38,7 @@ class Xoo_Aff_Fields{
 		}
 		if( current_user_can( 'manage_options' ) ){
 
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			if( isset( $_POST['is_ajax'] ) && $_POST['is_ajax'] === 'yes' ){
 				add_action( 'wp_ajax_xoo_aff_save_settings', array( $this, 'save_settings') );
 			}
@@ -419,16 +424,18 @@ class Xoo_Aff_Fields{
 
 		if( !$this->aff->is_fields_page_ajax_request() ) return;
 
-		if( !isset( $_POST['submit_nonce'] ) || !wp_verify_nonce( $_POST['submit_nonce'], 'xoo-aff-submit-nonce' ) ){
+		if( !isset( $_POST['submit_nonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['submit_nonce'] ) ), 'xoo-aff-submit-nonce' ) ){
 			wp_die( 'Cheating.' );
 		}
 
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		$fields = xff_wp_kses_post( json_decode( stripslashes( $_POST['xoo_aff_data'] ), true) );
 
 		$fields = $this->sort_by_priority( $fields );
 
 		$this->update_db_fields( $fields );
 
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		if( $_POST['is_ajax'] === 'yes' ){
 			wp_send_json( array(
 				'success' => 1
@@ -442,7 +449,7 @@ class Xoo_Aff_Fields{
 	//Reset settings
 	public function reset_settings(){
 
-		if( !isset( $_POST['submit_nonce'] ) || !wp_verify_nonce( $_POST['submit_nonce'], 'xoo-aff-submit-nonce' ) ){
+		if( !isset( $_POST['submit_nonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash($_POST['submit_nonce'] ) ), 'xoo-aff-submit-nonce' ) ){
 			wp_die( 'Cheating.' );
 		}
 
@@ -590,7 +597,12 @@ class Xoo_Aff_Fields{
 			var xoo_aff_fields_layout 	= <?php echo json_encode( $this->create_fields_layout_for_js() ); ?>;
 			var xoo_aff_field_types 	= <?php echo json_encode( $this->types ); ?>;
 			var xoo_aff_field_sections 	= <?php echo json_encode( $this->sections ); ?>;
-			var xoo_aff_db_fields		= <?php echo $this->get_fields_data('json'); ?>;
+			
+			var xoo_aff_db_fields		= <?php
+											// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+											echo $this->get_fields_data('json');
+											?>;
+
 			var xoo_aff_field_groups  	= <?php echo json_encode( $this->field_groups ); ?>;
 			var xoo_aff_plugin_info 	= <?php echo json_encode( array(
 				'admin_page_slug' 	=> $this->aff->admin_page_slug,
@@ -1413,13 +1425,13 @@ class Xoo_Aff_Fields{
 		return $string;
 	}
 
-
 	public function validate_submitted_field_values( $values = array(), $do_not_validate_ids = array() ){
 
 		$errors = new \WP_Error();
 
 		//If no values are provided , use POST
 		if( empty( $values ) ){
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$values = $_POST;
 		}
 
@@ -1437,8 +1449,9 @@ class Xoo_Aff_Fields{
 			if( empty( $settings ) || in_array( $field_id , $do_not_validate_ids ) || $settings['active'] !== "yes") continue;
 
 			//Field Validation
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$userVal 				= isset( $values[ $field_id ] ) ? ( is_array( $_POST[ $field_id ] ) ? array_map( 'sanitize_text_field', $_POST[ $field_id ] ) : esc_attr( trim( $values[ $field_id ] ) ) ) : '';
-			$label 					= isset( $settings['label'] ) && trim( $settings['label'] ) ? trim( $settings['label'] ) : trim( $settings['placeholder'] );
+			$label 					= isset( $settings['label'] ) && $settings['label'] ? trim( $settings['label'] ) : trim( $settings['placeholder'] );
 
 			if( $input_type === 'file' ){
 
@@ -1449,6 +1462,7 @@ class Xoo_Aff_Fields{
 				$fieldValues[ $field_id.'_attachments' ] = $updatedSavedAttachments; //if files are modified from frontend form
 
 				$files 				= array();
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				$isFileUploaded 	= !( empty($_FILES) || ( isset( $_FILES[$field_id] ) && ( !$_FILES[$field_id]['name'] || !$_FILES[$field_id]['name'][0]  ) ) );
 
 				// Throws a message if no file is selected
@@ -1467,6 +1481,7 @@ class Xoo_Aff_Fields{
 					}
 
 					//Organize raw files in proper format
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 					$rawf 		= $_FILES[$field_id];
 					
 					$file_size 	= 0;

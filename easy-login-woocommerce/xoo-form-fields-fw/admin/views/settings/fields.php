@@ -1,8 +1,28 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
 $option_key = $this->aff->field_option_key;
 
-$settings = array();
+$settings = array(
+
+	array(
+		'callback' 		=> 'links',
+		'title' 		=> 'Form Fields',
+		'id' 			=> 'fake',
+		'section_id' 	=> 'main',
+		'args' 			=> array(
+			'options' 	=> array(
+				admin_url('admin.php?page=xoo-el-fields') => 'Fields Page Link'
+			)
+		)
+	),
+
+
+);
 
 /**
  * Google Places & Geolocation (Conditional)
@@ -26,68 +46,8 @@ if ( $this->aff->en_autocompadr ) {
 
 }
 
-$settings[] = array(
-	'callback' 		=> 'links',
-	'title' 		=> 'Form Fields',
-	'id' 			=> 'fake',
-	'section_id' 	=> 'input',
-	'args' 			=> array(
-		'options' 	=> array(
-			admin_url('admin.php?page=xoo-el-fields') => 'Edit'
-		)
-	)
-);
 
-
-
-
-if( get_option( 'xoo_aff_'.$this->aff->plugin_slug.'_allow_old_layout' ) === "yes" ){
-	$settings[] = array(
-		'callback' 		=> 'checkbox',
-		'title' 		=> 'New Layout',
-		'id' 			=> 's-new-layout',
-		'section_id' 	=> 'input',
-		'default' 		=> 'yes',
-		'args' 			=> array(
-			'toggleSettings' => array( //hide elements if this field value is
-				"{$option_key}[s-icon-borcolor]" 		=> array( 'yes' ),
-				"{$option_key}[s-icon-borwidth]" 		=> array( 'yes' ),
-				"{$option_key}[s-input-borcolor]" 		=> array( 'yes' ),
-				"{$option_key}[s-input-borwidth]" 		=> array( 'yes' ),
-				"{$option_key}[s-input-fsize]" 			=> array( 'unchecked' ),
-				"{$option_key}[s-input-border-focus]" 	=> array( 'unchecked' ),
-				"{$option_key}[s-icon-color-focus]" 	=> array( 'unchecked' ),
-				"{$option_key}[s-icon-bgcolor-focus]" 	=> array( 'unchecked' ),
-				"{$option_key}[s-label-fsize]" 			=> array( 'unchecked' ),
-				"{$option_key}[s-icon-align]" 			=> array( 'unchecked' ),
-				"{$option_key}[s-input-border]" 		=> array( 'unchecked' ),
-			),
-		)
-	);
-}
-
-$other_settings = array(
-
-	/**
-	 * Style Section
-	 */
-
-	array(
-		'callback' 		=> 'checkbox',
-		'title' 		=> 'Show Required(*) symbol',
-		'id' 			=> 's-show-reqicon',
-		'section_id' 	=> 'input',
-		'default' 		=> 'no',
-	),
-
-	array(
-		'callback' 		=> 'checkbox',
-		'title' 		=> 'Show Icons',
-		'id' 			=> 's-show-icons',
-		'section_id' 	=> 'input-icon',
-		'default' 		=> 'yes',
-	),
-
+$input_icon = array(
 
 	array(
 		'callback' 		=> 'checkbox',
@@ -176,7 +136,49 @@ $other_settings = array(
 		'id' 			=> 's-icon-borwidth',
 		'section_id' 	=> 'input-icon',
 		'default' 		=> '1',
+	)
+
+);
+
+$settings = array_merge( $settings, $input_icon );
+
+
+if( get_option( 'xoo_aff_'.$this->aff->plugin_slug.'_allow_old_layout' ) === "yes" ){
+	$settings[] = array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'New Layout',
+		'id' 			=> 's-new-layout',
+		'section_id' 	=> 'input',
+		'default' 		=> 'yes',
+		'args' 			=> array(
+			'toggleSettings' => array( //hide elements if this field value is
+				"{$option_key}[s-icon-borcolor]" 		=> array( 'yes' ),
+				"{$option_key}[s-icon-borwidth]" 		=> array( 'yes' ),
+				"{$option_key}[s-input-borcolor]" 		=> array( 'yes' ),
+				"{$option_key}[s-input-borwidth]" 		=> array( 'yes' ),
+				"{$option_key}[s-input-fsize]" 			=> array( 'unchecked' ),
+				"{$option_key}[s-input-border-focus]" 	=> array( 'unchecked' ),
+				"{$option_key}[s-icon-color-focus]" 	=> array( 'unchecked' ),
+				"{$option_key}[s-icon-bgcolor-focus]" 	=> array( 'unchecked' ),
+				"{$option_key}[s-label-fsize]" 			=> array( 'unchecked' ),
+				"{$option_key}[s-icon-align]" 			=> array( 'unchecked' ),
+				"{$option_key}[s-input-border]" 		=> array( 'unchecked' ),
+			),
+		)
+	);
+}
+
+$other_settings = array(
+
+	array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Show Required(*) symbol',
+		'id' 			=> 's-show-reqicon',
+		'section_id' 	=> 'input',
+		'default' 		=> 'no',
 	),
+
+
 
 	array(
 		'callback' 		=> 'number',

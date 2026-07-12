@@ -28,17 +28,17 @@ $resetpw_args = $args['forms']['resetpw'];
 
 <?php if( $resetpw_args['pattern'] === 'link' && ( !isset( $resetpw_args['user'] ) || is_wp_error( $resetpw_args['user'] ) ) ): ?>
 
-	<span class="xoo-el-form-txt"><?php _e( 'This key is invalid or has already been used. Please reset your password again if needed.', 'easy-login-woocommerce' ); ?></span>
+	<span class="xoo-el-form-txt"><?php esc_html_e( 'This key is invalid or has already been used. Please reset your password again if needed.', 'easy-login-woocommerce' ); ?></span>
 
 <?php else: ?>
 
-	<span class="xoo-el-form-txt"><?php _e( 'Please enter a new password', 'easy-login-woocommerce' ); ?></span>
+	<span class="xoo-el-form-txt"><?php esc_html_e( 'Please enter a new password', 'easy-login-woocommerce' ); ?></span>
 
 	<?php xoo_el_fields()->get_fields_html('resetpw'); //Reset password Fields ?>
 
 	<input type="hidden" name="_xoo_el_form" value="resetPassword">
 
-	<input type="hidden" name="xoo-el-resetpw-nonce-field" value="<?php echo wp_create_nonce( 'xoo-el-resetpw-nonce' ); ?>">
+	<input type="hidden" name="xoo-el-resetpw-nonce-field" value="<?php echo esc_html( wp_create_nonce( 'xoo-el-resetpw-nonce' ) ); ?>">
 
 	<?php if( $resetpw_args['pattern'] === 'link' ): ?>
 
@@ -50,6 +50,6 @@ $resetpw_args = $args['forms']['resetpw'];
 
 	<?php do_action( 'xoo_el_resetpw_add_fields', $args ); ?>
 
-	<button type="submit" class="button btn xoo-el-action-btn xoo-el-resetpw-btn"><?php _e( 'Change Password', 'easy-login-woocommerce' ); ?></button>
+	<button type="submit" class="button btn xoo-el-action-btn xoo-el-resetpw-btn"><?php esc_html_e( 'Change Password', 'easy-login-woocommerce' ); ?></button>
 
 <?php endif; ?>

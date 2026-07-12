@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <?php
 
 $link = 'https://xootix.com/plugins/easy-login-for-woocommerce#sp-addons';
@@ -69,8 +70,8 @@ $addons = array(
 	<?php foreach ( $addons as $id => $data ): ?>
 		<div class="xoo-addon">
 			<span class="dashicons <?php echo esc_attr( $data['icon'] ); ?>"></span>
-			<span class="xoo-ao-title"><?php echo $data['title'] ?></span>
-			<div class="xoo-ao-desc"><?php echo $data['desc']; ?></div>
+			<span class="xoo-ao-title"><?php echo wp_kses_post( $data['title'] ) ?></span>
+			<div class="xoo-ao-desc"><?php echo wp_kses_post( $data['desc'] ); ?></div>
 			<div class="xoo-ao-btns">
 				<a class="xoo-btn xoo-btn-primary" target="_blank" href="<?php echo esc_url( $data['link'] ) ?>">BUY</a>
 				<?php if( isset( $data['demo'] ) ): ?>

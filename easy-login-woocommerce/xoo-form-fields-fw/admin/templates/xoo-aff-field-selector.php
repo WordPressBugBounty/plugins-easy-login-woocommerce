@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php if( !isset($field_types) ) return; ?>
 
 <div class="xoo-aff-field-selector">

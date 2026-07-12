@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 
 use XooEL\Framework\Xoo_Helper;

@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 
 $countries = include $aff->dir.'/countries/countries.php';

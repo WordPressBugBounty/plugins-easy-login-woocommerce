@@ -27,9 +27,9 @@ xoo_el_fields()->get_fields_html('login');
 <div class="xoo-aff-group xoo-el-login-btm-fields">
 	<label class="xoo-el-form-label">
 		<input type="checkbox" name="xoo-el-rememberme" value="forever" />
-		<span><?php _e( 'Remember me', 'easy-login-woocommerce' ); ?></span>
+		<span><?php esc_html_e( 'Remember me', 'easy-login-woocommerce' ); ?></span>
 	</label>
-	<a class="xoo-el-lostpw-tgr" rel="nofollow" href="#"><?php _e('Forgot Password?','easy-login-woocommerce'); ?></a>
+	<a class="xoo-el-lostpw-tgr" rel="nofollow" href="#"><?php esc_html_e('Forgot Password?','easy-login-woocommerce'); ?></a>
 </div>
 
 <?php do_action( 'xoo_el_login_add_fields', $args ); ?>

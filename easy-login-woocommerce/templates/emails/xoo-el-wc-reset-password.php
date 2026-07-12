@@ -22,7 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
-<?php echo $email_text; ?>
+<?php
+ // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+ echo $email_text;
+?>
 
 <?php
 /**

@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 if ( ! function_exists( 'get_editable_roles' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/user.php';

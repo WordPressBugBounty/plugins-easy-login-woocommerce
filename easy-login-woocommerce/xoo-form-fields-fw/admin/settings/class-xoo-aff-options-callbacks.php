@@ -120,7 +120,7 @@ class Xoo_Aff_Options_Callbacks {
 	public function textarea( $args ){
 		extract( $this->simplify_args( $args ) );
 		?>
-		<textarea name="<?php echo esc_attr( $id ); ?>" class="xoo-input-textarea" rows="<?php echo $txtarea_rows ? $txtarea_rows : 2; ?>" cols="<?php echo $txtarea_cols ? $txtarea_cols : 8; ?>">
+		<textarea name="<?php echo esc_attr( $id ); ?>" class="xoo-input-textarea" rows="<?php echo $txtarea_rows ? (int) $txtarea_rows : 2; ?>" cols="<?php echo $txtarea_cols ? (int) $txtarea_cols : 8; ?>">
 			<?php echo esc_attr( $value ); ?>	
 		</textarea>
 		<?php

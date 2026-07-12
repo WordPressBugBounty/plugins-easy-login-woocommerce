@@ -28,7 +28,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px;">
 				<tr>
 					<td>
-						<?php echo $email_text; ?>
+						<?php 
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $email_text;
+						?>
 					</td>
 				</tr>
 			</table>

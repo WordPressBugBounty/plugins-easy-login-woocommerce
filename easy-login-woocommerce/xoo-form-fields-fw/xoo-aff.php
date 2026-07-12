@@ -2,6 +2,10 @@
 
 namespace XooEL\Aff;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 const XOO_AFF_VERSION = '2.2.0';
 
 //Remove it later since otp login uses it

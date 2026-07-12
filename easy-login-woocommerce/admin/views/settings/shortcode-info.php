@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <div class="xoo-el-popup-info">
 
 	<h3>How to open popup?</h3>

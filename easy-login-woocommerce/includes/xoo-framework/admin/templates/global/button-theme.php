@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <script type="text/html" id="tmpl-xoo-as-btntheme">
 
 	<?php $id = $field_id.'[{{data.theme_id}}]' ?>
@@ -39,7 +41,7 @@
 	);
 	?>
 
-	<div class="xoo-btntheme xoo-accordion xoo-btn-setting" data-field_id="<?php echo $id ?>">
+	<div class="xoo-btntheme xoo-accordion xoo-btn-setting" data-field_id="<?php echo esc_attr($id) ?>">
 
 		<div class="xoo-acc-head xoo-theme-head">
 	
@@ -68,12 +70,12 @@
 
 			<div class="xoo-btntheme-head">
 				<span class="xoo-btnset-desc">Customize the appearance of your button</span>
-				<input type="text" value="{{data.title}}" name="<?php echo $id ?>[title]" class="xoo-btntheme-title-input">
+				<input type="text" value="{{data.title}}" name="<?php echo esc_attr($id) ?>[title]" class="xoo-btntheme-title-input">
 			</div>
 
 			<div class="xoo-tabs-cont">
 
-				<input type="hidden" value="{{data.theme_id}}" name="<?php echo $id ?>[theme_id]" class="xoo-btntheme-id">
+				<input type="hidden" value="{{data.theme_id}}" name="<?php echo esc_attr($id) ?>[theme_id]" class="xoo-btntheme-id">
 
 					<div class="xoo-setting-tabs">
 
@@ -95,12 +97,12 @@
 
 								<div>
 									<i>Background</i>
-									<input type="text" class="xoo-as-color-input" name="<?php echo $id; ?>[bgColor]" value="{{data.bgColor}}" >
+									<input type="text" class="xoo-as-color-input" name="<?php echo esc_attr($id); ?>[bgColor]" value="{{data.bgColor}}" >
 								</div>
 
 								<div>
 									<i>Text Color</i>
-									<input type="text" class="xoo-as-color-input" name="<?php echo $id; ?>[txtColor]" value="{{data.txtColor}}" >
+									<input type="text" class="xoo-as-color-input" name="<?php echo esc_attr($id); ?>[txtColor]" value="{{data.txtColor}}" >
 								</div>
 
 							</div>
@@ -118,7 +120,7 @@
 
 									<i>Size Type</i>
 
-									<select name="<?php echo $id ?>[size_type]">
+									<select name="<?php echo esc_attr($id) ?>[size_type]">
 										<?php $adminObj->templatejs_select_options( 'size_type', array(
 											'auto' 		=> 'Auto width & height',
 											'custom' 	=> 'Custom Size'
@@ -130,21 +132,21 @@
 								<div data-size_type="auto">
 
 									<i>Padding ↨ </i>
-									<input type="number" name="<?php echo $id; ?>[padding_v]" value="{{data.padding_v}}" >
+									<input type="number" name="<?php echo esc_attr($id); ?>[padding_v]" value="{{data.padding_v}}" >
 
 								</div>
 
 								<div data-size_type="auto">
 
 									<i>Padding ⟷</i>
-									<input type="number" name="<?php echo $id; ?>[padding_h]" value="{{data.padding_h}}" >
+									<input type="number" name="<?php echo esc_attr($id); ?>[padding_h]" value="{{data.padding_h}}" >
 
 								</div>
 
 								<div data-size_type="custom">
 
 									<i>Custom Width</i>
-									<input type="number" name="<?php echo $id; ?>[width]" value="{{data.width}}" >
+									<input type="number" name="<?php echo esc_attr($id); ?>[width]" value="{{data.width}}" >
 
 								</div>
 
@@ -152,7 +154,7 @@
 
 									<i>Unit</i>
 
-									<select name="<?php echo $id ?>[width_unit]">
+									<select name="<?php echo esc_attr($id) ?>[width_unit]">
 										<?php $adminObj->templatejs_select_options( 'width_unit', $units ) ?>
 									</select>
 
@@ -161,7 +163,7 @@
 								<div  data-size_type="custom">
 
 									<i>Custom Height</i>
-									<input type="number" name="<?php echo $id; ?>[height]" value="{{data.height}}" >	
+									<input type="number" name="<?php echo esc_attr($id); ?>[height]" value="{{data.height}}" >	
 
 								</div>
 
@@ -170,7 +172,7 @@
 								<div data-size_type="custom">
 
 									<i>Unit</i>
-									<select name="<?php echo $id ?>[height_unit]">
+									<select name="<?php echo esc_attr($id) ?>[height_unit]">
 										<?php $adminObj->templatejs_select_options( 'height_unit', $units ) ?>
 									</select>
 
@@ -191,7 +193,7 @@
 
 									<i>Weight</i>
 
-									<select name="<?php echo $id ?>[text][fontWeight]">
+									<select name="<?php echo esc_attr($id) ?>[text][fontWeight]">
 										<?php $adminObj->templatejs_select_options( 'text.fontWeight', $fontWeight ) ?>
 									</select>
 
@@ -201,7 +203,7 @@
 
 									<i>Style</i>
 
-									<select name="<?php echo $id ?>[text][fontStyle]">
+									<select name="<?php echo esc_attr($id) ?>[text][fontStyle]">
 										<?php $adminObj->templatejs_select_options( 'text.fontStyle', $fontStyle ) ?>
 									</select>
 
@@ -211,7 +213,7 @@
 
 									<i>Font Size</i>
 
-									<input type="number" name="<?php echo $id; ?>[text][fontSize]" value="{{data.text.fontSize}}">
+									<input type="number" name="<?php echo esc_attr($id); ?>[text][fontSize]" value="{{data.text.fontSize}}">
 
 								</div>
 
@@ -219,7 +221,7 @@
 
 									<i>Unit</i>
 
-									<select name="<?php echo $id ?>[text][fontSizeUnit]">
+									<select name="<?php echo esc_attr($id) ?>[text][fontSizeUnit]">
 										<?php $adminObj->templatejs_select_options( 'text.fontSizeUnit', $units ) ?>
 									</select>
 
@@ -229,7 +231,7 @@
 
 									<i>Transform</i>
 
-									<select name="<?php echo $id ?>[text][textTransform]">
+									<select name="<?php echo esc_attr($id) ?>[text][textTransform]">
 										<?php $adminObj->templatejs_select_options( 'text.textTransform', array(
 											'none' => 'None',
 											'lowercase' => 'Lowercase',
@@ -253,18 +255,18 @@
 
 								<div>
 									<i>Size</i>
-									<input name="<?php echo $id; ?>[border][size]" type="number" min="0" value="{{data.border.size}}">
+									<input name="<?php echo esc_attr($id); ?>[border][size]" type="number" min="0" value="{{data.border.size}}">
 								</div>
 
 								<div>
 									<i>Color</i>
-									<input name="<?php echo $id; ?>[border][color]" type="text" class="xoo-as-color-input" value="{{data.border.color}}">
+									<input name="<?php echo esc_attr($id); ?>[border][color]" type="text" class="xoo-as-color-input" value="{{data.border.color}}">
 								</div>
 
 								<div>
 
 									<i>Style</i>
-									<select name="<?php echo $id; ?>[border][style]">
+									<select name="<?php echo esc_attr($id); ?>[border][style]">
 
 										<?php $adminObj->templatejs_select_options( 'border.style', $styles ) ?>
 
@@ -275,7 +277,7 @@
 
 								<div>
 									<i>Radius</i>
-									<input name="<?php echo $id; ?>[border][radius]" type="number" min="0" value="{{data.border.radius}}">
+									<input name="<?php echo esc_attr($id); ?>[border][radius]" type="number" min="0" value="{{data.border.radius}}">
 								</div>
 
 							</div>
@@ -294,12 +296,12 @@
 
 								<div>
 									<i>Background</i>
-									<input type="text" class="xoo-as-color-input" name="<?php echo $id; ?>[hover][bgColor]" value="{{data.hover.bgColor}}">									
+									<input type="text" class="xoo-as-color-input" name="<?php echo esc_attr($id); ?>[hover][bgColor]" value="{{data.hover.bgColor}}">									
 								</div>
 
 								<div>
 									<i>Text Color</i>
-									<input type="text" class="xoo-as-color-input" name="<?php echo $id; ?>[hover][txtColor]" value="{{data.hover.txtColor}}" >
+									<input type="text" class="xoo-as-color-input" name="<?php echo esc_attr($id); ?>[hover][txtColor]" value="{{data.hover.txtColor}}" >
 								</div>
 
 							</div>
@@ -314,18 +316,18 @@
 
 								<div>
 									<i>Size</i>
-									<input name="<?php echo $id; ?>[hover][border][size]" type="number" min="0" value="{{data.hover.border.size}}">
+									<input name="<?php echo esc_attr($id); ?>[hover][border][size]" type="number" min="0" value="{{data.hover.border.size}}">
 								</div>
 
 								<div>
 									<i>Color</i>
-									<input name="<?php echo $id; ?>[hover][border][color]" type="text" class="xoo-as-color-input" value="{{data.hover.border.color}}">
+									<input name="<?php echo esc_attr($id); ?>[hover][border][color]" type="text" class="xoo-as-color-input" value="{{data.hover.border.color}}">
 								</div>
 
 								<div>
 
 									<i>Style</i>
-									<select name="<?php echo $id; ?>[hover][border][style]">
+									<select name="<?php echo esc_attr($id); ?>[hover][border][style]">
 
 										<?php $adminObj->templatejs_select_options( 'hover.border.style', $styles ) ?>
 
@@ -336,7 +338,7 @@
 
 								<div>
 									<i>Radius</i>
-									<input name="<?php echo $id; ?>[hover][border][radius]" type="number" min="0" value="{{data.hover.border.radius}}">
+									<input name="<?php echo esc_attr($id); ?>[hover][border][radius]" type="number" min="0" value="{{data.hover.border.radius}}">
 								</div>
 
 							</div>

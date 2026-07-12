@@ -2,6 +2,10 @@
 
 namespace XooEL\Aff;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Xoo_Aff_Admin{
 
 	public $aff;

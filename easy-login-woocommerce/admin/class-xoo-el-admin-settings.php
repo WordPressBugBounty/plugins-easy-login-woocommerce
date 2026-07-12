@@ -125,7 +125,10 @@ class Xoo_El_Admin_Settings{
 
 				<div>
 					<span class="xoo-el-adpopup-head">Popup Style</span>
-					<?php echo xoo_el_helper()->admin->get_setting_html_pop( 'style', 'sy_popup', 'sy-popup-style' ); ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo xoo_el_helper()->admin->get_setting_html_pop( 'style', 'sy_popup', 'sy-popup-style' );
+					?>
 				</div>
 
 
@@ -137,7 +140,10 @@ class Xoo_El_Admin_Settings{
 					</div>
 					<div class="xoo-el-adpop-autoopen">
 						<span class="xoo-el-adpopup-head">Auto open popup</span>
-						<?php echo xoo_el_helper()->admin->get_setting_html_pop( 'general', 'gl_ao', 'ao-enable' ); ?>
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo xoo_el_helper()->admin->get_setting_html_pop( 'general', 'gl_ao', 'ao-enable' );
+						?>
 						<span>You can toggle it later from the settings</span>
 					</div>
 				</div>
@@ -234,7 +240,7 @@ class Xoo_El_Admin_Settings{
 		<span class="xoo-el-adpopup-head">Add Popup Link to Menu</span>
 		<select name="xoo-el-add-to-menu">
 			<?php foreach ( $menuOptions as $slug => $name ): ?>
-				<option value="<?php echo $slug ?>"><?php echo $name ?></option>
+				<option value="<?php echo esc_attr( $slug ) ?>"><?php echo esc_html( $name ) ?></option>
 			<?php endforeach; ?>
 		</select>
 		<span>You can add or remove this later from your menu page</span>
@@ -260,7 +266,7 @@ class Xoo_El_Admin_Settings{
 			
 			<h3>How to translate or change text?</h3>
 			<ol>
-				<li>Form fields texts can be changed from <a href="<?php echo admin_url('admin.php?page=xoo-el-fields') ?>" target="__blank">Fields page</a></li>
+				<li>Form fields texts can be changed from <a href="<?php echo esc_url( admin_url('admin.php?page=xoo-el-fields') ) ?>" target="__blank">Fields page</a></li>
 				<li>Some texts can be changed from the settings.</li>
 			</ol>
 			<h4>Translation</h4>
@@ -306,6 +312,7 @@ class Xoo_El_Admin_Settings{
 		}
 
 		if( $tab_id === 'info' ){
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo xoo_el_helper()->get_outdated_section().'<br>';
 		}
 	}
@@ -395,6 +402,7 @@ class Xoo_El_Admin_Settings{
 
 	//Inline CSS
 	public function inline_css(){
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( isset( $_GET['xoo_el_nav'] ) ){
 			?>
 			<style type="text/css">

@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 /**
  * Lost Password Form
@@ -78,10 +80,11 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 
 		$buttonThemeValues = $buttonThemes[ $sySettings[ $themeOption ] ];
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo xoo_el_helper()->get_button_css( $themeClasses, $buttonThemeValues );
 
 		if( $buttonThemeValues['size_type'] === 'custom' ){
-			echo $themeClasses. '{width: calc('.$buttonThemeValues['width'].$buttonThemeValues[ 'width_unit' ].' - 20px );}';
+			echo esc_html( $themeClasses ). '{width: calc('.esc_html( $buttonThemeValues['width'] ).esc_html( $buttonThemeValues[ 'width_unit' ] ).' - 20px );}';
 		}
 
 	}
@@ -121,7 +124,7 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 }
 
 .xoo-el-style-slider .xoo-el-modal{
-	transform: translateX(<?php echo $popup_width ?>px);
+	transform: translateX(<?php echo esc_html( $popup_width ) ?>px);
 	max-width: <?php echo esc_html( $popup_width ) ?>px;
 }
 

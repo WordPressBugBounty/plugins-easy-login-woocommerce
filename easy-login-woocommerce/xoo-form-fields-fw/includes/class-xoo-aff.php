@@ -2,6 +2,10 @@
 
 namespace XooEL\Aff;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Xoo_Aff{
 
 	public $plugin_slug, $admin_page_slug, $fields, $admin, $en_autocompadr, $hasUpdated, $ff_helper, $field_option_key, $dir, $url;

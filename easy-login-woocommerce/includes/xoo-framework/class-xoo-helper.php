@@ -2,6 +2,10 @@
 
 namespace XooEL\Framework;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Xoo_Helper{
 
 	public $slug, $path, $helperArgs;
@@ -273,6 +277,7 @@ class Xoo_Helper{
 
 		$tempData = $this->get_theme_templates_data();
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if(  ( ( time() - $tempData['last_scanned'] ) > ( 86400 * 1 ) ) || ( isset( $_GET['scan_templates'] ) && isset( $_GET['slug'] ) && $_GET['slug'] === $this->slug ) ){
 			$this->update_theme_templates_data();
 			wp_safe_redirect( remove_query_arg( array( 'scan_templates', 'slug' ) ) );
@@ -645,8 +650,10 @@ class Xoo_Helper{
 
 		foreach ( $theme_selectors as $theme_id => $selectors ) {
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $this->get_button_css(
 				$selectors,
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$themes[ $theme_id ]
 			);
 

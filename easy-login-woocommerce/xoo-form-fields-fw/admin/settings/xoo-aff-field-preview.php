@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <div class="xoo-as-field-preview-style"></div>
 <div class="xoo-as-field-preview"></div>
 

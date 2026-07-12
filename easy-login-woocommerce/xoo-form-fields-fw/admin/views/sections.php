@@ -1,6 +1,13 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
 $sections = array(
+
+
 
 	array(
 		'title' => 'Main',

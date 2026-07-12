@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <div class="xoo-el-scgen-cont xoo-ass-section">
 
 	<div class="xoo-asc-head"><span class="xoo-asch-title ">Shortcode Generator</span></div>
@@ -85,7 +87,7 @@
 					<option value="custom">Custom URL</option>
 				</select>	
 
-				<input type="text" data-fname="xoo-elscg-loginred" value="<?php echo get_site_url() ?>" data-showval="custom">
+				<input type="text" data-fname="xoo-elscg-loginred" value="<?php echo esc_url( get_site_url() ) ?>" data-showval="custom">
 
 				<span class="xoo-el-scgdesc">Redirect link after login.<br>
 					Global Setting refers to the option set under general -> redirect settings.
@@ -107,7 +109,7 @@
 					<option value="custom">Custom URL</option>
 				</select>	
 
-				<input type="text" data-fname="xoo-elscg-regred" value="<?php echo get_site_url() ?>" data-showval="custom">
+				<input type="text" data-fname="xoo-elscg-regred" value="<?php echo esc_url( get_site_url() ) ?>" data-showval="custom">
 
 				<span class="xoo-el-scgdesc">Redirect link after register.<br>
 					Global Setting refers to the option set under general -> redirect settings.
@@ -163,7 +165,7 @@
 					<option value="same">Same Page</option>
 					<option value="custom">Custom URL</option>
 				</select>	
-				<input type="text" data-fname="xoo-elscg-popred" value="<?php echo get_site_url() ?>" data-showval="custom">
+				<input type="text" data-fname="xoo-elscg-popred" value="<?php echo esc_url( get_site_url() ) ?>" data-showval="custom">
 				<span class="xoo-el-scgdesc">Redirect link after login/register.<br>
 					Global Setting refers to the option set under general -> redirect settings.
 				</span>

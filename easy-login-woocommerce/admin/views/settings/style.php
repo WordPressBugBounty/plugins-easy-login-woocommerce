@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 
 $buttonThemesSettings = array(
@@ -53,7 +55,7 @@ if( function_exists('xoo_ml') ){
 		'title' 		=> 'Toggle Buttons',
 		'id' 			=> 'sy-btntheme-toggle',
 		'section_id' 	=> 'sy_button_theme_creator',
-		'default' 		=> 'theme_default2'
+		'default' 		=> 'theme_default1'
 	);
 }
 
@@ -162,6 +164,42 @@ $settings = array(
 
 	),
 
+
+
+	array(
+		'callback' 		=> 'upload',
+		'title' 		=> 'Sidebar Image',
+		'id' 			=> 'sy-sidebar-img',
+		'section_id' 	=> 'sy_popup',
+		'default' 		=> XOO_EL_URL.'/assets/images/login.jpg',
+	),
+
+
+	array(
+		'callback' 		=> 'select',
+		'title' 		=> 'Sidebar Position',
+		'id' 			=> 'sy-sidebar-pos',
+		'section_id' 	=> 'sy_popup',
+		'args'			=> array(
+			'options' => array(
+				'left' 		=> 'Left',
+				'right' 	=> 'Right'
+			)
+		),
+		'default' 		=> 'left'
+	),
+
+
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Sidebar width',
+		'id' 			=> 'sy-sidebar-width',
+		'section_id' 	=> 'sy_popup',
+		'default' 		=> 43,
+		'desc' 			=> 'Width in percentage'
+	),
+
+
 	array(
 		'callback' 		=> 'select',
 		'title' 		=> 'Popup Position',
@@ -237,39 +275,7 @@ $settings = array(
 		'default' 		=> '#000000',
 	),
 
-	array(
-		'callback' 		=> 'upload',
-		'title' 		=> 'Sidebar Image',
-		'id' 			=> 'sy-sidebar-img',
-		'section_id' 	=> 'sy_popup',
-		'default' 		=> XOO_EL_URL.'/assets/images/login.jpg',
-	),
-
-
-	array(
-		'callback' 		=> 'select',
-		'title' 		=> 'Sidebar Position',
-		'id' 			=> 'sy-sidebar-pos',
-		'section_id' 	=> 'sy_popup',
-		'args'			=> array(
-			'options' => array(
-				'left' 		=> 'Left',
-				'right' 	=> 'Right'
-			)
-		),
-		'default' 		=> 'left'
-	),
-
-
-	array(
-		'callback' 		=> 'number',
-		'title' 		=> 'Sidebar width',
-		'id' 			=> 'sy-sidebar-width',
-		'section_id' 	=> 'sy_popup',
-		'default' 		=> 43,
-		'desc' 			=> 'Width in percentage'
-	),
-
+	
 
 	array(
 		'callback' 		=> 'color',

@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 
 $iconbgcolor   = $sy_options['s-icon-bgcolor'];
@@ -39,7 +41,10 @@ $showIcons        = $sy_options['s-show-icons'] === 'yes';
     font-size: <?php echo (int) $iconsize; ?>px;
 
     <?php if ( $iconbgcolor ) : ?>
-        <?php echo $inputBorderCSS; ?>
+        <?php 
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $inputBorderCSS;
+        ?>
     <?php else : ?>
         border: 0;
         border-radius: 0;
@@ -63,7 +68,10 @@ body.rtl .xoo-aff-pw-toggle {
 .xoo-aff-isfocused.xoo-aff-group .xoo-aff-input-icon {
     color: <?php echo esc_html( $inputIconColorFocus ); ?>;
     background-color: <?php echo esc_html( $inputIconBGColorFocus ); ?>;
-    <?php echo $inputBorderFocus; ?>
+    <?php
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo $inputBorderFocus;
+    ?>
 }
 
 .xoo-aff-input-group .xoo-aff-input-icon,
@@ -105,7 +113,10 @@ body.rtl .xoo-aff-pw-toggle {
     padding: 12px;
     font-size: <?php echo (int) $inputFsize; ?>px;
 
-    <?php echo $inputBorderCSS; ?>
+    <?php
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo $inputBorderCSS;
+    ?>
 }
 
 .xoo-aff-input-group input[type="text"].xoo-aff-field,
@@ -116,8 +127,8 @@ body.rtl .xoo-aff-pw-toggle {
 .xoo-aff-input-group input[type="file"].xoo-aff-field,
 .xoo-aff-input-group select.xoo-aff-field,
 .xoo-aff-input-group select.xoo-aff-field + .select2 {
-    padding-left: <?php echo ( $iconAlign === 'left' && $showIcons ) ? $inputIconPadding : 12; ?>px;
-    padding-right: <?php echo ( $iconAlign === 'right' && $showIcons ) ? $inputIconPadding : 12; ?>px;
+    padding-left: <?php echo ( $iconAlign === 'left' && $showIcons ) ? (float) $inputIconPadding : 12; ?>px;
+    padding-right: <?php echo ( $iconAlign === 'right' && $showIcons ) ? (float) $inputIconPadding : 12; ?>px;
 }
 
 .xoo-aff-group input[type="file"].xoo-aff-field {
@@ -141,7 +152,10 @@ body.rtl .xoo-aff-pw-toggle {
 .xoo-aff-group select.xoo-aff-field:focus  + .select2 {
     background-color: <?php echo esc_html( $focusbgcolor ); ?>;
     color: <?php echo esc_html( $focustxtcolor ); ?>;
-    <?php echo $inputBorderFocus; ?>
+    <?php
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo $inputBorderFocus;
+    ?>
 }
 
 .xoo-aff-field[placeholder]:focus::-webkit-input-placeholder {

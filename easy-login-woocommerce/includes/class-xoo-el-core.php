@@ -174,8 +174,8 @@ class Xoo_El_Core{
 				ob_start();
 				?>
 				<p style="margin: 0 0 16px 0;">
-					<span class="xoo-el-sing-head" style="font-size: 32px;"><?php echo $glOptions['txt-sing-head'] ?></span><br />
-					<span class="xoo-el-sing-subtxt" style="font-size: 16px;"><?php echo $glOptions['txt-sing-subtxt'] ?></span>
+					<span class="xoo-el-sing-head" style="font-size: 32px;"><?php echo wp_kses_post( $glOptions['txt-sing-head'] ) ?></span><br />
+					<span class="xoo-el-sing-subtxt" style="font-size: 16px;"><?php echo wp_kses_post( $glOptions['txt-sing-subtxt'] ) ?></span>
 				</p>
 				<?php
 
@@ -276,7 +276,7 @@ class Xoo_El_Core{
 		if( empty( $themeTemplatesData ) || $themeTemplatesData['has_outdated'] !== 'yes' ) return;
 		?>
 		<div class="notice notice-success is-dismissible xoo-el-admin-notice">
-		<p><?php printf( 'You have <a href="%1$s">outdated templates</a> in your theme which are no longer supported. Please see "info" tab for more info.', admin_url( 'admin.php?page=easy-login-woocommerce-settings' ) ); ?></p>
+		<p><?php printf( 'You have <a href="%1$s">outdated templates</a> in your theme which are no longer supported. Please see "info" tab for more info.', esc_url( admin_url( 'admin.php?page=easy-login-woocommerce-settings' ) ) ); ?></p>
 		</div>
 		<?php
 	}

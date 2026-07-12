@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div class="xoo-el-container xoo-el-style-<?php echo xoo_el_helper()->get_style_option('sy-popup-style') ?>" style="visibility: hidden;">
+<div class="xoo-el-container xoo-el-style-<?php echo esc_attr( xoo_el_helper()->get_style_option('sy-popup-style') ) ?>" style="visibility: hidden;">
     <div class="xoo-el-opac"></div>
     <div class="xoo-el-modal">
         <div class="xoo-el-inmodal">

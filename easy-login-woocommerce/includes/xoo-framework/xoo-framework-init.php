@@ -2,6 +2,10 @@
 
 namespace XooEL\Framework;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 const XOO_FW_DIR = __DIR__;
 const XOO_FW_VERSION = '2.0.0';
 

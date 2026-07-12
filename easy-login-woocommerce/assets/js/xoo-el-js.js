@@ -184,6 +184,7 @@ jQuery(document).ready(function($){
 
 			form_data.append( 'action', 'xoo_el_form_action' );
 			form_data.append( 'display', container.display );
+			form_data.append( '_ajax_nonce', xoo_el_localize.nonce );
 
 
 			$.ajax({
@@ -412,7 +413,10 @@ jQuery(document).ready(function($){
 		}
 
 		setScrollbarPosition( position ){
-			this.$popup.find('.xoo-el-srcont').scrollTop = position || 0;
+			this.$popup.find('.xoo-el-srcont').animate({
+				scrollTop: position || 0
+			}, 300);
+			console.log(this.$popup.find('.xoo-el-srcont').scrollTop);
 		}
 
 		onFormSubmitSuccess( e, response, $form, container ){
@@ -420,6 +424,7 @@ jQuery(document).ready(function($){
 		}
 
 		setScrollBarOnSubmit(e){
+		
 			var invalid_els = $(e.currentTarget).closest('form').find('input:invalid');
 			if( invalid_els.length === 0 ) return;
 			this.setScrollbarPosition( invalid_els.filter(":first").closest('.xoo-aff-group').position().top );
@@ -866,7 +871,8 @@ jQuery(document).ready(function($){
 				'code': _thisObj.getCodeValue(),
 				'action': 'xoo_el_code_form_submit',
 				'xoo_el_code_ajax': _thisObj.codeFormID,
-				'parentFormData': objectifyForm( _thisObj.$parentForm )
+				'parentFormData': objectifyForm( _thisObj.$parentForm ),
+				'_ajax_nonce': xoo_el_localize.nonce
 			}, data );
 
 

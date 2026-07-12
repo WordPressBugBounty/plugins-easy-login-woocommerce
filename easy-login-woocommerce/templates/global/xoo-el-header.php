@@ -29,11 +29,11 @@ $registerTabText 	= xoo_el_helper()->parsePlaceHolders(  xoo_el_helper()->get_ge
 	<ul class="xoo-el-tabs">
 		
         <?php if( in_array( 'login', $args['tabs'] ) && $loginTabText  ): ?>
-		  <li data-tab="login" class="xoo-el-login-tgr" style="order: <?php echo array_search('login', $args['tabs'] ) ?> "><?php echo wp_kses_post( $loginTabText  ) ?></li>
+		  <li data-tab="login" class="xoo-el-login-tgr" style="order: <?php echo (int) array_search('login', $args['tabs'] ) ?> "><?php echo wp_kses_post( $loginTabText  ) ?></li>
         <?php endif; ?>
 
 		<?php if( in_array( 'register', $args['tabs'] ) && xoo_el_helper()->get_general_option( 'txt-tab-reg' ) ):?> 
-			<li data-tab="register" class="xoo-el-reg-tgr" style="order: <?php echo array_search('register', $args['tabs'] ) ?>"><?php echo wp_kses_post( $registerTabText  ) ?></li>
+			<li data-tab="register" class="xoo-el-reg-tgr" style="order: <?php echo (int) array_search('register', $args['tabs'] ) ?>"><?php echo wp_kses_post( $registerTabText  ) ?></li>
 		<?php endif; ?>
 
 	</ul>

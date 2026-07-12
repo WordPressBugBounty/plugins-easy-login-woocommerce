@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 
 use XooEL\Framework\Xoo_Exception;
@@ -54,8 +56,8 @@ class Xoo_El_Code_Form{
 
     public function hooks(){
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing
         if( isset( $_POST['xoo_el_code_ajax'] ) && $_POST['xoo_el_code_ajax'] === $this->form_id ){
-
             add_action( 'wp_ajax_xoo_el_code_form_submit', array( $this, 'verify_code' ) );
             add_action( 'wp_ajax_nopriv_xoo_el_code_form_submit', array( $this, 'verify_code' ) );
         }
@@ -277,6 +279,8 @@ class Xoo_El_Code_Form{
 
     public function verify_code(){
 
+       check_ajax_referer( 'xoo-el-nonce' );
+
         try {
             
             $incorrect_limit_reached = $this->incorrect_tries_limit_reached();
@@ -288,6 +292,7 @@ class Xoo_El_Code_Form{
 
             $user_data = $this->get_user_data();
             
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
             if( !isset( $user_data['code'] ) || $user_data['code'] != $_POST['code'] ){
 
                 $incorrect = isset( $user_data['incorrect'] ) ? $user_data['incorrect'] + 1 : 1;

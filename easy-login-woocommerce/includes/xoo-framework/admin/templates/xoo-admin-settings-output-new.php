@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 	
 $options = apply_filters( 'xoo_aff_export_options', $adminObj->tabs, $adminObj->helper->slug );
@@ -49,12 +51,12 @@ $sections = $adminObj->sections;
 
 					<?php if( !isset( $sections[ $tab_id ] ) ) continue; ?>
 					
-					<div class="xoo-as-setsections" data-tab="<?php echo $tab_id ?>">
+					<div class="xoo-as-setsections" data-tab="<?php echo esc_attr( $tab_id ) ?>">
 
 						<?php foreach ( $sections[$tab_id] as $section_id => $section_data ): ?>
 
 		
-							<a href="#<?php echo $tab_id.'_'.$section_id ?>" class="xoo-as-setsbar-section <?php echo ( isset( $section_data['pro'] ) && $section_data['pro'] === 'yes' ) ? 'xoo-sec-pro' : '' ?>">
+							<a href="#<?php echo esc_attr( $tab_id.'_'.$section_id ) ?>" class="xoo-as-setsbar-section <?php echo ( isset( $section_data['pro'] ) && $section_data['pro'] === 'yes' ) ? 'xoo-sec-pro' : '' ?>">
 
 								<?php if( isset( $section_data['args']['icon'] ) ): ?>
 
@@ -62,7 +64,7 @@ $sections = $adminObj->sections;
 
 								<?php endif; ?>
 
-								<span class="xoo-as-setbar-sectitle"><?php echo $section_data['title']; ?></span>
+								<span class="xoo-as-setbar-sectitle"><?php echo esc_html( $section_data['title'] ); ?></span>
 
 							</a>
 

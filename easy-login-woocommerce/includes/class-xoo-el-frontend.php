@@ -42,17 +42,17 @@ class Xoo_El_Frontend{
 
 		if( $form === 'login' ){
 			if( $this->glSettings['txt-login-form'] ){
-				echo '<div class="xoo-el-form-desc">'.$this->glSettings['txt-login-form'].'</div>';
+				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $this->glSettings['txt-login-form'] ).'</div>';
 			}
 		}
 		else if( $form === 'register' ){
 			if( $this->glSettings['txt-register-form'] ){
-				echo '<div class="xoo-el-form-desc">'.$this->glSettings['txt-register-form'].'</div>';
+				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $this->glSettings['txt-register-form'] ).'</div>';
 			}
 		}
 		else if( $form === 'single' ){
 			if( $this->glSettings['txt-single-form'] ){
-				echo '<div class="xoo-el-form-desc">'.$this->glSettings['txt-single-form'].'</div>';
+				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $this->glSettings['txt-single-form'] ).'</div>';
 			}
 		}
 
@@ -105,13 +105,14 @@ class Xoo_El_Frontend{
 			'resend_wait' 		=> 90,
 			'preventClosing' 	=> $this->glSettings['popup-force'] === "yes",
 			'hasCodeForms' 		=> !empty( xoo_el_code_forms()->forms ),
-			'isLoggedIn' 		=> is_user_logged_in() ? 'yes' : 'no'
+			'isLoggedIn' 		=> is_user_logged_in() ? 'yes' : 'no',
+			'nonce' 			=> wp_create_nonce('xoo-el-nonce')
 		);
 
 		if( class_exists('woocommerce') ){
 			$localizeData['checkout'] =  array(
 				'loginEnabled' 		=> $this->glSettings['m-en-chkout'],
-				'loginRedirect' 	=> esc_url( $_SERVER['REQUEST_URI'] )
+				'loginRedirect' 	=> esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) )
 			);
 		}
 
@@ -185,7 +186,7 @@ class Xoo_El_Frontend{
 
 		    if( isset( $logout_match[1] ) ){
 
-		    	$logout_link 	= !empty( $this->glSettings['m-red-logout'] ) ? $this->glSettings['m-red-logout'] : $_SERVER['REQUEST_URI'];
+		    	$logout_link 	= !empty( $this->glSettings['m-red-logout'] ) ? sanitize_url( $this->glSettings['m-red-logout'] ) : sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 				$change_to_link = wp_logout_url( $logout_link );
 
 		    	foreach ($logout_match[1] as $index => $content ) {
@@ -222,7 +223,7 @@ class Xoo_El_Frontend{
 			$popclass .= ' xoo-el-pop-sc';
 
 			if( $atts['redirect_to'] === 'same' ){
-				$redirect = $_SERVER['REQUEST_URI'];
+				$redirect = sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 			}
 			elseif( $atts['redirect_to'] ){
 				$redirect = $atts['redirect_to'];
@@ -295,7 +296,7 @@ class Xoo_El_Frontend{
 				$change_to_text =  !empty( $change_to_text ) ? $change_to_text : __('My account','easy-login-woocommerce');
 			}
 			else if( $atts['change_to'] === 'logout' ){
-				$logout_link 	= !empty( $this->glSettings['m-red-logout'] ) ? $this->glSettings['m-red-logout'] : $_SERVER['REQUEST_URI'];
+				$logout_link 	= !empty( $this->glSettings['m-red-logout'] ) ? $this->glSettings['m-red-logout'] : sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 				$change_to_link = wp_logout_url( $logout_link );
 				$change_to_text =  !empty( $change_to_text ) ? $change_to_text : __('Logout','easy-login-woocommerce');
 			}
@@ -338,7 +339,7 @@ class Xoo_El_Frontend{
 			}
 
 			if( $atts['redirect_to'] === 'same' ){
-				$redirect = $_SERVER['REQUEST_URI'];
+				$redirect = sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 			}
 			elseif( $atts['redirect_to'] ){
 				$redirect = $atts['redirect_to'];

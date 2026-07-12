@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+
 <?php
 	
 if( !isset( $id ) || !isset( $value ) ){

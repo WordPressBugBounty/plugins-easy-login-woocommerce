@@ -35,9 +35,11 @@ class Xoo_El_Form_Handler{
 	//Process form
 	public static function form_action(){
 
+		check_ajax_referer( 'xoo-el-nonce' );
+
 		if( !isset( $_POST['_xoo_el_form'] ) ) return;
 
-		$form_action = sanitize_text_field( $_POST['_xoo_el_form'] );
+		$form_action = sanitize_text_field( wp_unslash( $_POST['_xoo_el_form'] ) );
 
 		switch ($form_action) {
 			case 'login':
@@ -76,11 +78,13 @@ class Xoo_El_Form_Handler{
 
 	public static function process_single_form(){
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( !isset($_POST['_xoo_el_form']) ||  $_POST['_xoo_el_form'] !== 'single'  ) return;
 
 		try {
 
-			$userInput 				= sanitize_user( trim( $_POST['xoo-el-sing-user'] ) );
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$user_input 			= isset( $_POST['xoo-el-sing-user'] ) ? trim( sanitize_user( wp_unslash( $_POST['xoo-el-sing-user'] ) ) ) : '';
 			$allowUsernameSearch	= xoo_el()->aff->fields->get_field_data('xoo-el-sing-user')['settings']['xoo_el_username'] === 'yes';
 
 			$validation_error = apply_filters( 'xoo_el_process_single_errors', new \WP_Error(), $userInput );
@@ -117,12 +121,14 @@ class Xoo_El_Form_Handler{
 				$field					= 'input[name="xoo-el-username"]';
 			}
 			else{
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				if( !isset( $_POST['_xoo_el_login_has_register'] ) || !is_email( $userInput ) ){
 					$notice = xoo_el_add_notice( 'error', __( "We couldn't find your account.", 'easy-login-woocommerce' ) );
 					$error 	= 1;
 				}
 				else{
 					$field 					= 'input[name="xoo_el_reg_email"]';
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing
 					$notice 				= xoo_el_add_notice(  'warning', isset( $_POST['_xoo_el_referral'] ) && $_POST['_xoo_el_referral'] === 'register' ? __( 'Please enter your details to register.', 'easy-login-woocommerce' ) :  __( "We couldn't find your account. Please register.", 'easy-login-woocommerce' ) );
 				}
 			}
@@ -159,14 +165,18 @@ class Xoo_El_Form_Handler{
 	//Process Login
 	public static function process_login(){
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( !isset($_POST['_xoo_el_form']) ||  $_POST['_xoo_el_form'] !== 'login'  ) return;
 
 				
 		try {
 
 			$creds = array(
-				'user_login'    => sanitize_user( trim( $_POST['xoo-el-username'] ) ),
-				'user_password' => $_POST['xoo-el-password'],
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				'user_login'    => sanitize_user( wp_unslash( $_POST['xoo-el-username'] ) ),
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+				'user_password' => wp_unslash( $_POST['xoo-el-password'] ),
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				'remember'      => isset( $_POST['xoo-el-rememberme'] ),
 			);
 
@@ -210,6 +220,7 @@ class Xoo_El_Form_Handler{
 				);
 
 				if( in_array( $message_code, $show_lostpw_on_errors ) ){
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing
 					if( isset( $_POST['_xoo_el_login_has_single'] ) && $message_code === 'incorrect_password' ){
 						$message = __( 'Wrong password.', 'easy-login-woocommerce' ).$lost_pw_text;
 					}
@@ -225,8 +236,10 @@ class Xoo_El_Form_Handler{
 
 			} else {
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				if ( ! empty( $_POST['xoo_el_redirect'] ) ) {
-					$redirect = sanitize_url( $_POST['xoo_el_redirect'] );
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing
+					$redirect = sanitize_url( wp_unslash( $_POST['xoo_el_redirect'] ) );
 				}
 
 				$redirect = apply_filters( 'xoo_el_login_redirect', wp_validate_redirect( $redirect ), $user );
@@ -265,10 +278,14 @@ class Xoo_El_Form_Handler{
 	 */
 	public static function process_registration() {
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( isset($_POST['_xoo_el_form']) &&  $_POST['_xoo_el_form'] === 'register' ) {
-			$username 		= isset( $_POST['xoo_el_reg_username'] ) ? sanitize_user( $_POST['xoo_el_reg_username'] ) : '';
-			$password 		= isset( $_POST['xoo_el_reg_pass'] ) ? $_POST['xoo_el_reg_pass'] : '';
-			$email    		= isset( $_POST['xoo_el_reg_email'] ) ? sanitize_email( $_POST['xoo_el_reg_email'] ) : '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$username 		= isset( $_POST['xoo_el_reg_username'] ) ? sanitize_user( wp_unslash( $_POST['xoo_el_reg_username'] ) ) : '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$password 		= isset( $_POST['xoo_el_reg_pass'] ) ? wp_unslash( $_POST['xoo_el_reg_pass'] ) : '';
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$email    		= isset( $_POST['xoo_el_reg_email'] ) ? sanitize_email( wp_unslash( $_POST['xoo_el_reg_email'] ) ) : '';
 			$reg_extra_data = array();
 
 			try {
@@ -283,6 +300,7 @@ class Xoo_El_Form_Handler{
 
 				$doNotValidateOtherFields = array_keys( array_diff_key( $reg_admin_fields, xoo_el_fields()->get_fields('register') ) );
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				$fieldValues = xoo_el()->aff->fields->validate_submitted_field_values( $_POST, $doNotValidateOtherFields );
 
 				if( is_wp_error( $fieldValues ) ){
@@ -336,16 +354,21 @@ class Xoo_El_Form_Handler{
 					throw new Xoo_Exception( __( 'Please enter an account password.', 'easy-login-woocommerce' ) );
 				}
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				if( $reg_admin_fields['xoo_el_reg_pass']['settings']['active'] === "yes" && $reg_admin_fields['xoo_el_reg_pass_again']['settings']['active'] === "yes" && $password !== $_POST['xoo_el_reg_pass_again'] ){
 					throw new Xoo_Exception( __("Passwords don't match","easy-login-woocommerce") );
 				}
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				if( isset( $_POST['xoo_el_reg_fname'] ) ){
-					$reg_extra_data['first_name'] 	= sanitize_text_field( $_POST['xoo_el_reg_fname'] );
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing
+					$reg_extra_data['first_name'] 	= sanitize_text_field( wp_unslash( $_POST['xoo_el_reg_fname'] ) );
 				}
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				if( isset( $_POST['xoo_el_reg_lname'] ) ){
-					$reg_extra_data['last_name'] 	= sanitize_text_field( $_POST['xoo_el_reg_lname'] );
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing
+					$reg_extra_data['last_name'] 	= sanitize_text_field( wp_unslash( $_POST['xoo_el_reg_lname'] ) );
 				}
 				
 				if( $reg_admin_fields['xoo_el_reg_username']['settings']['active'] !== "yes" ){
@@ -402,8 +425,10 @@ class Xoo_El_Form_Handler{
 
 				$success_notice = $success_notice;
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				if ( ! empty( $_POST['xoo_el_redirect'] ) && $redirect ) {
-					$redirect = wp_sanitize_redirect( $_POST['xoo_el_redirect'] );
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing
+					$redirect = wp_sanitize_redirect( wp_unslash( $_POST['xoo_el_redirect'] ) );
 				}
 
 				$redirect = apply_filters( 'xoo_el_registration_redirect', wp_validate_redirect( $redirect ), $new_customer );
@@ -617,10 +642,12 @@ class Xoo_El_Form_Handler{
 	// Process lost password form
 	public static function process_lost_password(){
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if( isset($_POST['_xoo_el_form']) &&  $_POST['_xoo_el_form'] === 'lostPassword' ){
 
 			try{
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				$user_login 		= trim( wp_unslash( $_POST['user_login'] ) );
 				$recover_pattern  	= self::$glSettings['m-reset-pw'];
 				$has_woocommmerce 	= class_exists('woocommerce');
@@ -747,15 +774,16 @@ class Xoo_El_Form_Handler{
 
 	public static function process_reset_password(){
 
-		if( !isset( $_POST['xoo-el-resetpw-nonce-field'] ) || !wp_verify_nonce( $_POST['xoo-el-resetpw-nonce-field'], 'xoo-el-resetpw-nonce' ) ){
-			return;
-		}
-
 		try {
 
 			if( self::$glSettings['m-reset-pw'] === 'link' ){
 
-				$user = check_password_reset_key( $_POST['rp_key'], $_POST['rp_login'] );
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$rp_key 	= isset( $_POST['rp_key'] ) ? wp_unslash( $_POST['rp_key'] ) : '';
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
+				$rp_login 	= isset( $_POST['rp_login'] ) ? sanitize_user( wp_unslash( $_POST['rp_login'] ) ) : '';
+
+				$user = check_password_reset_key( $rp_key, $rp_login );
 
 				if( is_wp_error( $user ) ){
 					throw new Xoo_Exception( __( 'This key is invalid or has already been used. Please reset your password again if needed.', 'easy-login-woocommerce' ) );
@@ -782,11 +810,13 @@ class Xoo_El_Form_Handler{
 
 			if ( $user instanceof WP_User ) {
 
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				if( !isset( $_POST['xoo-el-rp-pass'] ) || !isset( $_POST['xoo-el-rp-pass-again'] ) || $_POST['xoo-el-rp-pass'] !== $_POST['xoo-el-rp-pass-again'] ){
 					throw new Xoo_Exception( __( "Passwords don't match", 'easy-login-woocommerce' ) );
 				}
 
-				$new_pass = $_POST['xoo-el-rp-pass'];
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$new_pass = wp_unslash( $_POST['xoo-el-rp-pass'] );
 
 				$errors = new \WP_Error();
 
@@ -932,7 +962,8 @@ class Xoo_El_Form_Handler{
 		$message .= network_site_url( "{$baseurl}key=$key&login=" . rawurlencode( $user_login ), 'login' ) . '&wp_lang=' . $locale . "\r\n\r\n";
 
 		if ( ! is_user_logged_in() ) {
-			$requester_ip = $_SERVER['REMOTE_ADDR'];
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$requester_ip = wp_unslash( $_SERVER['REMOTE_ADDR'] );
 			if ( $requester_ip ) {
 				$message .= sprintf(
 					/* translators: %s: IP address of password reset requester. */
@@ -1048,9 +1079,11 @@ class Xoo_El_Form_Handler{
 				$user    = get_user_by( 'login', sanitize_user( wp_unslash( $_GET['login'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$user_id = $user ? $user->ID : 0;
 			} else {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$user_id = absint( $_GET['id'] );
 			}
 
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			self::set_reset_password_cookie( sprintf( '%d:%s', $user_id, wp_unslash( $_GET['key'] ) ) );
 
 			wp_safe_redirect( add_query_arg( 'reset_password', 'true', apply_filters( 'xoo_el_redirect_rp_link', get_site_url() ) ) );
@@ -1067,7 +1100,7 @@ class Xoo_El_Form_Handler{
 	 */
 	public static function set_reset_password_cookie( $value = '' ) {
 		$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
-		$rp_path   = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : ''; // WPCS: input var ok, sanitization ok.
+		$rp_path   = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ) : ''; // WPCS: input var ok, sanitization ok.
 
 		if ( $value ) {
 			setcookie( $rp_cookie, $value, 0, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
@@ -1078,6 +1111,7 @@ class Xoo_El_Form_Handler{
 
 
 	public static function remove_query_args(){
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( ( isset( $_GET['reset_password'] ) || isset( $_GET['show-reset-form'] ) ) && is_user_logged_in() ){
 			wp_safe_redirect( esc_url( remove_query_arg( array( 'reset_password', 'show-reset-form' ) ) ) );
 		}

@@ -126,7 +126,7 @@ class Xoo_El_User_Profile {
 						$field_html .= '<a target="__blank" href="'.$url.'">'.$url.'</a><br>';
 					}
 					$field_html .= '</div>';
-					echo $field_html;
+					echo wp_kses_post( $field_html );
 					echo '<p class="description">Add attachment IDs here (comma separated)</p>';
 				}
 				else{
@@ -153,6 +153,7 @@ class Xoo_El_User_Profile {
 	 *
 	 * @param int $user_id User ID of the user being saved
 	 */
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	public function save_customer_meta_fields( $user_id ) {
 
 		$save_fields = xoo_el_fields()->get_fields( 'register' );
@@ -163,13 +164,19 @@ class Xoo_El_User_Profile {
 
 			if( isset( $_POST[ $field_id ] ) ){
 				if( is_array( $_POST[ $field_id ] ) ){
-					$value = array_map( 'sanitize_text_field', $_POST[ $field_id ] );
+
+					$value = array_map(
+					    'sanitize_text_field',
+					    wp_unslash( $_POST[ $field_id ] )
+					);
 				}
 				else{
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 					$value = sanitize_text_field( $_POST[ $field_id ] );
 				}
 
-				if( $field_data['input_type'] === 'file' && $_POST[ $field_id ] ){
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if( $field_data['input_type'] === 'file' && wp_unslash( $_POST[ $field_id ] ) ){
 					$value = explode(',', $value );
 				}
 

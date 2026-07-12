@@ -67,7 +67,7 @@ if( !function_exists( 'xoo_el_nav_menu_items' ) ):
 					elseif( $action_class === "xoo-el-logout-menu" ){
 						if( $item->url ) continue;
 						$glSettings = xoo_el_helper()->get_general_option();
-						$logout_redirect = !empty( $glSettings['m-red-logout'] ) ? $glSettings['m-red-logout'] : $_SERVER['REQUEST_URI'];
+						$logout_redirect = !empty( $glSettings['m-red-logout'] ) ? sanitize_url( $glSettings['m-red-logout'] ) : ( sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) );
 						$item->url = wp_logout_url( $logout_redirect );
 					}
 					elseif( $action_class === "xoo-el-firstname-menu"){
@@ -143,22 +143,22 @@ function xoo_el_add_notice( $notice_type = 'error', $message = '', $notice_class
 
 	?>
 
-	<div class="<?php echo $classes ?>">
+	<div class="<?php echo esc_attr($classes ) ?>">
 
 		<?php if( $icon ): ?>
 
-			<div class="xoo-el-notice-icon <?php echo $icon ?>"></div>
+			<div class="xoo-el-notice-icon <?php echo wp_kses_post( $icon ) ?>"></div>
 
 		<?php endif; ?>
 
 		<div class="xoo-el-notice-txtcont">
 
 			<?php if( $title ): ?>
-				<div class="xoo-el-noticetitle"><?php echo $title ?></div>
+				<div class="xoo-el-noticetitle"><?php echo wp_kses_post( $title ) ?></div>
 			<?php endif; ?>
 
 			<?php if( $text ): ?>
-				<div class="xoo-el-noticetxt"><?php echo $text ?></div>
+				<div class="xoo-el-noticetxt"><?php echo wp_kses_post( $text ) ?></div>
 			<?php endif; ?>
 
 		</div>
@@ -189,7 +189,7 @@ function xoo_el_notice_container( $form, $args ){
 
 	$notices .= '<div class="xoo-el-notice"></div>';
 
-	echo apply_filters( 'xoo_el_notice_container', wp_kses_post( $notices ), $form );
+	echo wp_kses_post(apply_filters( 'xoo_el_notice_container', $notices, $form ) );
 
 }
 
@@ -273,11 +273,11 @@ if( !function_exists( 'xoo_el_inline_form' ) ){
 		$args['forms']['register']['enable'] = in_array( 'register', $tabs ) ? 'yes' : 'no';
 
 		if( $atts['login_redirect'] ){
-			$args['forms']['login']['redirect'] = $atts['login_redirect'] === 'same' ? $_SERVER['REQUEST_URI'] : sanitize_url( $atts['login_redirect'] );
+			$args['forms']['login']['redirect'] = $atts['login_redirect'] === 'same' && isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : sanitize_url( $atts['login_redirect'] );
 		}
 
 		if( $atts['register_redirect'] ){
-			$args['forms']['register']['redirect'] = $atts['register_redirect'] === 'same' ? $_SERVER['REQUEST_URI'] : sanitize_url( $atts['register_redirect'] );
+			$args['forms']['register']['redirect'] = $atts['register_redirect'] === 'same' && isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : sanitize_url( $atts['register_redirect'] );
 		}
 
 
@@ -340,6 +340,7 @@ function xoo_el_get_form( $args = array() ){
 
 	if( $glSettings['m-reset-pw'] === 'link' ){
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( ( isset( $_GET['reset_password'] ) || isset( $_GET['show-reset-form'] ) ) ){
 
 			$args['form_active'] = 'resetpw';
@@ -372,20 +373,22 @@ function xoo_el_get_form( $args = array() ){
 	
 
 	//Handling redirects
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 	if( isset( $_GET['redirect_to'] ) && $_GET['redirect_to'] ){
-		$args['forms']['register']['redirect'] = $args['forms']['login']['redirect'] = sanitize_url( $_GET['redirect_to'] );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$args['forms']['register']['redirect'] = $args['forms']['login']['redirect'] = sanitize_url( wp_unslash( $_GET['redirect_to'] ) );
 	}
 	else{
 
 		if( !isset( $args['forms']['register']['redirect'] ) || !$args['forms']['register']['redirect'] ){
 			$regRedirect 							= xoo_el_helper()->get_general_option( 'm-red-register' );
-			$args['forms']['register']['redirect']	= sanitize_url( !empty( $regRedirect ) ? $regRedirect :  $_SERVER['REQUEST_URI'] );
+			$args['forms']['register']['redirect']	=  !empty( $regRedirect ) ? sanitize_url( $regRedirect ) :  sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 		}
 
 
 		if( !isset( $args['forms']['login']['redirect'] ) || !$args['forms']['login']['redirect'] ){
 			$loginRedirect 						= xoo_el_helper()->get_general_option( 'm-red-login' );
-			$args['forms']['login']['redirect']	= sanitize_url( !empty( $loginRedirect ) ? $loginRedirect :  $_SERVER['REQUEST_URI'] );
+			$args['forms']['login']['redirect']	= !empty( $loginRedirect ) ? sanitize_url( $loginRedirect ) : sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 		}
 		
 	}
@@ -493,6 +496,7 @@ function xoo_el_save_myaccount_details( $user_id  ){
 
 	$doNotValidateOtherFields = array_keys( array_diff_key( $allFields, $myaccFields  ) );
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing
 	$fieldValues = xoo_el()->aff->fields->validate_submitted_field_values( $_POST, $doNotValidateOtherFields );
 
 	if( is_wp_error( $fieldValues ) ){
@@ -628,7 +632,7 @@ function xoo_el_header_image(){
 	if( !$image ) return;
 
 	?>
-	<img src="<?php echo $image ?>" placeholder="logo" class="xoo-el-head-img">
+	<img src="<?php echo esc_attr( $image ) ?>" placeholder="logo" class="xoo-el-head-img">
 	<?php
 
 }
@@ -640,11 +644,11 @@ function xoo_el_nav_footer_links( $form, $args ){
 	?>
 
 	<?php if( $form === 'login' && in_array( 'register' , $args['tabs'] ) && isset( $args['navstyle'] ) && $args['navstyle'] === 'links' ): ?>
-		<span class="xoo-el-reg-tgr xoo-el-nav-ft"><?php _e( "Don't have an account? Signup now", 'easy-login-woocommerce' ) ?></span>
+		<span class="xoo-el-reg-tgr xoo-el-nav-ft"><?php esc_html_e( "Don't have an account? Signup now", 'easy-login-woocommerce' ) ?></span>
 	<?php endif; ?>
 
 	<?php if( $form === 'register' && in_array( 'login' , $args['tabs'] ) && isset( $args['navstyle'] ) && $args['navstyle'] === 'links' ): ?>
-		<span class="xoo-el-login-tgr xoo-el-nav-ft"><?php _e( "Already a member? Login", 'easy-login-woocommerce' ) ?></span>
+		<span class="xoo-el-login-tgr xoo-el-nav-ft"><?php esc_html_e( "Already a member? Login", 'easy-login-woocommerce' ) ?></span>
 	<?php endif; ?>
 
 
@@ -693,6 +697,7 @@ add_filter( 'xoo_ml_el_login_form_input_fields', 'xoo_el_ml_old_cc_fix' );
 if( defined( 'MAILPOET_VERSION' ) ){
 	function xoo_el_mailpoet_subscribe( $data ){
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		if( isset( $_POST['xoo-mailpoet-subscribe'] ) && trim( $_POST['xoo-mailpoet-subscribe'] ) ){
 			$_POST['mailpoet']['subscribe_on_register'] = true;
 		}
@@ -710,6 +715,7 @@ if( defined( 'MAILPOET_VERSION' ) ){
 //Paid membership compatibility
 function xoo_el_paid_membership_compat(){
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing
 	if( !isset( $_POST['action'] ) || $_POST['action'] !== 'xoo_el_form_action' ) return;
 
 	remove_action( 'wp_login_failed', 'pmpro_login_failed', 10, 2 );

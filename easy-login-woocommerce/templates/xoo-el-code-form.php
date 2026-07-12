@@ -18,17 +18,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-$parentFormSelector = $parentFormSelector ? 'data-parentform=".'.$parentFormSelector.'"' : '';
 ?>
 
-<form class="xoo-el-code-form" <?php echo $parentFormSelector ?> data-code="<?php echo $code_form_id ?>">
+<form class="xoo-el-code-form" <?php echo $parentFormSelector ? 'data-parentform=".' . esc_attr( $parentFormSelector ) . '"' : ''; ?> data-code="<?php echo esc_attr( $code_form_id ); ?>">
 
 	<?php do_action( 'xoo_el_code_form_start' ) ?>
 
 	<div class="xoo-el-code-sent-txt">
 		<span class="xoo-el-code-no-txt"></span>
 		<?php if( $allow_change ): ?>
-		<span class="xoo-el-code-no-change"> <?php _e( "Change", 'easy-login-woocommerce' ); ?></span>
+		<span class="xoo-el-code-no-change"> <?php esc_html_e( "Change", 'easy-login-woocommerce' ); ?></span>
 		<?php endif; ?>
 	</div>
 
@@ -45,18 +44,18 @@ $parentFormSelector = $parentFormSelector ? 'data-parentform=".'.$parentFormSele
 	<input type="hidden" name="xoo-el-code-phone-no" >
 	<input type="hidden" name="xoo-el-code-phone-code" >
 
-	<button type="submit" class="button btn xoo-el-code-submit-btn xoo-el-action-btn"><?php echo $verify_btn ?></button>
+	<button type="submit" class="button btn xoo-el-code-submit-btn xoo-el-action-btn"><?php echo wp_kses_post( $verify_btn ) ?></button>
 
 	<?php if( $resend ): ?>
 
 	<div class="xoo-el-code-resend">
-		<a class="xoo-el-code-resend-link"><?php echo $resend_txt ?></a>
+		<a class="xoo-el-code-resend-link"><?php echo wp_kses_post( $resend_txt ) ?></a>
 		<span class="xoo-el-code-resend-timer"></span>
 	</div>
 
 	<?php endif; ?>
 
-	<input type="hidden" name="xoo_el_code_form_id" value="<?php echo $code_form_id; ?>">
+	<input type="hidden" name="xoo_el_code_form_id" value="<?php echo esc_attr( $code_form_id ); ?>">
 
 	<?php do_action( 'xoo_el_code_form_end' ) ?>
 
