@@ -1,6 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 class Xoo_El_Code_Form_Resetpw extends Xoo_El_Code_Form {
 
@@ -90,4 +92,3 @@ class Xoo_El_Code_Form_Resetpw extends Xoo_El_Code_Form {
 }
 
 return new Xoo_El_Code_Form_Resetpw();
-

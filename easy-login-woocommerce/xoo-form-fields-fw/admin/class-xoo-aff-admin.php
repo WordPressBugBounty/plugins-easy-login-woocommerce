@@ -138,6 +138,3 @@ class Xoo_Aff_Admin{
 	}
 
 }
-
-
-?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Add extra profile fields for users in admin
  *

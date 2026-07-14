@@ -1,7 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 class Xoo_El_Code_Forms{
 
@@ -39,5 +40,3 @@ function xoo_el_code_forms(){
 }
 
 add_action( 'init', 'xoo_el_code_forms' );
-
-?>

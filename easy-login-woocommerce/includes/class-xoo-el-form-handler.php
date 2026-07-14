@@ -84,7 +84,7 @@ class Xoo_El_Form_Handler{
 		try {
 
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$user_input 			= isset( $_POST['xoo-el-sing-user'] ) ? trim( sanitize_user( wp_unslash( $_POST['xoo-el-sing-user'] ) ) ) : '';
+			$userInput 				= isset( $_POST['xoo-el-sing-user'] ) ? trim( sanitize_user( wp_unslash( $_POST['xoo-el-sing-user'] ) ) ) : '';
 			$allowUsernameSearch	= xoo_el()->aff->fields->get_field_data('xoo-el-sing-user')['settings']['xoo_el_username'] === 'yes';
 
 			$validation_error = apply_filters( 'xoo_el_process_single_errors', new \WP_Error(), $userInput );
@@ -1164,6 +1164,3 @@ class Xoo_El_Form_Handler{
 
 
 Xoo_El_Form_Handler::init();
-
-
-?>

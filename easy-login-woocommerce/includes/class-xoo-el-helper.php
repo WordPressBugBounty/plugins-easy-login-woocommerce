@@ -1,8 +1,10 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
 
 use XooEL\Framework\Xoo_Helper;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 class Xoo_El_Helper extends Xoo_Helper{
 
@@ -117,6 +119,5 @@ function xoo_el_helper(){
 		'pluginName' => 'Login/Signup popup'
 	) );
 }
-xoo_el_helper();
 
-?>
+xoo_el_helper();

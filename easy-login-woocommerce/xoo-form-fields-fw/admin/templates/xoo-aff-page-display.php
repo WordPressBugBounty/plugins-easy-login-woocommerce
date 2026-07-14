@@ -1,4 +1,10 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+?>
 
 <div class="xoo-tabs">
 	<?php
@@ -48,4 +54,3 @@
 	<?php do_action( 'xoo_aff_admin_page_display_end', $admin_page_slug ); ?>
 
 </div>
-

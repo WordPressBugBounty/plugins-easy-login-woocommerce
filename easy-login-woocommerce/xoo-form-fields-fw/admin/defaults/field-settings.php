@@ -1,6 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 
 $field_settings = array(
 	'xoo_aff_text' => array(

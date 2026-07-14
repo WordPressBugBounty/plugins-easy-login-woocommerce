@@ -1,6 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 
 $iconbgcolor 	= $sy_options['s-icon-bgcolor'];
 $iconcolor 		= $sy_options['s-icon-color'];

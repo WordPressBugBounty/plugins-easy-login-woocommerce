@@ -1,6 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 $settings = array(
 
@@ -48,5 +50,3 @@ $settings = array(
 
 
 return apply_filters( 'xoo_el_admin_settings', $settings, 'advanced' );
-
-?>

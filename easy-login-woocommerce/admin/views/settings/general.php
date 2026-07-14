@@ -1,13 +1,19 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 if ( ! function_exists( 'get_editable_roles' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/user.php';
 }
+
 $editable_roles = array_reverse( get_editable_roles() );
+
 foreach ( $editable_roles as $role_id => $role_data) {
 	$user_roles[$role_id] = translate_user_role( $role_data['name'] );
 }
+
 $user_roles = apply_filters( 'xoo_el_admin_user_roles', $user_roles );
 
 $localizeTexts = version_compare( get_option( 'xoo-el-version' ) , '2.5', '<' );
@@ -472,5 +478,3 @@ $texts = array(
 $settings = array_merge( $settings, $texts );
 
 return apply_filters( 'xoo_el_admin_settings', $settings, 'general' );
-
-?>

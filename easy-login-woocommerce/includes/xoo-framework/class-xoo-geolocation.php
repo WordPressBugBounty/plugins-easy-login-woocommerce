@@ -2,7 +2,9 @@
 
 namespace XooEL\Framework;
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 class Xoo_Geolocation {
 

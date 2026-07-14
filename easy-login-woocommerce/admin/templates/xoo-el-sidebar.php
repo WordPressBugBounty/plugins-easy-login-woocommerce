@@ -1,70 +1,74 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
-	$plugins_list = array(
 
-		array(
-			'title' 	=> 'Add-ons you may like',
-			'type' 		=> 'section',
-			'id' 		=> 'addons',
-		),
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
-		array(
-			'title' 	=> 'Mobile Login ( OTP ) ',
-			'dashicon'  => 'dashicons-smartphone',
-			'desc' 		=> 'Allow users to signup/login with OTP.',
-			'demo' 		=> 'http://demo.xootix.com/mobile-login-for-woocommerce',
-			'download'  => 'https://wordpress.org/plugins/mobile-login-woocommerce/'
-		),
+$plugins_list = array(
 
+	array(
+		'title' 	=> 'Add-ons you may like',
+		'type' 		=> 'section',
+		'id' 		=> 'addons',
+	),
 
-		array(
-			'title' 	=> 'User Verification',
-			'dashicon'  => 'dashicons-email',
-			'desc' 		=> 'Send a verification email to user on signup.',
-			'demo' 		=> 'http://demo.xootix.com/user-verification-for-woocommerce',
-			'pluginpage'=> 'https://xootix.com/plugins/user-verification-for-woocommerce/'
-		),
+	array(
+		'title' 	=> 'Mobile Login ( OTP ) ',
+		'dashicon'  => 'dashicons-smartphone',
+		'desc' 		=> 'Allow users to signup/login with OTP.',
+		'demo' 		=> 'http://demo.xootix.com/mobile-login-for-woocommerce',
+		'download'  => 'https://wordpress.org/plugins/mobile-login-woocommerce/'
+	),
 
 
-		array(
-			'title' 	=> 'Try other awesome plugins',
-			'type' 		=> 'section',
-			'id' 		=> 'other-plugins',
-		),
+	array(
+		'title' 	=> 'User Verification',
+		'dashicon'  => 'dashicons-email',
+		'desc' 		=> 'Send a verification email to user on signup.',
+		'demo' 		=> 'http://demo.xootix.com/user-verification-for-woocommerce',
+		'pluginpage'=> 'https://xootix.com/plugins/user-verification-for-woocommerce/'
+	),
 
-		array(
-			'title' 	=> 'Woo Side Cart',
-			'dashicon'  => 'dashicons-cart',
-			'desc' 		=> 'Adds a site wide basket icon that displays the added cart items.',
-			'demo' 		=> 'http://demo.xootix.com/side-cart-for-woocommerce',
-			'download'  => 'https://wordpress.org/plugins/side-cart-woocommerce/'
-		),
 
-		array(
-			'title' 	=> 'Woo Waitlist',
-			'dashicon'  => 'dashicons-list-view',
-			'desc' 		=> 'Lets you track demand for out-of-stock items, ensuring your customers feel informed.',
-			'demo' 		=> 'http://demo.xootix.com/waitlist-for-woocommerce',
-			'download'  => 'https://wordpress.org/plugins/waitlist-woocommerce/'
-		),
+	array(
+		'title' 	=> 'Try other awesome plugins',
+		'type' 		=> 'section',
+		'id' 		=> 'other-plugins',
+	),
 
-		array(
-			'title' 	=> 'Woo Quick View',
-			'dashicon'  => 'dashicons-welcome-view-site',
-			'desc' 		=> 'Allow users to get a quick look of products without opening the product page.',
-			'demo' 		=> 'http://demo.xootix.com/quick-view-for-woocommerce',
-			'download'  => 'https://wordpress.org/plugins/quick-view-woocommerce/'
-		),
+	array(
+		'title' 	=> 'Woo Side Cart',
+		'dashicon'  => 'dashicons-cart',
+		'desc' 		=> 'Adds a site wide basket icon that displays the added cart items.',
+		'demo' 		=> 'http://demo.xootix.com/side-cart-for-woocommerce',
+		'download'  => 'https://wordpress.org/plugins/side-cart-woocommerce/'
+	),
 
-		array(
-			'title' 	=> 'Woo Cart Popup',
-			'dashicon'  => 'dashicons-cart',
-			'desc' 		=> 'Shows the item added to cart without page refresh.',
-			'demo' 		=> 'http://demo.xootix.com/cart-pop-up-for-woocommerce',
-			'download'  => 'https://wordpress.org/plugins/added-to-cart-popup-woocommerce/'
-		),
-	)
+	array(
+		'title' 	=> 'Woo Waitlist',
+		'dashicon'  => 'dashicons-list-view',
+		'desc' 		=> 'Lets you track demand for out-of-stock items, ensuring your customers feel informed.',
+		'demo' 		=> 'http://demo.xootix.com/waitlist-for-woocommerce',
+		'download'  => 'https://wordpress.org/plugins/waitlist-woocommerce/'
+	),
+
+	array(
+		'title' 	=> 'Woo Quick View',
+		'dashicon'  => 'dashicons-welcome-view-site',
+		'desc' 		=> 'Allow users to get a quick look of products without opening the product page.',
+		'demo' 		=> 'http://demo.xootix.com/quick-view-for-woocommerce',
+		'download'  => 'https://wordpress.org/plugins/quick-view-woocommerce/'
+	),
+
+	array(
+		'title' 	=> 'Woo Cart Popup',
+		'dashicon'  => 'dashicons-cart',
+		'desc' 		=> 'Shows the item added to cart without page refresh.',
+		'demo' 		=> 'http://demo.xootix.com/cart-pop-up-for-woocommerce',
+		'download'  => 'https://wordpress.org/plugins/added-to-cart-popup-woocommerce/'
+	),
+)
+
 ?>
 
 <a class="xoo-sidebar-toggle">Hide</a>

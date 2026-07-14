@@ -1,7 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 class Xoo_El_Aff_Fields{
 
@@ -1128,4 +1129,3 @@ class Xoo_El_Aff_Fields{
 
 
 new Xoo_El_Aff_Fields();
-?>

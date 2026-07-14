@@ -85,5 +85,3 @@ function xoo_el_fields(){
 }
 
 xoo_el_fields();
-
-?>

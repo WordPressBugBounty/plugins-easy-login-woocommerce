@@ -1,8 +1,12 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+
 $fields = xoo_aff()->get_fields_data();
+
 if( empty( $fields ) ) return;
 
 ?>

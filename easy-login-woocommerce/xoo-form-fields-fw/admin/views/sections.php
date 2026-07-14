@@ -40,5 +40,3 @@ $sections = array(
 );
 
 return $sections;
-
-?>

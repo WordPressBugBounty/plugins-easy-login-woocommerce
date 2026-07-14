@@ -86,8 +86,8 @@ class Xoo_Aff_Options_Callbacks {
 		<?php foreach ($options as $option): ?>
 			<input type="checkbox" class="xoo-input-multiple-cb" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ).'[]'; ?>" value="<?php echo esc_attr( $option['value'] ); ?>" <?php echo in_array( $option['value'], (array) $value ) ? 'checked' : null; ?>>
 			<span class="xoo-el-mcb-label"><?php echo esc_html( $option['title'] ); ?></span>
-		<?php endforeach; ?>
-		<?php
+		<?php endforeach; 
+
 	}
 
 
@@ -159,6 +159,4 @@ class Xoo_Aff_Options_Callbacks {
 	}
 }
 
-return new Xoo_Aff_Options_Callbacks(); 
-
-?>
+return new Xoo_Aff_Options_Callbacks();

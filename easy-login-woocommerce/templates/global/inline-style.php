@@ -1,19 +1,20 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
 /**
- * Lost Password Form
+ * Inline Style
  *
- * This template can be overridden by copying it to yourtheme/templates/easy-login-woocommerce/global/xoo-el-lostpw-section.php
+ * This template can be overridden by copying it to yourtheme/templates/easy-login-woocommerce/global/inline-style.php
  *
  * HOWEVER, on occasion we will need to update template files and you
  * (the theme developer) will need to copy the new files to your theme to
  * maintain compatibility. We try to do this as little as possible, but it does
  * happen.
  * @see     https://docs.xootix.com/easy-login-woocommerce/
- * @version 3.2
+ * @version 3.2.6
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 $sySettings 		= xoo_el_helper()->get_style_option();
 

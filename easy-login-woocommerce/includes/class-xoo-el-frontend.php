@@ -380,5 +380,3 @@ function xoo_el_frontend(){
 }
 
 xoo_el_frontend();
-
-?>

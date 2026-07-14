@@ -1601,5 +1601,3 @@ class Xoo_Aff_Fields{
 
 	
 }
-
-?>

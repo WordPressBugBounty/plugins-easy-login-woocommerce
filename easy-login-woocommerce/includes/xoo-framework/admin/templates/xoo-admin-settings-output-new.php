@@ -1,10 +1,11 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
 <?php
-	
-$options = apply_filters( 'xoo_aff_export_options', $adminObj->tabs, $adminObj->helper->slug );
-$sections = $adminObj->sections;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+$options 	= apply_filters( 'xoo_aff_export_options', $adminObj->tabs, $adminObj->helper->slug );
+$sections 	= $adminObj->sections;
 
 ?>
 

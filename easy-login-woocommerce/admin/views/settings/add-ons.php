@@ -1,5 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 $link = 'https://xootix.com/plugins/easy-login-for-woocommerce#sp-addons';
 

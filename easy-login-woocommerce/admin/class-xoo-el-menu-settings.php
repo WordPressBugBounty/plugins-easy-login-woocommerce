@@ -42,7 +42,7 @@ class Xoo_El_Menu_Settings{
 						?>
 						<li>
 							<label class="menu-item-title">
-								<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo esc_html($value['title'])?>
+								<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo esc_html($value['title']) ?>
 								<?php if(isset($value['desc'])): ?>
 									<span class="desc">(<?php echo esc_html($value['desc'])?>)</span>
 								<?php endif; ?>

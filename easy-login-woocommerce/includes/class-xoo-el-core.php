@@ -304,6 +304,3 @@ class Xoo_El_Core{
 
 
 }
-
-
-?>

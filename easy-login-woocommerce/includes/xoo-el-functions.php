@@ -155,9 +155,8 @@ function xoo_el_add_notice( $notice_type = 'error', $message = '', $notice_class
 
 			<?php if( $title ): ?>
 				<div class="xoo-el-noticetitle"><?php echo wp_kses_post( $title ) ?></div>
-			<?php endif; ?>
-
-			<?php if( $text ): ?>
+			<?php endif; 
+ if( $text ): ?>
 				<div class="xoo-el-noticetxt"><?php echo wp_kses_post( $text ) ?></div>
 			<?php endif; ?>
 
@@ -641,22 +640,17 @@ add_action( 'xoo_el_before_header', 'xoo_el_header_image' );
 
 function xoo_el_nav_footer_links( $form, $args ){
 
-	?>
-
-	<?php if( $form === 'login' && in_array( 'register' , $args['tabs'] ) && isset( $args['navstyle'] ) && $args['navstyle'] === 'links' ): ?>
+	
+ if( $form === 'login' && in_array( 'register' , $args['tabs'] ) && isset( $args['navstyle'] ) && $args['navstyle'] === 'links' ): ?>
 		<span class="xoo-el-reg-tgr xoo-el-nav-ft"><?php esc_html_e( "Don't have an account? Signup now", 'easy-login-woocommerce' ) ?></span>
-	<?php endif; ?>
-
-	<?php if( $form === 'register' && in_array( 'login' , $args['tabs'] ) && isset( $args['navstyle'] ) && $args['navstyle'] === 'links' ): ?>
+	<?php endif; 
+ if( $form === 'register' && in_array( 'login' , $args['tabs'] ) && isset( $args['navstyle'] ) && $args['navstyle'] === 'links' ): ?>
 		<span class="xoo-el-login-tgr xoo-el-nav-ft"><?php esc_html_e( "Already a member? Login", 'easy-login-woocommerce' ) ?></span>
-	<?php endif; ?>
-
-
-	<?php if( $form === 'lostpw' && isset( $args['navstyle'] ) && $args['navstyle'] === 'links' ): ?>
+	<?php endif; 
+ if( $form === 'lostpw' && isset( $args['navstyle'] ) && $args['navstyle'] === 'links' ): ?>
 		<span class="xoo-el-login-tgr xoo-el-nav-ft"><i class="xoo-el-icon-arrow-left2"></i></span>
-	<?php endif; ?>
+	<?php endif; 
 
-	<?php
 
 }
 add_action( 'xoo_el_after_form', 'xoo_el_nav_footer_links',10, 2 );
@@ -867,5 +861,3 @@ function xoo_el_ml_inline_style_glitch_fix(){
 }
 
 add_action( 'wp_enqueue_scripts', 'xoo_el_ml_inline_style_glitch_fix', 5 );
-
-?>

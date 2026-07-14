@@ -457,5 +457,3 @@ function xoo_el_admin_settings(){
 	return Xoo_El_Admin_Settings::get_instance();
 }
 xoo_el_admin_settings();
-
-?>
