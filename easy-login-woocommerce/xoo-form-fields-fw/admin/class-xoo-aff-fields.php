@@ -58,16 +58,25 @@ class Xoo_Aff_Fields{
 	 * @param 	string 		$format 		Format type Array | Json
 	*/
 
-	public function get_fields_data( $format = 'array' ){
+	public function get_fields_data( $format = 'array' ) {
 
 		$data = get_option( $this->db_field );
 
-		if( $format === 'array' ){
-			$data = json_decode( $data, true );
+		if ( 'array' === $format ) {
+			$data = json_decode( (string) $data, true );
+
+			if ( ! is_array( $data ) ) {
+				$data = array();
+			}
 		}
 
-		return apply_filters( 'xoo_aff_'.$this->plugin_slug.'_data', $data );
-		
+		$data = apply_filters( 'xoo_aff_' . $this->plugin_slug . '_data', $data );
+
+		if ( 'array' === $format && ! is_array( $data ) ) {
+			$data = array();
+		}
+
+		return $data;
 	}
 
 
@@ -1317,8 +1326,12 @@ class Xoo_Aff_Fields{
  	*/
 	public function set_default_field_sections(){
 
-		$this->add_section( 'basic', 'Basic Settings', 10 );
-		$this->add_section( 'advanced', 'Advanced Settings', 20 );
+		$sections = include $this->aff->dir.'/admin/defaults/field-sections.php';
+
+		foreach ( $sections as $section ) {
+			$args = isset( $section[2] ) ? $section[2] : array();
+			$this->add_section( $section[0], $section[1], $args );
+		}
 	}
 
 

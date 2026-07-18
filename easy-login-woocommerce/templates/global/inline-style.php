@@ -73,7 +73,9 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 		'sy-btntheme-toggle' 	=> '.xoo-el-form-container button.btn.button.xoo-el-action-btn:not(button[type="submit"])',
 	);
 
-
+	if( !defined( 'XOO_ELPOF_PLUGIN_FILE' ) ){
+		$buttonThemeSelectorMap['sy-btntheme-profupdate'] = 'button.xoo-el-action-btn.xoo-elpof-btn';
+	}
 
 	foreach ($buttonThemeSelectorMap as $themeOption => $themeClasses ) {
 

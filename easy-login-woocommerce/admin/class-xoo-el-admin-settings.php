@@ -64,6 +64,7 @@ class Xoo_El_Admin_Settings{
 	}
 
 
+
 	public function filter_settings( $settings, $type ){
 		if( $type === 'style' && get_option( 'xoo-el-old-btn-layout',true ) !== "yes" ){
 			foreach  ($settings as $index => $setting ) {
@@ -449,6 +450,16 @@ class Xoo_El_Admin_Settings{
 		return ob_get_clean();
 	}
 
+	public function default_profile_head_text(){
+		ob_start();
+		?>
+		<p style="margin: 0 0 16px 0;">
+			<strong><span style="font-size: 25px;">Your account details</span><br /></strong>
+			<span style="color: #939393; font-size: 15px;">Update your personal information & password to keep your account secure.</span>
+		</p>
+		<?php
+		return ob_get_clean();
+	}
 
 
 }

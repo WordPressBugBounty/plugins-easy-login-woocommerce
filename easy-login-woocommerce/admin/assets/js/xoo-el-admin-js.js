@@ -145,8 +145,18 @@ jQuery(document).ready(function($){
 
 		delete shortcode.sctype;
 
+		var shortcodeString = '';
 
-		var shortcodeString = shortcodeType === 'inline' ? '[xoo_el_inline_form' : '[xoo_el_pop';
+		if( shortcodeType === 'inline' ){
+			shortcodeString = '[xoo_el_inline_form';
+		}
+		else if ( shortcodeType === 'popup' ){
+			shortcodeString = '[xoo_el_pop';
+		}
+		else if ( shortcodeType === 'profile' ){
+			shortcodeString = '[xoo_el_profile';
+		}
+	
 
 		$.each( shortcode, function(attr,val ){
 			if( Array.isArray(val) ){

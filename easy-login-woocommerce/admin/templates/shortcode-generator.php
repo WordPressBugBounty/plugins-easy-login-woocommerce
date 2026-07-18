@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div>
 			<label class="xoo-btn-primary"><input type="radio" data-fname="xoo-elscg-sctype" value="inline">Inline Form</label>
 			<label class="xoo-btn-primary"><input type="radio" data-fname="xoo-elscg-sctype" value="popup">Open Popup</label>
+			<label class="xoo-btn-primary"><input type="radio" data-fname="xoo-elscg-sctype" value="profile">Update Profile Form</label>
 		</div>	
 	</div>
 
@@ -80,6 +81,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<span class="xoo-el-scgdesc">Choose a way to switch between login and registration form.</span>
 			</div>	
 		</div>
+
+
+		<div class="xoo-el-scgroup" data-attr="profile">
+			<label>Allow Profile Update</label>
+			<div>
+				<select data-fname="xoo-elscg-profile">
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
+				</select>	
+				<span class="xoo-el-scgdesc">After logging in, users can use this form to update their profile details..</span>
+			</div>	
+		</div>
+
 
 		<div class="xoo-el-scgroup xoo-el-scredirects" data-attr="login_redirect">
 
@@ -222,5 +236,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<span class="xoo-el-scpop-info">Apart from using a shortcode, there are other ways to open the popup.. Please check "info" tab.</span>
 
 	</div>
+
+
+	<div class="xoo-elscg-fields" data-type="profile">
+		<span class="xoo-elsch-head">It generates form for logged in users to update their fields</span>
+	</div>
+
+		
+
 
 </div>

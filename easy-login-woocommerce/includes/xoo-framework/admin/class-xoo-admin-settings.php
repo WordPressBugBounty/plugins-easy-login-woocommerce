@@ -77,18 +77,19 @@ class Xoo_Admin{
 
 		if( isset( $this->helper->helperArgs ) && !isset($this->helper->helperArgs['disable_usage']) ){
 
-			add_action( 'admin_notices', array( $this, 'usage_data_notice' ) );
-			add_action( 'admin_init', array( $this, 'handle_usage_click_response' ) );
-			add_action( 'admin_init', array( $this, 'on_plugin_reactivate' ) );
+			//add_action( 'admin_notices', array( $this, 'usage_data_notice' ) );
+			//add_action( 'admin_init', array( $this, 'handle_usage_click_response' ) );
+			add_action( 'admin_init', array( $this, 'on_plugin_activation' ) );
 
 			if( $this->helper->helperArgs['pluginFile'] ){
 				register_deactivation_hook( $this->helper->helperArgs['pluginFile'] , array( $this, 'on_plugin_deactivate' ) );
 			}
 
 		}
-		
+
 
 	}
+
 
 
 	public function usage_data_notice(){
@@ -124,16 +125,12 @@ class Xoo_Admin{
 
 		if( !isset( $_POST['xoo_usage_handle'] ) ) return;
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		$slug 		= sanitize_text_field( wp_unslash( $_POST['xoo_slug'] ) );
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		$nonce 		= sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		$response 	= sanitize_text_field( wp_unslash( $_POST['xoo_allow'] ) );
 
 		if( $this->helper->slug !== $slug ) return;
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		if( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'xoo_usage_nonce' ) ) return;
 
 		update_option( 'xoo_tracking_consent_'.$this->helper->slug, $response );
@@ -151,14 +148,25 @@ class Xoo_Admin{
 	}
 
 
-	public function on_plugin_reactivate(){
-		if( $this->is_usage_allowed() && get_option('xoo_plugin_deactivated_'.$this->helper->slug) === "yes" ){
-			delete_option('xoo_plugin_deactivated_'.$this->helper->slug);
-			$this->usage_data_http_request(array(
+	public function on_plugin_activation(){
+
+		$option_key = 'xoo_plugin_isactive_' . $this->helper->slug;
+		$active 	= get_option( $option_key );
+
+		if( !$active && get_option( 'xoo_tracking_consent_'.$this->helper->slug ) ){ // older version where usage cons shown
+			update_option( $option_key, 'yes' );
+			return;
+		}
+
+		if ( !$active || $active !== 'yes'  ) {
+
+			update_option( $option_key, 'yes' );
+		   $this->usage_data_http_request(array(
 				'active' => 1
 			) );
 		}
 	}
+
 
 
 	public function usage_data_http_request( $passed_data = array() ) {
@@ -174,52 +182,23 @@ class Xoo_Admin{
 
 		$data = array_merge( $defaults, $passed_data, $helperdata );
 
-		$response = wp_remote_post(
+		wp_remote_post(
 			$this->usageURL,
 			array(
-				'timeout' => 15,
-				'body' => $data,
+				'blocking' => false,
+				'timeout'  => 1,
+				'body'     => $data,
 			)
 		);
-
-		// Handle request failure
-		if ( is_wp_error( $response ) ) {
-			return array(
-				'success' => false,
-				'error'   => $response->get_error_message(),
-			);
-		}
-
-		$body = wp_remote_retrieve_body( $response );
-
-		if ( empty( $body ) ) {
-			return array(
-				'success' => false,
-				'error'   => 'Empty response body',
-			);
-		}
-
-		$decoded = json_decode( $body, true );
-
-		// Handle invalid JSON
-		if ( json_last_error() !== JSON_ERROR_NONE ) {
-			return array(
-				'success' => false,
-				'error'   => 'Invalid JSON response',
-			);
-		}
-
-		return $decoded;
 	}
 
 
 
 	public function on_plugin_deactivate(){
-		if( !$this->is_usage_allowed() ) return;
 		$this->usage_data_http_request( array(
 			'active' => 0
 		) );
-		update_option( 'xoo_plugin_deactivated_'.$this->helper->slug, 'yes' );
+		update_option( 'xoo_plugin_isactive_'.$this->helper->slug, 'no' );
 	}
 
 	public function export_settings(){

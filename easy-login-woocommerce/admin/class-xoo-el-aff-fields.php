@@ -120,7 +120,9 @@ class Xoo_El_Aff_Fields{
 			'active' => array(
 				'value' => 'no'
 			),
-			'label',
+			'label' => array(
+				'value' => 'Username'
+			),
 			'cols',
 			'icon' => array(
 				'value' => 'fas fa-user-plus'
@@ -201,7 +203,9 @@ class Xoo_El_Aff_Fields{
 			),
 			'required',
 			'show_label', 
-			'label',
+			'label' => array(
+				'value' => 'User Role'
+			),
 			'cols',
 			'icon' => array(
 				'value' => 'far fa-user'
@@ -262,7 +266,9 @@ class Xoo_El_Aff_Fields{
 			'required' 	=> array(
 				'value' => 'yes'
 			),
-			'label',
+			'label' => array(
+				'value' => 'Email'
+			),
 			'cols',
 			'icon' => array(
 				'value' => 'far fa-envelope'
@@ -315,6 +321,9 @@ class Xoo_El_Aff_Fields{
 			'cols',
 			'icon' => array(
 				'value' => 'fas fa-lock'
+			),
+			'label' => array(
+				'value' => 'Password'
 			),
 			'placeholder' => array(
 				'value' => 'Password',
@@ -388,6 +397,9 @@ class Xoo_El_Aff_Fields{
 			'icon' => array(
 				'value' => 'fas fa-lock'
 			),
+			'label' => array(
+				'value' => 'Confirm Password'
+			),
 			'placeholder' => array(
 				'value' => 'Confirm Password',
 			),
@@ -439,7 +451,9 @@ class Xoo_El_Aff_Fields{
 			'required' => array(				
 				'value' => 'yes'
 			),
-			'label',
+			'label' => array(
+				'value' => 'First Name'
+			),
 			'cols' => array(
 				'value' => 'onehalf'
 			),
@@ -499,7 +513,9 @@ class Xoo_El_Aff_Fields{
 			'required' => array(
 				'value' => 'yes'
 			),
-			'label',
+			'label' => array(
+				'value' => 'Last Name'
+			),
 			'cols' => array(
 				'value' => 'onehalf'
 			),
@@ -563,7 +579,9 @@ class Xoo_El_Aff_Fields{
 			'required' => array(
 				'value' => 'no'
 			),
-			'label',
+			'label' => array(
+				'value' => 'Newsletter'
+			),
 			'placeholder' => array(
 				'value' => 'Subscribe to our newsletter',
 			),
@@ -658,7 +676,9 @@ class Xoo_El_Aff_Fields{
 			'required' => array(
 				'value' => 'yes'
 			),
-			'label',
+			'label' => array(
+				'value' => 'The Terms and Conditions'
+			),
 			'placeholder' => array(
 				'value' => 'The Terms and Conditions',
 			),

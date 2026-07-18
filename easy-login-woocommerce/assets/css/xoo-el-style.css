@@ -887,3 +887,26 @@ body .xoo-el-form-container button.button.btn.xoo-ml-login-otp-btn{
         width: 100%!important;
     }
 }
+
+
+
+.xoo-elpof-form-fields {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.xoo-elpof-disable{
+    opacity: 0.6;
+    pointer-events: none!important;
+}
+
+.xoo-elpof-notices {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+
+.xoo-elpof-disable span.xoo-ff-file-remove{
+    display: none;
+}

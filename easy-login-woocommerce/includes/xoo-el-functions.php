@@ -209,8 +209,6 @@ function xoo_el_is_limit_login_ok(){
 if( !function_exists( 'xoo_el_inline_form' ) ){
 	function xoo_el_inline_form_shortcode($user_atts){
 
-		if( is_user_logged_in() ) return;
-
 		if( !isset( $user_atts['forms'] ) ){
 			$defaultForms = 'login';
 			if( xoo_el_helper()->get_general_option('m-en-reg') === 'yes' ){
@@ -229,11 +227,18 @@ if( !function_exists( 'xoo_el_inline_form' ) ){
 			'forms' 			=> $defaultForms,
 			'login_redirect' 	=> '',
 			'register_redirect' => '',
-
+			'profile' 			=> 'no'
 		), $user_atts, 'xoo_el_inline_form');
 
 		//On change of attribute from tabs to forms
 		$atts['tabs'] = $atts['forms'];
+
+		if( is_user_logged_in() ){
+			if( $atts['profile'] === 'yes' ){
+				return do_shortcode('[xoo_el_profile]');
+			}
+			return;
+		}
 
 		$tabs = array_map( 'trim', explode(',', $atts['tabs']) );
 
@@ -410,7 +415,7 @@ function xoo_el_override_wc_login_form( $located, $template_name, $args, $templa
 		$located = xoo_el_helper()->locate_template( 'xoo-el-wc-form-login.php', XOO_EL_PATH.'/templates/' );
 	}
 
-	if( $template_name === 'myaccount/form-lost-password.php' && $glSettings['m-en-myaccount'] === "yes" && $glSettings['m-reset-pw'] === "yes" && !is_user_logged_in() && $glSettings['m-myacclpw-sc'] ){
+	if( $template_name === 'myaccount/form-lost-password.php' && $glSettings['m-en-myaccount'] === "yes" && $glSettings['m-reset-pw'] !== "disable" && !is_user_logged_in() && $glSettings['m-myacclpw-sc'] ){
 		$located = xoo_el_helper()->locate_template( 'xoo-el-wc-lost-password.php', XOO_EL_PATH.'/templates/' );
 	}
 

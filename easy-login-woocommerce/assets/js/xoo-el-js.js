@@ -999,4 +999,48 @@ jQuery(document).ready(function($){
 	}
 
 
+	$( 'body' ).on( 'submit', 'form.xoo-elpof-profile-update', function(e){
+
+		e.preventDefault();
+
+		var $form 			= $(e.currentTarget),
+			$button 		= $form.find('button[type="submit"]'),
+			buttonTxt 		= $button.text(),
+			$noticeCont 	= $form.find('.xoo-elpof-notices');
+
+		$button.html( xoo_el_localize.html.spinner ).addClass('xoo-el-processing');
+		$noticeCont.html('');
+
+		var form_data = new FormData($form[0]);
+		form_data.append( 'action', 'xoo_elpof_update_profile' );
+		
+		$.ajax({
+			url: xoo_el_localize.adminurl,
+			type: 'POST',
+			processData: false,
+			contentType: false,
+			cache: false,
+			enctype: 'multipart/form-data',
+			data: form_data,
+			success: function(response){
+				if( response.notice ){
+					$noticeCont.html(response.notice);
+					$('html, body').animate({ scrollTop: $noticeCont.offset().top - 100}, 500);
+				}
+
+				if( response.refreshPage ){ // if form has file field
+					setTimeout(function(){
+						location.reload();
+					}, 1000)
+					
+				}
+			},
+			complete: function( xhr, status ){
+				$button.removeClass('xoo-el-processing').html(buttonTxt);
+			}
+		});
+
+	} )
+
+
 })

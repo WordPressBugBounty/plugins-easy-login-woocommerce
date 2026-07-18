@@ -70,7 +70,22 @@ class Xoo_El_Core{
 	
 		if ( xoo_el_helper()->is_request('admin')) {
 			require_once XOO_EL_PATH.'admin/class-xoo-el-menu-settings.php';
-			require_once XOO_EL_PATH.'admin/class-xoo-el-user-profile.php';
+		}
+
+
+		//Let profile builder add-on handle it.
+		if( !defined( 'XOO_ELPOF_PLUGIN_FILE' ) && !(isset( $_GET['action'], $_GET['plugin'] ) && $_GET['action'] === 'activate'  && $_GET['plugin'] === 'easy-login-addon-profile/xoo-elpof-main.php' ) ){
+
+			if( xoo_el_helper()->is_request('admin') || version_compare( $this->db_version, XOO_EL_VERSION, '<' ) ){
+				require_once XOO_EL_PATH.'admin/class-xoo-elpof-fields.php';
+			}
+
+
+			if( xoo_el_helper()->is_request('admin') ){
+				require_once XOO_EL_PATH.'admin/class-xoo-el-user-profile.php';
+			}
+
+			require_once XOO_EL_PATH.'/includes/class-xoo-elpof-core.php';
 		}
 	}
 
@@ -216,6 +231,31 @@ class Xoo_El_Core{
 
 			}
 
+			if( version_compare( $db_version, '3.2.8', '<') ){
+
+				$glOptions['m-editaccount-replace'] 	= 'no';
+				$glOptions['m-editaccount-sc'] 			= '[xoo_el_profile]';
+				$glOptions['txt-btn-profile'] 			= 'Update';
+				$glOptions['txt-profile-update'] 		= 'Your profile updated successfully.';
+				$glOptions['txt-profile-head'] 			= xoo_el_admin_settings()->default_profile_head_text();
+				$syOptions['sy-btntheme-profupdate'] 	= 'theme_default1';
+
+
+				$fields = $this->aff->fields->get_fields_data();
+
+				foreach ( $fields as $field_id => $field_data ) {
+
+					if( !isset( $field_data['group'] ) || $field_data['group'] !== 'register' ) continue;
+
+					$fields[$field_id]['settings']['register_enable'] 	= isset( $fields[$field_id]['settings']['register_disable'] ) && $fields[$field_id]['settings']['register_disable'] === "yes" ? "no" : "yes" ;
+					$fields[$field_id]['settings']['label_display'] 	= 'yes';
+					
+				}
+
+				$this->aff->fields->update_field_option( $fields );
+
+			}
+
 			update_option( 'xoo-el-gl-options', $glOptions );
 			update_option( 'xoo-el-sy-options', $syOptions );
 			update_option( 'xoo-el-av-options', $avOptions );
@@ -268,6 +308,8 @@ class Xoo_El_Core{
 	}
 
 
+
+
 	public function show_outdated_template_notice(){
 
 		if( !xoo_el_helper()->admin->is_settings_page() ) return;
@@ -288,9 +330,7 @@ class Xoo_El_Core{
 			.notice.xoo-el-admin-notice p {
 			    font-size: 16px;
 			}
-			.notice.xoo-el-admin-notice{
-			    border: 2px solid #007cba;
-			}
+	
 		</style>
 		<?php
 	}

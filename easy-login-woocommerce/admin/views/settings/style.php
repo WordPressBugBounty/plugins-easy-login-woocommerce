@@ -26,8 +26,20 @@ $buttonThemesSettings = array(
 		'id' 			=> 'sy-btntheme-action',
 		'section_id' 	=> 'sy_button_theme_creator',
 		'default' 		=> 'theme_default1'
-	)
+	),
+
+	
 );
+
+if( !defined( 'XOO_ELPOF_PLUGIN_FILE' ) ){
+ $buttonThemesSettings[] = array(
+		'callback' 		=> 'button_theme_selector',
+		'title' 		=> 'Profile update Button',
+		'id' 			=> 'sy-btntheme-profupdate',
+		'section_id' 	=> 'sy_button_theme_creator',
+		'default' 		=> 'theme_default1'
+	);
+}
 
 
 if( function_exists('xoo_ml') ){
@@ -54,7 +66,7 @@ if( function_exists('xoo_ml') ){
 
 	$buttonThemesSettings[] = array(
 		'callback' 		=> 'button_theme_selector',
-		'title' 		=> 'Toggle Buttons',
+		'title' 		=> 'Toggle Form Buttons',
 		'id' 			=> 'sy-btntheme-toggle',
 		'section_id' 	=> 'sy_button_theme_creator',
 		'default' 		=> 'theme_default1'

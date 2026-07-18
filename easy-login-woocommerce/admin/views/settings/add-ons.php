@@ -57,14 +57,6 @@ $addons = array(
 		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
 	),
 
-	'profile_builder' => array(
-		'title' => 'Profile Builder',
-		'icon' 	=> 'dashicons-admin-users',
-		'desc' 	=> 'Replace the old WooCommerce/WordPress interface for updating fields with a new, modern design similar to the signup form. Use a shortcode to display and allow users to update their profile fields.',
-		'link' 	=> $link,
-		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
-	),
-
 );
 
 ?>

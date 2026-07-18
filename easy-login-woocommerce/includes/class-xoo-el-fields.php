@@ -70,7 +70,7 @@ class Xoo_El_Fields{
 		echo '<div class="xoo-el-fields-cont">';
 
 		foreach ( $fields as $field_id => $field_args ) {
-			xoo_el()->aff->fields->get_field_html( $field_id );
+			xoo_el()->aff->fields->get_field_html( $field_id, $field_args['settings'] );
 		}
 
 		echo '</div>';

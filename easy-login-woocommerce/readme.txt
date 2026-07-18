@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: woocommerce login, login popup, ajax login, otp login, registration
 Requires at least: 3.0.1
 Tested up to: 7.0
-Stable tag: 3.2.7
+Stable tag: 3.2.8
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,8 +40,6 @@ Enable users to enhance their account security with two-factor authentication (2
 * [Recaptcha](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Protect your form from bots using recaptcha. Choose from google recaptcha(v2/v3), Cloudflare Turnstile or Friendly GDPR. + Password strength meter + Limit login attempts
 
 * [Email Verification](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Sends verification email on registration & restricts login access until email is verified.
-
-* [Profile Builder](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Replace the old WooCommerce/WordPress interface for updating fields with a new, modern design similar to the signup form. Use a shortcode to display and allow users to update their profile fields.
 
 * [Auto Complete Address](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Get the full and accurate address using Google Places Autocomplete.
 Collect billing and shipping addresses seamlessly in your registration form.
@@ -104,6 +102,9 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 3.2.8 =
+* New - [Profile Builde] Allow users to update their data using shortcode [xoo_el_profile]
 
 = 3.2.7 =
 * Fix - white page crash fix/ajax failing

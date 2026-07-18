@@ -461,3 +461,8 @@ ul.xoo-sc-tabs li[data-tab="addon"] {
 .xoo-el-adpopup-active .xoo-sc-tabs, .xoo-el-adpopup-active .xoo-sc-bottom-btns, .xoo-el-adpopup-active .xoo-sc-sections, .xoo-el-adpopup-active .xoo-as-topbar, .xoo-el-adpopup-active .xoo-as-setsidebar{
     display: none;
 }
+
+a.xoo-icon-link {
+    margin-right: 5px;
+    margin-left: 5px;
+}

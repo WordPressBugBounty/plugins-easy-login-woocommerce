@@ -21,7 +21,7 @@ $localizeTexts = version_compare( get_option( 'xoo-el-version' ) , '2.5', '<' );
 $settings = array(
 
 	/** MAIN **/
-	array(
+	'fake' => array(
 		'callback' 		=> 'links',
 		'title' 		=> 'Links',
 		'id' 			=> 'fake',
@@ -35,7 +35,7 @@ $settings = array(
 	),
 
 
-	array(
+	'm-form-pattern' => array(
 		'callback' 		=> 'asset_selector',
 		'title' 		=> 'Form Pattern',
 		'id' 			=> 'm-form-pattern',
@@ -62,7 +62,7 @@ $settings = array(
 
 	),
 
-	array(
+	'm-nav-pattern' => array(
 		'callback' 		=> 'select',
 		'title' 		=> 'Navigation Pattern',
 		'id' 			=> 'm-nav-pattern',
@@ -80,7 +80,7 @@ $settings = array(
 
 
 
-	array(
+	'm-en-reg' => array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Enable Registration',
 		'id' 			=> 'm-en-reg',
@@ -88,7 +88,7 @@ $settings = array(
 		'default' 		=> 'yes',
 	),
 
-	array(
+	'm-user-role' => array(
 		'callback' 		=> 'select',
 		'title' 		=> 'User Role',
 		'id' 			=> 'm-user-role',
@@ -100,7 +100,7 @@ $settings = array(
 		'desc' 			=> 'Register users with role.<br> You can also enable "User Role" field from the "Fields" page and allow users to select their role while signing up.'
 	),
 
-	array(
+	'm-auto-login' => array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Auto Login User on Sign up',
 		'id' 			=> 'm-auto-login',
@@ -109,7 +109,7 @@ $settings = array(
 	),
 
 
-	array(
+	'm-reset-pw' => array(
 		'callback' 		=> 'select',
 		'title' 		=> 'Reset Password Email',
 		'id' 			=> 'm-reset-pw',
@@ -134,7 +134,7 @@ $settings = array(
 		'desc' 			=> 'If you\'re not receiving emails, please check that the email functionality is working on your site. You can use the "WP Mail SMTP" plugin to set up your email.'
 	),
 
-	array(
+	'm-reset-pw-subject' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Reset Password Email Subject',
 		'id' 			=> 'm-reset-pw-subject',
@@ -147,7 +147,7 @@ $settings = array(
 		)
 	),
 
-	array(
+	'm-reset-pw-email' => array(
 		'callback' 		=> 'wp_editor',
 		'title' 		=> 'Reset Password Email Text<br>[ Verification Code ]',
 		'id' 			=> 'm-reset-pw-email',
@@ -176,7 +176,7 @@ $settings = array(
 
 $popup = array(
 
-	array(
+	'popup-forms' => array(
 		'callback' 		=> 'checkbox_list',
 		'title' 		=> 'Forms',
 		'id' 			=> 'popup-forms',
@@ -193,7 +193,7 @@ $popup = array(
 	),
 
 
-	array(
+	'popup-force' => array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Prevent closing',
 		'id' 			=> 'popup-force',
@@ -204,7 +204,7 @@ $popup = array(
 
 
 
-	array(
+	'ao-enable' => array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Auto open Popup',
 		'id' 			=> 'ao-enable',
@@ -213,7 +213,7 @@ $popup = array(
 	),
 
 
-	array(
+	'ao-once' => array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Open on first visit only',
 		'id' 			=> 'ao-once',
@@ -223,7 +223,7 @@ $popup = array(
 
 
 
-	array(
+	'ao-default-form' => array(
 		'callback' 		=> 'select',
 		'title' 		=> 'Default Tab',
 		'id' 			=> 'ao-default-form',
@@ -239,7 +239,7 @@ $popup = array(
 
 
 
-	array(
+	'ao-pages' => array(
 		'callback' 		=> 'textarea',
 		'title' 		=> 'On Pages',
 		'id' 			=> 'ao-pages',
@@ -248,7 +248,7 @@ $popup = array(
 		'desc' 			=> 'Use post type/page id/slug separated by comma. For eg: 19,contact-us,shop .Leave empty for every page.'
 	),
 
-	array(
+	'ao-delay' => array(
 		'callback' 		=> 'number',
 		'title' 		=> 'Delay',
 		'id' 			=> 'ao-delay',
@@ -258,7 +258,7 @@ $popup = array(
 	),
 
 
-	array(
+	'm-red-login' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Login Redirect',
 		'id' 			=> 'm-red-login',
@@ -267,7 +267,7 @@ $popup = array(
 		'desc' 			=> 'Leave empty to redirect on the same page.'
 	),
 
-	array(
+	'm-red-register' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Register Redirect',
 		'id' 			=> 'm-red-register',
@@ -276,7 +276,7 @@ $popup = array(
 		'desc' 			=> 'Leave empty to redirect on the same page.'
 	),
 
-	array(
+	'm-red-logout' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Logout Redirect',
 		'id' 			=> 'm-red-logout',
@@ -286,7 +286,7 @@ $popup = array(
 	),
 
 
-	array(
+	'm-ep-success' => array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Success Endpoint',
 		'id' 			=> 'm-ep-success',
@@ -300,7 +300,7 @@ $popup = array(
 $settings = array_merge( $settings, $popup );
 
 if( class_exists( 'woocommerce' ) ){
-	$settings[] = array(
+	$settings['m-en-myaccount'] = array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Replace myaccount form',
 		'id' 			=> 'm-en-myaccount',
@@ -309,13 +309,13 @@ if( class_exists( 'woocommerce' ) ){
 		'desc' 			=> 'If checked , this will replace woocommerce myaccount page form.'
 	);
 
-	$settings[] = array(
+	$settings['m-myacc-sc'] = array(
 		'callback' 		=> 'textarea',
 		'title' 		=> 'My account page form shortcode',
 		'id' 			=> 'm-myacc-sc',
 		'section_id' 	=> 'gl_wc',
 		'default' 		=> '[xoo_el_inline_form active="login"]',
-		'desc' 			=> 'My account page form shortcode. See info tab for shortcode details',
+		'desc' 			=> 'My account page form shortcode. See shortcodes tab for shortcode details',
 		'args' 			=> array(
 			'rows' => 2,
 			'cols' => 60,
@@ -325,13 +325,13 @@ if( class_exists( 'woocommerce' ) ){
 		)
 	);
 
-	$settings[] = array(
+	$settings['m-myacclpw-sc'] = array(
 		'callback' 		=> 'textarea',
 		'title' 		=> 'Lost Password page form shortcode',
 		'id' 			=> 'm-myacclpw-sc',
 		'section_id' 	=> 'gl_wc',
 		'default' 		=> '[xoo_el_inline_form active="lostpw"]',
-		'desc' 			=> 'Lost Password page form shortcode. See info tab for shortcode details',
+		'desc' 			=> 'Lost Password page form shortcode. See shortcodes tab for shortcode details',
 		'args' 			=> array(
 			'rows' => 2,
 			'cols' => 60,
@@ -341,7 +341,7 @@ if( class_exists( 'woocommerce' ) ){
 		)
 	);
 
-	$settings[] = array(
+	$settings['m-en-chkout'] = array(
 		'callback' 		=> 'checkbox',
 		'title' 		=> 'Replace Checkout page login',
 		'id' 			=> 'm-en-chkout',
@@ -350,13 +350,43 @@ if( class_exists( 'woocommerce' ) ){
 		'desc' 			=> 'This will replace checkout page login form, make sure to enable "Login during checkout" from woocommerce settings'
 	);
 
-	$settings[] = array(
+	$settings['m-chkout-sc'] = array(
 		'callback' 		=> 'textarea',
 		'title' 		=> 'Checkout page form shortcode',
 		'id' 			=> 'm-chkout-sc',
 		'section_id' 	=> 'gl_wc',
 		'default' 		=> '[xoo_el_inline_form active="login" login_redirect="same" register_redirect="same"]',
-		'desc' 			=> 'Checkout page form shortcode. See info tab for shortcode details',
+		'desc' 			=> 'Checkout page form shortcode. See shortcodes tab for shortcode details',
+		'args' 			=> array(
+			'rows' => 2,
+			'cols' => 60,
+			'custom_attributes' => array(
+				'spellcheck' => 'false',
+			)
+		)
+	);
+
+	$settings['m-editaccount-replace'] = array(
+		'callback' 		=> 'checkbox',
+		'title' 		=> 'Replace woocommerce my-account edit form',
+		'id' 			=> 'm-editaccount-replace',
+		'section_id' 	=> 'gl_wc',
+		'default' 		=> 'yes',
+		'args' 			=> array(
+			'toggleSettings' => array(
+				'xoo-el-gl-options[m-editaccount-sc]' => array( 'unchecked' )
+			)
+		),
+		'desc' 			=> '<a class="xoo-icon-link" href="'.wc_get_account_endpoint_url( 'edit-account' ).'" target="__blank"></a>Woocommerce Edit account details page. See shortcodes tab for shortcode details'
+	);
+
+	$settings['m-editaccount-sc'] = array(
+		'callback' 		=> 'textarea',
+		'title' 		=> 'My-account edit form shortcode',
+		'id' 			=> 'm-editaccount-sc',
+		'section_id' 	=> 'gl_wc',
+		'default' 		=> '[xoo_el_profile]',
+		'desc' 			=> '<a class="xoo-icon-link" href="'.wc_get_account_endpoint_url( 'edit-account' ).'" target="__blank"></a>Woocommerce Edit account details page shortcode. See shortcodes tab for shortcode details',
 		'args' 			=> array(
 			'rows' => 2,
 			'cols' => 60,
@@ -371,7 +401,7 @@ if( class_exists( 'woocommerce' ) ){
 
 $texts = array(
 
-	array(
+	'txt-tab-login' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Login Tab text',
 		'id' 			=> 'txt-tab-login',
@@ -380,7 +410,7 @@ $texts = array(
 		'desc' 			=> 'Placeholder: {icon}'
 	),
 
-	array(
+	'txt-tab-reg' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Register Tab text',
 		'id' 			=> 'txt-tab-reg',
@@ -389,8 +419,7 @@ $texts = array(
 		'desc' 			=> 'Placeholder: {icon}'
 	),
 
-
-	array(
+	'txt-btn-login' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Login Button text',
 		'id' 			=> 'txt-btn-login',
@@ -398,7 +427,7 @@ $texts = array(
 		'default' 		=> $localizeTexts ? __( 'Sign in', 'easy-login-woocommerce' ) : 'Sign in',
 	),
 
-	array(
+	'txt-btn-reg' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Register Button text',
 		'id' 			=> 'txt-btn-reg',
@@ -406,7 +435,7 @@ $texts = array(
 		'default' 		=> $localizeTexts ? __( 'Sign Up', 'easy-login-woocommerce' ) : 'Sign Up',
 	),
 
-	array(
+	'txt-btn-respw' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Reset password Button text',
 		'id' 			=> 'txt-btn-respw',
@@ -414,7 +443,7 @@ $texts = array(
 		'default' 		=> $localizeTexts ? __( 'Email Reset Link', 'easy-login-woocommerce' ) : 'Email Reset Link',
 	),
 
-	array(
+	'txt-btn-single' => array(
 		'callback' 		=> 'text',
 		'title' 		=> 'Single Field Form Button text',
 		'id' 			=> 'txt-btn-single',
@@ -422,59 +451,85 @@ $texts = array(
 		'default' 		=> 'Continue',
 	),
 
-	array(
+	'txt-btn-profile' => array(
+		'callback' 		=> 'text',
+		'title' 		=> 'Profile update button text',
+		'id' 			=> 'txt-btn-profile',
+		'section_id' 	=> 'gl_texts',
+		'default' 		=> 'Update',
+	),
+
+	'txt-profile-update' => array(
+		'callback' 		=> 'text',
+		'title' 		=> 'Profile update success text',
+		'id' 			=> 'txt-profile-update',
+		'section_id' 	=> 'gl_texts',
+		'default' 		=> 'Your profile updated successfully.',
+	),
+
+	'txt-login-form' => array(
 		'callback' 		=> 'wp_editor',
 		'title' 		=> 'Login Form Text',
 		'id' 			=> 'txt-login-form',
 		'section_id' 	=> 'gl_texts',
-
 		'args' 			=> array(
 			'editor_settings' => array(
 				'editor_height' => 400,
-
 			)
-
 		),
 		'default' 		=> xoo_el_admin_settings()->default_login_form_text(),
 	),
 
-
-	array(
+	'txt-register-form' => array(
 		'callback' 		=> 'wp_editor',
 		'title' 		=> 'Register Form Text',
 		'id' 			=> 'txt-register-form',
 		'section_id' 	=> 'gl_texts',
-
 		'args' 			=> array(
 			'editor_settings' => array(
 				'editor_height' => 400,
-
 			)
-
 		),
 		'default' 		=> xoo_el_admin_settings()->default_register_form_text(),
 	),
 
-
-	array(
+	'txt-single-form' => array(
 		'callback' 		=> 'wp_editor',
 		'title' 		=> 'Single Field Form Text',
 		'id' 			=> 'txt-single-form',
 		'section_id' 	=> 'gl_texts',
-
 		'args' 			=> array(
 			'editor_settings' => array(
 				'editor_height' => 400,
-
 			)
-
 		),
 		'default' 		=> xoo_el_admin_settings()->default_single_form_text(),
 	),
 
+	'txt-profile-head' => array(
+		'callback' 		=> 'wp_editor',
+		'title' 		=> 'Update Profile Form Heading',
+		'id' 			=> 'txt-profile-head',
+		'section_id' 	=> 'gl_texts',
+		'args' 			=> array(
+			'editor_settings' => array(
+				'editor_height' => 400,
+			)
+		),
+		'default' 		=> xoo_el_admin_settings()->default_profile_head_text(),
+	),
 
 );
 
 $settings = array_merge( $settings, $texts );
+
+if( defined( 'XOO_ELPOF_PLUGIN_FILE' ) ){
+
+	$profile_keys = array( 'txt-profile-head', 'm-editaccount-sc', 'm-editaccount-replace', 'txt-profile-update', 'txt-btn-profile' );
+
+	foreach ( $profile_keys as $profile_key ) {
+		unset( $settings[ $profile_key ] );
+	}
+}
 
 return apply_filters( 'xoo_el_admin_settings', $settings, 'general' );

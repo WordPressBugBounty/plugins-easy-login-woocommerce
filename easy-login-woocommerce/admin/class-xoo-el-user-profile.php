@@ -11,205 +11,209 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 
-/**
- * Xoo_El_User_Profile Class.
- */
-class Xoo_El_User_Profile {
-
-	public $userCols = array();
+if( !class_exists('Xoo_El_User_Profile') ){
 
 	/**
-	 * Hook in tabs.
+	 * Xoo_El_User_Profile Class.
 	 */
-	public function __construct() {
-		add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
-		add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
+	class Xoo_El_User_Profile {
 
-		add_action( 'personal_options_update', array( $this, 'save_customer_meta_fields' ) );
-		add_action( 'edit_user_profile_update', array( $this, 'save_customer_meta_fields' ) );
+		public $userCols = array();
 
-		add_filter( 'manage_users_columns', array( $this, 'add_columns' ) );
-		add_filter( 'manage_users_custom_column', array( $this, 'columns_output' ), 11, 3 );
-	}
+		/**
+		 * Hook in tabs.
+		 */
+		public function __construct() {
+			add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
+			add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
 
-	public function add_columns( $columns ){
+			add_action( 'personal_options_update', array( $this, 'save_customer_meta_fields' ) );
+			add_action( 'edit_user_profile_update', array( $this, 'save_customer_meta_fields' ) );
 
-		$fields = xoo_el_fields()->get_fields( 'register' );
-
-		$fieldCols = array();
-
-		foreach ( $fields as $field_id => $field ) {
-			if( isset( $field['settings']['display_usercol'] ) && $field['settings']['display_usercol'] === 'yes' ){
-				$label = xoo_el()->aff->fields->get_field_label( $field );
-				$fieldCols[ $field_id ] = $label;
-				$this->userCols[] = $field_id;
-			}
+			add_filter( 'manage_users_columns', array( $this, 'add_columns' ) );
+			add_filter( 'manage_users_custom_column', array( $this, 'columns_output' ), 11, 3 );
 		}
 
-		$columns = array_merge( $columns, $fieldCols );
+		public function add_columns( $columns ){
+
+			$fields = xoo_el_fields()->get_fields( 'register' );
+
+			$fieldCols = array();
+
+			foreach ( $fields as $field_id => $field ) {
+				if( isset( $field['settings']['display_usercol'] ) && $field['settings']['display_usercol'] === 'yes' ){
+					$label = xoo_el()->aff->fields->get_field_label( $field );
+					$fieldCols[ $field_id ] = $label;
+					$this->userCols[] = $field_id;
+				}
+			}
+
+			$columns = array_merge( $columns, $fieldCols );
 
 
+			
+		    return $columns;
+		}
+
+		public function columns_output( $val, $column_name, $user_id ){
+
+			if( in_array( $column_name , $this->userCols ) ){
+				$val = xoo_el()->aff->fields->get_field_value_label( $column_name, get_user_meta( $user_id, $column_name, true ) );
+			}
+
+			return $val;
+		}
+
+
+		/**
+		 * Show Address Fields on edit user pages.
+		 *
+		 * @param WP_User $user
+		 */
+		public function add_customer_meta_fields( $user ) {
 		
-	    return $columns;
-	}
+			$fields = xoo_el_fields()->get_fields( 'register' );
 
-	public function columns_output( $val, $column_name, $user_id ){
+			$skipFields = xoo_el_fields()->skipFields;
 
-		if( in_array( $column_name , $this->userCols ) ){
-			$val = xoo_el()->aff->fields->get_field_value_label( $column_name, get_user_meta( $user_id, $column_name, true ) );
-		}
-
-		return $val;
-	}
-
-
-	/**
-	 * Show Address Fields on edit user pages.
-	 *
-	 * @param WP_User $user
-	 */
-	public function add_customer_meta_fields( $user ) {
-	
-		$fields = xoo_el_fields()->get_fields( 'register' );
-
-		$skipFields = xoo_el_fields()->skipFields;
-
-		foreach ( $skipFields as $field_id ) {
-			unset( $fields[ $field_id ] );
-		}
-
-		$fields = apply_filters( 'xoo_el_user_profile_fields', $fields );
-
-
-		if( empty( $fields ) ) return;
-
-		?>
-
-
-		<h2>Login/Signup Pop up fields</h2>
-
-		<table class="form-table xoo-aff-form-table">
-
-			<?php
-
-			foreach ( $fields as $field_id => $field_data ) {
-
-				$value = get_user_meta( $user->ID, $field_id, true );
-
-				$args = array(
-					'value' => $value,
-				);
-
-				$args = xoo_el()->aff->fields->get_field_html_args( $field_id, $args );
-
-				$label = xoo_el()->aff->fields->get_field_label( $field_data );
-
-				unset( $args['label'] );
-
-				echo '<tr>';
-
-				echo '<th>'. esc_html( $label) .'</th>';
-
-				echo '<td>';
-
-				if( $field_data['input_type'] === 'states' ){
-					$args['input_type'] = 'text';
-					$args['description'] = 'Add state code';
-				}
-
-				if( $field_data['input_type'] === 'file' ){
-					$value = (array) $value;
-					
-					$field_html  = '<div class="xoo-aff-file-list">';
-					$field_html .= '<input type="text" name="' . $field_id . '" value="'.implode(',', $value).'"/>';
-					foreach ($value as $attachment_id) {
-						$url = wp_get_attachment_url($attachment_id);
-						$field_html .= '<a target="__blank" href="'.$url.'">'.$url.'</a><br>';
-					}
-					$field_html .= '</div>';
-					echo wp_kses_post( $field_html );
-					echo '<p class="description">Add attachment IDs here (comma separated)</p>';
-				}
-				else{
-					xoo_el()->aff->fields->get_input_html( $field_id, $args );
-				}
-
-				echo '</td>';
-
-				echo '</tr>';
+			foreach ( $skipFields as $field_id ) {
+				unset( $fields[ $field_id ] );
 			}
+
+			$fields = apply_filters( 'xoo_el_user_profile_fields', $fields );
+
+
+			if( empty( $fields ) ) return;
 
 			?>
 
-		</table>
 
-		<?php
-		
+			<h2>Login/Signup Pop up fields</h2>
 
-	}
+			<table class="form-table xoo-aff-form-table">
 
+				<?php
 
-	/**
-	 * Save Address Fields on edit user pages.
-	 *
-	 * @param int $user_id User ID of the user being saved
-	 */
-	// phpcs:disable WordPress.Security.NonceVerification.Missing
-	public function save_customer_meta_fields( $user_id ) {
+				foreach ( $fields as $field_id => $field_data ) {
 
-		$save_fields = xoo_el_fields()->get_fields( 'register' );
+					$value = get_user_meta( $user->ID, $field_id, true );
 
-		if( empty( $save_fields ) ) return;
-
-		foreach ( $save_fields as $field_id => $field_data ) {
-
-			if( isset( $_POST[ $field_id ] ) ){
-				if( is_array( $_POST[ $field_id ] ) ){
-
-					$value = array_map(
-					    'sanitize_text_field',
-					    wp_unslash( $_POST[ $field_id ] )
+					$args = array(
+						'value' => $value,
 					);
+
+					$args = xoo_el()->aff->fields->get_field_html_args( $field_id, $args );
+
+					$label = xoo_el()->aff->fields->get_field_label( $field_data );
+
+					unset( $args['label'] );
+
+					echo '<tr>';
+
+					echo '<th>'. esc_html( $label) .'</th>';
+
+					echo '<td>';
+
+					if( $field_data['input_type'] === 'states' ){
+						$args['input_type'] = 'text';
+						$args['description'] = 'Add state code';
+					}
+
+					if( $field_data['input_type'] === 'file' ){
+						$value = (array) $value;
+						
+						$field_html  = '<div class="xoo-aff-file-list">';
+						$field_html .= '<input type="text" name="' . $field_id . '" value="'.implode(',', $value).'"/>';
+						foreach ($value as $attachment_id) {
+							$url = wp_get_attachment_url($attachment_id);
+							$field_html .= '<a target="__blank" href="'.$url.'">'.$url.'</a><br>';
+						}
+						$field_html .= '</div>';
+						echo wp_kses_post( $field_html );
+						echo '<p class="description">Add attachment IDs here (comma separated)</p>';
+					}
+					else{
+						xoo_el()->aff->fields->get_input_html( $field_id, $args );
+					}
+
+					echo '</td>';
+
+					echo '</tr>';
+				}
+
+				?>
+
+			</table>
+
+			<?php
+			
+
+		}
+
+
+		/**
+		 * Save Address Fields on edit user pages.
+		 *
+		 * @param int $user_id User ID of the user being saved
+		 */
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		public function save_customer_meta_fields( $user_id ) {
+
+			$save_fields = xoo_el_fields()->get_fields( 'register' );
+
+			if( empty( $save_fields ) ) return;
+
+			foreach ( $save_fields as $field_id => $field_data ) {
+
+				if( isset( $_POST[ $field_id ] ) ){
+					if( is_array( $_POST[ $field_id ] ) ){
+
+						$value = array_map(
+						    'sanitize_text_field',
+						    wp_unslash( $_POST[ $field_id ] )
+						);
+					}
+					else{
+						// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+						$value = sanitize_text_field( $_POST[ $field_id ] );
+					}
+
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					if( $field_data['input_type'] === 'file' && wp_unslash( $_POST[ $field_id ] ) ){
+						$value = explode(',', $value );
+					}
+
 				}
 				else{
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-					$value = sanitize_text_field( $_POST[ $field_id ] );
+					$value = '';
 				}
-
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				if( $field_data['input_type'] === 'file' && wp_unslash( $_POST[ $field_id ] ) ){
-					$value = explode(',', $value );
-				}
-
+				update_user_meta( $user_id, $field_id, $value );
 			}
-			else{
-				$value = '';
+		}
+
+		/**
+		 * Get user meta for a given key, with fallbacks to core user info for pre-existing fields.
+		 *
+		 * @since 3.1.0
+		 * @param int    $user_id User ID of the user being edited
+		 * @param string $field_id     Key for user meta field
+		 * @return string
+		 */
+		protected function get_user_meta( $user_id, $field_id ) {
+			$value           = get_user_meta( $user_id, $field_id, true );
+			$existing_fields = array( 'billing_first_name', 'billing_last_name' );
+			if ( ! $value && in_array( $field_id, $existing_fields ) ) {
+				$value = get_user_meta( $user_id, str_replace( 'billing_', '', $field_id ), true );
+			} elseif ( ! $value && ( 'billing_email' === $field_id ) ) {
+				$user  = get_userdata( $user_id );
+				$value = $user->user_email;
 			}
-			update_user_meta( $user_id, $field_id, $value );
+
+			return $value;
 		}
 	}
 
-	/**
-	 * Get user meta for a given key, with fallbacks to core user info for pre-existing fields.
-	 *
-	 * @since 3.1.0
-	 * @param int    $user_id User ID of the user being edited
-	 * @param string $field_id     Key for user meta field
-	 * @return string
-	 */
-	protected function get_user_meta( $user_id, $field_id ) {
-		$value           = get_user_meta( $user_id, $field_id, true );
-		$existing_fields = array( 'billing_first_name', 'billing_last_name' );
-		if ( ! $value && in_array( $field_id, $existing_fields ) ) {
-			$value = get_user_meta( $user_id, str_replace( 'billing_', '', $field_id ), true );
-		} elseif ( ! $value && ( 'billing_email' === $field_id ) ) {
-			$user  = get_userdata( $user_id );
-			$value = $user->user_email;
-		}
 
-		return $value;
-	}
+	return new Xoo_El_User_Profile();
+
 }
-
-
-return new Xoo_El_User_Profile();

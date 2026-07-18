@@ -111,6 +111,10 @@ class Xoo_El_Helper extends Xoo_Helper{
 		);
 	}
 
+	public function is_customfields_active(){
+		return function_exists('xoo_elcf_helper') && xoo_elcf_helper()->init_plugin();
+	}
+
 }
 
 function xoo_el_helper(){
