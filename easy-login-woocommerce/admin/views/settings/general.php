@@ -523,7 +523,7 @@ $texts = array(
 
 $settings = array_merge( $settings, $texts );
 
-if( defined( 'XOO_ELPOF_PLUGIN_FILE' ) ){
+if( defined( 'XOO_ELPOF_VERSION' ) ){
 
 	$profile_keys = array( 'txt-profile-head', 'm-editaccount-sc', 'm-editaccount-replace', 'txt-profile-update', 'txt-btn-profile' );
 

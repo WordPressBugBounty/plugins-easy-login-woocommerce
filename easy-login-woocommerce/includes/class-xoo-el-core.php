@@ -74,7 +74,7 @@ class Xoo_El_Core{
 
 
 		//Let profile builder add-on handle it.
-		if( !defined( 'XOO_ELPOF_PLUGIN_FILE' ) && !(isset( $_GET['action'], $_GET['plugin'] ) && $_GET['action'] === 'activate'  && $_GET['plugin'] === 'easy-login-addon-profile/xoo-elpof-main.php' ) ){
+		if( !defined( 'XOO_ELPOF_VERSION' ) && !(isset( $_GET['action'], $_GET['plugin'] ) && $_GET['action'] === 'activate'  && $_GET['plugin'] === 'easy-login-addon-profile/xoo-elpof-main.php' ) ){
 
 			if( xoo_el_helper()->is_request('admin') || version_compare( $this->db_version, XOO_EL_VERSION, '<' ) ){
 				require_once XOO_EL_PATH.'admin/class-xoo-elpof-fields.php';
@@ -254,6 +254,10 @@ class Xoo_El_Core{
 
 				$this->aff->fields->update_field_option( $fields );
 
+			}
+
+			if( version_compare( $db_version, '3.2.9', '<') ){
+				update_option( 'xoo_tracking_consent_easy-login-woocommerce', 'no' );
 			}
 
 			update_option( 'xoo-el-gl-options', $glOptions );

@@ -31,7 +31,7 @@ $buttonThemesSettings = array(
 	
 );
 
-if( !defined( 'XOO_ELPOF_PLUGIN_FILE' ) ){
+if( !defined( 'XOO_ELPOF_VERSION' ) ){
  $buttonThemesSettings[] = array(
 		'callback' 		=> 'button_theme_selector',
 		'title' 		=> 'Profile update Button',
