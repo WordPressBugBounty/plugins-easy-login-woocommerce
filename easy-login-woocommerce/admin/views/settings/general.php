@@ -314,7 +314,7 @@ if( class_exists( 'woocommerce' ) ){
 		'title' 		=> 'My account page form shortcode',
 		'id' 			=> 'm-myacc-sc',
 		'section_id' 	=> 'gl_wc',
-		'default' 		=> '[xoo_el_inline_form active="login"]',
+		'default' 		=> '[xoo_el_inline_form active="login" width="700"]',
 		'desc' 			=> 'My account page form shortcode. See shortcodes tab for shortcode details',
 		'args' 			=> array(
 			'rows' => 2,
@@ -330,7 +330,7 @@ if( class_exists( 'woocommerce' ) ){
 		'title' 		=> 'Lost Password page form shortcode',
 		'id' 			=> 'm-myacclpw-sc',
 		'section_id' 	=> 'gl_wc',
-		'default' 		=> '[xoo_el_inline_form active="lostpw"]',
+		'default' 		=> '[xoo_el_inline_form active="lostpw" width="700"]',
 		'desc' 			=> 'Lost Password page form shortcode. See shortcodes tab for shortcode details',
 		'args' 			=> array(
 			'rows' => 2,
@@ -355,7 +355,7 @@ if( class_exists( 'woocommerce' ) ){
 		'title' 		=> 'Checkout page form shortcode',
 		'id' 			=> 'm-chkout-sc',
 		'section_id' 	=> 'gl_wc',
-		'default' 		=> '[xoo_el_inline_form active="login" login_redirect="same" register_redirect="same"]',
+		'default' 		=> '[xoo_el_inline_form active="login" login_redirect="same" register_redirect="same" width="700"]',
 		'desc' 			=> 'Checkout page form shortcode. See shortcodes tab for shortcode details',
 		'args' 			=> array(
 			'rows' => 2,

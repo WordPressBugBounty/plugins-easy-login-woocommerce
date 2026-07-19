@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: woocommerce login, login popup, ajax login, otp login, registration
 Requires at least: 3.0.1
 Tested up to: 7.0
-Stable tag: 3.2.9
+Stable tag: 4.0.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,8 +103,12 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 
 == Changelog ==
 
+= 4.0.0 =
+* New - [Profile Builder]
+* New - width attribute for inline forms
+
 = 3.2.8 =
-* New - [Profile Builde] Allow users to update their data using shortcode [xoo_el_profile]
+* New - [Profile Builder] Allow users to update their data using shortcode [xoo_el_profile]
 
 = 3.2.7 =
 * Fix - white page crash fix/ajax failing

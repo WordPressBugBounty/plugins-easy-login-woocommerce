@@ -140,6 +140,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 
+		<div class="xoo-el-scgroup" data-attr="width">
+			<label>Width</label>
+			<div>
+				<input type="number" data-fname="xoo-elscg-profile" value="700">
+				<span class="xoo-el-scgdesc">Form's width</span>
+			</div>	
+		</div>
+
+
 	</div>
 
 

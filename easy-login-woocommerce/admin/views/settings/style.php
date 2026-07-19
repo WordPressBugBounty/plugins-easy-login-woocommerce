@@ -372,6 +372,16 @@ $settings = array(
 	),
 
 
+	array(
+		'callback' 		=> 'number',
+		'title' 		=> 'Update Profile Form Width',
+		'id' 			=> 'sy-profile-width',
+		'section_id' 	=> 'sy_form',
+		'default' 		=> 700,
+		'desc' 			=> 'size in px'
+	),
+
+
 
 );
 

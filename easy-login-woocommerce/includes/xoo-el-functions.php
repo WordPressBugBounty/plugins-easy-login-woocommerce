@@ -227,7 +227,8 @@ if( !function_exists( 'xoo_el_inline_form' ) ){
 			'forms' 			=> $defaultForms,
 			'login_redirect' 	=> '',
 			'register_redirect' => '',
-			'profile' 			=> 'no'
+			'profile' 			=> 'no',
+			'width' 			=> '',
 		), $user_atts, 'xoo_el_inline_form');
 
 		//On change of attribute from tabs to forms
@@ -270,7 +271,8 @@ if( !function_exists( 'xoo_el_inline_form' ) ){
 			'form_active' 	=> $active,
 			'return' 		=> true,
 			'tabs' 			=> $tabs,
-			'navstyle' 		=> $atts['navstyle']
+			'navstyle' 		=> $atts['navstyle'],
+			'width' 		=> $atts['width']
 		);
 
 		$args['forms']['single']['enable'] = $atts['pattern'] === 'single' ? 'yes' : 'no';
@@ -283,7 +285,6 @@ if( !function_exists( 'xoo_el_inline_form' ) ){
 		if( $atts['register_redirect'] ){
 			$args['forms']['register']['redirect'] = $atts['register_redirect'] === 'same' && isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : sanitize_url( $atts['register_redirect'] );
 		}
-
 
 		return xoo_el_get_form( $args );
 
@@ -321,7 +322,8 @@ function xoo_el_get_form( $args = array() ){
 		),
 		'tabs' 	=> array(
 			'login', 'register',
-		)
+		),
+		'width' => ''
 	);
 
 	$args = xoo_recursive_parse_args( $args, $defaults );
@@ -397,6 +399,12 @@ function xoo_el_get_form( $args = array() ){
 		
 	}
 
+	if ( ! empty( $args['width'] ) ) {
+		$args['style'] = sprintf(
+			'style="max-width:%dpx;width:100%%;"',
+			absint( $args['width'] )
+		);
+	}
 
 	$args = apply_filters( 'xoo_el_form_args', $args );
 

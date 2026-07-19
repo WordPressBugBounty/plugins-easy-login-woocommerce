@@ -910,3 +910,8 @@ body .xoo-el-form-container button.button.btn.xoo-ml-login-otp-btn{
 .xoo-elpof-disable span.xoo-ff-file-remove{
     display: none;
 }
+
+.xoo-elpof-container{
+    width: 100%;
+    margin: 10px auto;
+}

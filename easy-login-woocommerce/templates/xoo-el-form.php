@@ -21,7 +21,7 @@ $form_active = $args['form_active'];
 
 ?>
 
-<div class="xoo-el-form-container xoo-el-form-<?php echo esc_attr( $args['display'] ); ?>" data-active="<?php echo esc_attr( $form_active ); ?>">
+<div class="xoo-el-form-container xoo-el-form-<?php echo esc_attr( $args['display'] ); ?>" data-active="<?php echo esc_attr( $form_active ); ?>" <?php echo $args['style'] ?? '' ?>>
 
 	<?php if( $form_active === 'resetpw' && isset( $args['forms']['resetpw']['user'] ) && !is_wp_error( $args['forms']['resetpw']['user'] ) ): ?>
 		<span class="xoo-el-resetpw-tgr xoo-el-resetpw-hnotice"><?php esc_html_e( 'Continue to resetting password', 'easy-login-woocommerce' ); ?></span>

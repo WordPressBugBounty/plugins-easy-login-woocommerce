@@ -260,6 +260,11 @@ class Xoo_El_Core{
 				update_option( 'xoo_tracking_consent_easy-login-woocommerce', 'no' );
 			}
 
+			if( version_compare( $db_version, '4.0.0', '<') ){
+				$syOptions['sy-profile-width'] = 700;
+			}
+
+
 			update_option( 'xoo-el-gl-options', $glOptions );
 			update_option( 'xoo-el-sy-options', $syOptions );
 			update_option( 'xoo-el-av-options', $avOptions );

@@ -45,6 +45,8 @@ $overlay_opac		= $sySettings['sy-overlay-opac'];
 
 $iconsEnabled 		= xoo_el()->aff->get_field_option('s-show-icons') === "yes";
 
+$updateProfileWidth = $sySettings['sy-profile-width'];
+
 $inputs = array(
 	'input[type="text"]', 'input[type="password"]', 'input[type="email"]' 
 );
@@ -286,3 +288,7 @@ $select_input_placeholder_string 	= rtrim( $select_input_placeholder_string, ','
 	}
 
 <?php endif; ?>
+
+.xoo-elpof-container{
+	max-width: <?php echo (int) $updateProfileWidth; ?>px;
+}
