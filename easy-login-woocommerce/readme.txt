@@ -1,10 +1,10 @@
-=== Login & Register Forms – Popup | Slider | Inline | WooCommerce ===
+=== Login & Register Forms – Popup, Slider, Profile & WooCommerce ===
 Contributors: XootiX, xootixsupport
 Donate link: https://www.paypal.me/xootix
 Tags: woocommerce login, login popup, ajax login, otp login, registration
 Requires at least: 3.0.1
 Tested up to: 7.0
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,10 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 4.0.1 =
+* Fix - Caching issue [nonce verification causing -1]
+* Fix - registration disabled option 
 
 = 4.0.0 =
 * New - [Profile Builder]

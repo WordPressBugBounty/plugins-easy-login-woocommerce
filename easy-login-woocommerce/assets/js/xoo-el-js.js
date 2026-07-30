@@ -184,7 +184,6 @@ jQuery(document).ready(function($){
 
 			form_data.append( 'action', 'xoo_el_form_action' );
 			form_data.append( 'display', container.display );
-			form_data.append( '_ajax_nonce', xoo_el_localize.nonce );
 
 
 			$.ajax({
@@ -871,8 +870,7 @@ jQuery(document).ready(function($){
 				'code': _thisObj.getCodeValue(),
 				'action': 'xoo_el_code_form_submit',
 				'xoo_el_code_ajax': _thisObj.codeFormID,
-				'parentFormData': objectifyForm( _thisObj.$parentForm ),
-				'_ajax_nonce': xoo_el_localize.nonce
+				'parentFormData': objectifyForm( _thisObj.$parentForm )
 			}, data );
 
 

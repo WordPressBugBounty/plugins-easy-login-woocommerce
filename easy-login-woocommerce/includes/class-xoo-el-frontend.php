@@ -106,7 +106,6 @@ class Xoo_El_Frontend{
 			'preventClosing' 	=> $this->glSettings['popup-force'] === "yes",
 			'hasCodeForms' 		=> !empty( xoo_el_code_forms()->forms ),
 			'isLoggedIn' 		=> is_user_logged_in() ? 'yes' : 'no',
-			'nonce' 			=> wp_create_nonce('xoo-el-nonce')
 		);
 
 		if( class_exists('woocommerce') ){

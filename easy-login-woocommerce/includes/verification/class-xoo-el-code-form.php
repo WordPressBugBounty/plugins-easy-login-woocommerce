@@ -282,8 +282,6 @@ class Xoo_El_Code_Form{
 
     public function verify_code(){
 
-       check_ajax_referer( 'xoo-el-nonce' );
-
         try {
             
             $incorrect_limit_reached = $this->incorrect_tries_limit_reached();

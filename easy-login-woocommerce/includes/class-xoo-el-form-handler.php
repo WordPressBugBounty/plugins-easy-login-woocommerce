@@ -35,8 +35,6 @@ class Xoo_El_Form_Handler{
 	//Process form
 	public static function form_action(){
 
-		check_ajax_referer( 'xoo-el-nonce' );
-
 		if( !isset( $_POST['_xoo_el_form'] ) ) return;
 
 		$form_action = sanitize_text_field( wp_unslash( $_POST['_xoo_el_form'] ) );
@@ -289,6 +287,10 @@ class Xoo_El_Form_Handler{
 			$reg_extra_data = array();
 
 			try {
+
+				if( self::$glSettings['m-en-reg'] !== 'yes' ){
+					throw new Xoo_Exception( __( 'Registration is disabled', 'easy-login-woocommerce' )  );
+				}
 
 				$validation_error = apply_filters( 'xoo_el_process_registration_errors', new \WP_Error(), $username, $password, $email );
 
