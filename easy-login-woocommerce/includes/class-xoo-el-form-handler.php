@@ -661,7 +661,7 @@ class Xoo_El_Form_Handler{
 					throw new Xoo_Exception( $validation_error );
 				}
 
-				if ( empty( $user_login ) && !$has_woocommmerce ) {
+				if ( empty( $user_login ) && !$has_woocommmerce && $recover_pattern !== 'code' ) {
 					throw new Xoo_Exception( __('<strong>ERROR</strong>: Enter a username or email address.','easy-login-woocommerce' ) );
 				} 
 
@@ -676,8 +676,29 @@ class Xoo_El_Form_Handler{
 					$user_data = get_user_by( 'login', $user_login );
 				}
 
-				if ( empty( $user_data ) && !$has_woocommmerce ) {
+				if ( empty( $user_data ) && !$has_woocommmerce && $recover_pattern !== 'code' ) {
 					throw new Xoo_Exception( __( 'There is no account with that username or email address.', 'easy-login-woocommerce' ) );
+				}
+
+				// Send a code only when an account was found. Successful requests use a
+				// generic acknowledgement and do not expose the account email address.
+				if ( $recover_pattern === 'code' ) {
+					if ( $user_data instanceof WP_User ) {
+						$resetpwCodeForm = xoo_el_code_forms()->forms['reset_password'];
+						$code_sent = $resetpwCodeForm->request_code( $user_data );
+
+						if ( is_wp_error( $code_sent ) ) {
+							// Keep the public response identical for existing and unknown
+							// accounts. Integrations can log delivery or rate-limit errors.
+							do_action( 'xoo_el_lost_password_code_request_failed', $code_sent, $user_data );
+						}
+					}
+
+					return array(
+						'error'    => 0,
+						'redirect' => false,
+						'code_txt' => __( 'A verification code has been sent to the email address if an account matches the provided details.', 'easy-login-woocommerce' ),
+					);
 				}
 
 				//Let woocommerce handle the inputs
@@ -693,27 +714,20 @@ class Xoo_El_Form_Handler{
 						throw new Xoo_Exception(  $errors[0]['notice'] );
 					}
 
-					if( $recover_pattern !== 'code' ){
-						ob_start();
-						wc_get_template( 'myaccount/lost-password-confirmation.php' );
-						$lost_password_confirmation = ob_get_clean();
-					}
-
+					ob_start();
+					wc_get_template( 'myaccount/lost-password-confirmation.php' );
+					$lost_password_confirmation = ob_get_clean();
+					
 				}
 				else{
 
-					if( $recover_pattern !== 'code' ){
+					$success = self::retrieve_password( $user_data );
 
-						$success = self::retrieve_password( $user_data );
-
-						if( is_wp_error( $success ) ){
-							throw new Xoo_Exception( $success );
-						}
-						
-						$lost_password_confirmation = __( 'A password reset email has been sent to the email address on file for your account, but may take several minutes to show up in your inbox. Please wait at least 10 minutes before attempting another reset.', 'easy-login-woocommerce' );
-
+					if( is_wp_error( $success ) ){
+						throw new Xoo_Exception( $success );
 					}
-
+					
+					$lost_password_confirmation = __( 'A password reset email has been sent to the email address on file for your account, but may take several minutes to show up in your inbox. Please wait at least 10 minutes before attempting another reset.', 'easy-login-woocommerce' );
 					
 				}
 
@@ -722,24 +736,7 @@ class Xoo_El_Form_Handler{
 					'redirect' 	=> false
 				);
 
-				if( $recover_pattern === 'code' ){
-
-					$resetpwCodeForm = xoo_el_code_forms()->forms['reset_password'];
-
-					if( !is_email( $user_login ) ){
-						$resetpwCodeForm->maskEmail = true;
-					}
-
-					$code_sent = $resetpwCodeForm->request_code( $user_data );
-
-					if( is_wp_error($code_sent) ){
-						throw new Xoo_Exception( $code_sent );
-					}
-
-					$return['code_txt'] = $code_sent['code_txt'];
-
-				}
-				else if( isset( $lost_password_confirmation )  ){
+				if( isset( $lost_password_confirmation )  ){
 
 					$return['notice'] = xoo_el_add_notice( 'success', '<div class="xoo-el-lostpw-success">'.$lost_password_confirmation.'</div>' );
 
@@ -832,6 +829,12 @@ class Xoo_El_Form_Handler{
 				do_action( 'password_reset', $user, $new_pass );
 
 				wp_set_password( $new_pass, $user->ID );
+
+				// A verified code is a one-time credential. Consume its server-side
+				// record immediately so it cannot be replayed to reset the password again.
+				if ( isset( $resetpwCodeForm ) ) {
+					$resetpwCodeForm->consume_verification();
+				}
 
 				//reset cookie
 				self::set_reset_password_cookie();

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/xootix
 Tags: woocommerce login, login popup, ajax login, otp login, registration
 Requires at least: 3.0.1
 Tested up to: 7.0
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,9 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 4.0.2 =
+* Security - Hardened password-reset verification and abuse protections. Thanks to Artus KG and ryan fabella for responsibly reporting these issues.
 
 = 4.0.1 =
 * Fix - Caching issue [nonce verification causing -1]

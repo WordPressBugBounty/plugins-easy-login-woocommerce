@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="xoo-el-code-sent-txt">
 		<span class="xoo-el-code-no-txt"></span>
 		<?php if( $allow_change ): ?>
-		<span class="xoo-el-code-no-change"> <?php esc_html_e( "Change", 'easy-login-woocommerce' ); ?></span>
+		<span class="xoo-el-code-no-change"> <?php esc_html_e( "Go back", 'easy-login-woocommerce' ); ?></span>
 		<?php endif; ?>
 	</div>
 

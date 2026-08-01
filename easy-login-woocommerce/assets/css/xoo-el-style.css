@@ -775,7 +775,10 @@ form.xoo-el-code-form {
 span.xoo-el-code-no-change {
     color: #0d81fe;
     cursor: pointer;
-    margin-left: 5px;
+    margin-left: 4px;
+    font-size: 80%;
+    font-style: italic;
+    text-decoration: underline;
 }
 
 form.xoo-el-code-form input.xoo-el-code-input:focus {

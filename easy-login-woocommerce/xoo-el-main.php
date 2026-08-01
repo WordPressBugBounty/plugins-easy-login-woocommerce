@@ -3,7 +3,7 @@
 * Plugin Name: Login & Register Forms – Popup, Slider, Profile & WooCommerce
 * Plugin URI: https://xootix.com/easy-login-for-woocommerce
 * Author: XootiX
-* Version: 4.0.1
+* Version: 4.0.2
 * Text Domain: easy-login-woocommerce
 * Domain Path: /languages
 * Author URI: https://xootix.com
@@ -24,7 +24,7 @@ define( 'XOO_EL_PLUGIN_FILE', __FILE__ );
 define( "XOO_EL_PATH", plugin_dir_path( XOO_EL_PLUGIN_FILE ) ); // Plugin path
 define( "XOO_EL_URL", untrailingslashit( plugins_url( '/', XOO_EL_PLUGIN_FILE ) ) ); // plugin url
 define( "XOO_EL_PLUGIN_BASENAME", plugin_basename( XOO_EL_PLUGIN_FILE ) );
-define( "XOO_EL_VERSION", "4.0.1" ); //Plugin version
+define( "XOO_EL_VERSION", "4.0.2" ); //Plugin version
 
 require_once XOO_EL_PATH.'/includes/xoo-framework/xoo-framework.php';
 

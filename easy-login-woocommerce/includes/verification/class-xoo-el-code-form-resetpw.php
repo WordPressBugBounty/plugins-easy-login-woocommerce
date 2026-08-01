@@ -27,11 +27,7 @@ class Xoo_El_Code_Form_Resetpw extends Xoo_El_Code_Form {
 			return $sent;
 		}
 
-		$email_display = $this->maskEmail ? $this->mask_email( $user->user_email ) : $user->user_email;
-
-		return array(
-			'code_txt' =>  sprintf( __( 'Please enter the code sent to <br> %s', 'easy-login-woocommerce' ), $email_display ),
-		);
+		return true;
 		
    		exit;
 
