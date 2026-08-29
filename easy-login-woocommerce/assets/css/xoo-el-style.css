@@ -426,7 +426,7 @@ body:not(.rtl) ul.xoo-el-tabs li:nth-child(2) {
 }
 
 .xoo-el-form-container ul.xoo-el-tabs li.xoo-el-active {
-    font-weight: 600;
+    font-weight: normal;
     pointer-events: none;
 }
 

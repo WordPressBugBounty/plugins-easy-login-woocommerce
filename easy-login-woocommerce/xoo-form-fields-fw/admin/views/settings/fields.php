@@ -94,7 +94,7 @@ $input_icon = array(
 		'title' 		=> 'Icon Background Color',
 		'id' 			=> 's-icon-bgcolor',
 		'section_id' 	=> 'input-icon',
-		'default' 		=> '#ffffff',
+		'default' 		=> '',
 	),
 
 	array(
@@ -102,7 +102,7 @@ $input_icon = array(
 		'title' 		=> 'Icon Color',
 		'id' 			=> 's-icon-color',
 		'section_id' 	=> 'input-icon',
-		'default' 		=> '#526d82',
+		'default' 		=> '#8B684D',
 	),
 
 
@@ -111,7 +111,7 @@ $input_icon = array(
 		'title' 		=> 'Icon Color on Focus',
 		'id' 			=> 's-icon-color-focus',
 		'section_id' 	=> 'input-icon',
-		'default' 		=> '#526d82',
+		'default' 		=> '#8B684D',
 	),
 
 	array(
@@ -119,7 +119,7 @@ $input_icon = array(
 		'title' 		=> 'Icon Background Color on Focus',
 		'id' 			=> 's-icon-bgcolor-focus',
 		'section_id' 	=> 'input-icon',
-		'default' 		=> '#dde6ed',
+		'default' 		=> '',
 	),
 
 	array(
@@ -211,7 +211,7 @@ $other_settings = array(
 		'title' 		=> 'Input Background Color',
 		'id' 			=> 's-input-bgcolor',
 		'section_id' 	=> 'input',
-		'default' 		=> '#fff',
+		'default' 		=> '#fffcf8',
 	),
 
 	array(
@@ -219,7 +219,7 @@ $other_settings = array(
 		'title' 		=> 'Input Text Color',
 		'id' 			=> 's-input-txtcolor',
 		'section_id' 	=> 'input',
-		'default' 		=> '#27374d',
+		'default' 		=> '#000000',
 	),
 
 
@@ -252,7 +252,7 @@ $other_settings = array(
 		'title' 		=> 'Input on Focus Background color',
 		'id' 			=> 's-input-focusbgcolor',
 		'section_id' 	=> 'input',
-		'default' 		=> '#dde6ed',
+		'default' 		=> '#fffcf8',
 	),
 
 	array(
@@ -260,7 +260,7 @@ $other_settings = array(
 		'title' 		=> 'Input on Focus text color',
 		'id' 			=> 's-input-focustxtcolor',
 		'section_id' 	=> 'input',
-		'default' 		=> '#27374d',
+		'default' 		=> '#000000',
 	),
 
 	array(
@@ -270,7 +270,7 @@ $other_settings = array(
 		'section_id' 	=> 'input',
 		'default' 		=> array(
 			'size' 			=> 1,
-			'color' 		=> '#9DB2BF',
+			'color' 		=> '#d8c8ba',
 			'style' 		=> 'solid',
 			'radius' 		=> 8,
 		),
@@ -282,8 +282,8 @@ $other_settings = array(
 		'id' 			=> 's-input-border-focus',
 		'section_id' 	=> 'input',
 		'default' 		=> array(
-			'size' 			=> 1,
-			'color' 		=> '#526d82',
+			'size' 			=> 2,
+			'color' 		=> '#d8c8ba',
 			'style' 		=> 'solid',
 			'radius' 		=> 8,
 		),

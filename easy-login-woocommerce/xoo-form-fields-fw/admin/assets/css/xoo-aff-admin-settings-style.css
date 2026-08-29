@@ -83,7 +83,6 @@ span.xoo-aff-break {
     width: 100%;
     justify-content: center;
     border-style: solid;
-    transition: border-color ease-in-out .15s
 }
 
 .xoo-aff-group input[type="text"], .xoo-aff-group input[type="password"], .xoo-aff-group input[type="email"], .xoo-aff-group input[type="number"], .xoo-aff-group select, .xoo-aff-group select + .select2, .xoo-aff-group input[type="tel"], .xoo-aff-group input[type="file"]{
@@ -104,7 +103,6 @@ span.xoo-aff-break {
     border-radius: 4px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     outline: 0;
 }
 

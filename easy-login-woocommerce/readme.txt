@@ -1,49 +1,133 @@
 === Login & Register Forms – Popup, Slider, Profile & WooCommerce ===
 Contributors: XootiX, xootixsupport
 Donate link: https://www.paypal.me/xootix
-Tags: woocommerce login, login popup, ajax login, otp login, registration
+Tags: woocommerce login, login popup, social login, otp login, 2fa
 Requires at least: 3.0.1
 Tested up to: 7.0
-Stable tag: 4.0.2
+Stable tag: 4.0.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Replace your old login/registration form with an interactive popup & inline form design
+Give your WordPress or WooCommerce website a modern login experience with beautiful, fast, and fully customizable forms.
 
 == Description ==
-**🚀 [Live Demo »](http://demo.xootix.com/easy-login-for-woocommerce/)**
 
-Login & Register Customizer is a lightweight and powerful plugin that replaces the default WordPress login and registration experience with modern, fully customizable popup, slider, or inline forms.
+**🚀 [Live Demo](http://demo.xootix.com/easy-login-for-woocommerce/)**
 
-Whether you’re running a simple blog or a WooCommerce store, this plugin helps you create a seamless login/signup experience — with no page reloads, field manager support, and shortcodes.
+Give your WordPress or WooCommerce website a modern login experience with beautiful, fast, and fully customizable forms.
 
-### 💡 Features:
-- Fully AJAX-based (no page reloads)
-- Login, Register, Lost Password & Reset Password forms
-- Three layouts: Popup, Slider and Inline (with shortcodes)
-- Field Manager – add or remove form fields
-- Fully customizable appearance
-- WooCommerce compatible
-- WPML compatible
+✔ Login
+✔ Registration
+✔ Lost Password
+✔ Reset Password
+✔ User Profile
 
-Replace your outdated forms and deliver a modern, smooth login experience your users will love.
+Choose how your forms appear:
 
+⭐ Popup
+⭐ Slider
+⭐ Inline
 
-### Add-ons:
-* [Custom Registration Fields](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Add extra fields to registration form , display them on user profile & myaccount page. 
+No more redirecting users to the default WordPress login page. Keep visitors on your website with a smooth, AJAX-powered experience that helps increase registrations and conversions.
 
-* [Social Login](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - A single click login & registration with Google, Facebook, Apple & X(Twitter).
+Perfect for **WooCommerce stores**, **membership websites**, **online communities**, **LMS platforms**, and **business websites**.
 
-* [Two Factor Authentication (2FA) & One time Password (SMS) Login](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Allow users to login with OTP ( sent on their phone or email) removing the need to remember a password.
-Enable users to enhance their account security with two-factor authentication (2FA).
+== ❤️ Why You'll Love It ==
 
-* [Recaptcha](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Protect your form from bots using recaptcha. Choose from google recaptcha(v2/v3), Cloudflare Turnstile or Friendly GDPR. + Password strength meter + Limit login attempts
+*  AJAX-powered forms (no page reloads)
 
-* [Email Verification](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Sends verification email on registration & restricts login access until email is verified.
+*  Different layouts
 
-* [Auto Complete Address](http://xootix.com/plugins/easy-login-for-woocommerce#sp-addons) - Get the full and accurate address using Google Places Autocomplete.
-Collect billing and shipping addresses seamlessly in your registration form.
+*  Custom Field Manager
 
+* Flexible shortcodes
+
+*  Beautiful & fully customizable design
+
+* WPML compatible
+
+*  Lightweight, fast & developer friendly
+
+== == Power Up with Add-ons == ==
+
+=== 🌐 Social Login ===
+
+Allow users to log in or register instantly using their favorite social accounts.
+
+**Supported providers**
+
+* Google
+* Facebook
+* Apple
+* X (Twitter)
+* LINE
+
+Perfect for increasing registrations and reducing signup abandonment.
+
+---
+
+=== 🔐 OTP Login & Two-Factor Authentication (2FA) ===
+
+Offer secure, passwordless authentication using one-time verification codes.
+
+**Features**
+
+* Passwordless login via Email, SMS or WhatsApp OTP
+* Two-Factor Authentication (2FA)
+* Authenticator app support
+* Verify phone numbers during registration
+* Verify phone numbers during WooCommerce checkout
+* Reduce fake accounts and fraudulent orders
+
+---
+
+=== ✉️ Email Verification & User Approval ===
+
+Protect your website from fake registrations.
+
+**Verification methods**
+
+* Verification Code
+* One-Click Verification Link
+* Manual User Approval
+
+---
+
+=== 📝 Custom Registration Fields ===
+
+Create registration forms tailored to your business.
+
+**Features**
+
+* Unlimited custom fields
+* Text, Textarea, Select, Radio, Checkbox, File Upload and more
+* Display fields on User Profile
+* Display fields on WooCommerce My Account
+* Reuse WooCommerce billing & shipping fields
+
+---
+
+=== 🛡️ Security ===
+
+Protect your forms against spam, bots and brute-force attacks.
+
+**Includes**
+
+* Google reCAPTCHA v2 & v3
+* Cloudflare Turnstile
+* Friendly Captcha (GDPR-friendly)
+* Password Strength Meter
+* Login Attempt Limiter
+
+---
+
+=== 📍 Address Autocomplete ===
+
+Automatically fill billing and shipping addresses using Google Places Autocomplete for faster checkout and more accurate customer information.
+
+== ❤️ Built for Performance ==
+
+Built with performance in mind, the plugin is lightweight, responsive and developer-friendly. It integrates seamlessly with both WordPress and WooCommerce while maintaining fast page loads and a smooth user experience.
 
 == Installation ==
 
@@ -102,6 +186,9 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 4.0.3 =
+* Default settings update
 
 = 4.0.2 =
 * Security - Hardened password-reset verification and abuse protections. Thanks to Artus KG and ryan fabella for responsibly reporting these issues.

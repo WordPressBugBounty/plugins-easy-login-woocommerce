@@ -208,7 +208,7 @@ class Xoo_El_Aff_Fields{
 			),
 			'cols',
 			'icon' => array(
-				'value' => 'far fa-user'
+				'value' => 'fas fa-user'
 			),
 			'use_select2',
 			'placeholder' => array(
@@ -255,7 +255,7 @@ class Xoo_El_Aff_Fields{
 			array(
 				'is_selectable' => 'no',
 				'can_delete'	=> 'no',
-				'icon' 			=> 'far fa-envelope',
+				'icon' 			=> 'fas fa-envelope',
 			)
 		);
 
@@ -271,7 +271,7 @@ class Xoo_El_Aff_Fields{
 			),
 			'cols',
 			'icon' => array(
-				'value' => 'far fa-envelope'
+				'value' => 'fas fa-envelope'
 			),
 			'placeholder' => array(
 				'value' => 'Email',
@@ -458,7 +458,7 @@ class Xoo_El_Aff_Fields{
 				'value' => 'onehalf'
 			),
 			'icon' => array(
-				'value' => 'far fa-user'
+				'value' => 'fas fa-user'
 			),
 			'placeholder' => array(
 				'value' => 'First Name',
@@ -520,7 +520,7 @@ class Xoo_El_Aff_Fields{
 				'value' => 'onehalf'
 			),
 			'icon' => array(
-				'value' => 'far fa-user'
+				'value' => 'fas fa-user'
 			),
 			'placeholder' => array(
 				'value' => 'Last Name',
@@ -738,7 +738,7 @@ class Xoo_El_Aff_Fields{
 			'label',
 			'cols',
 			'icon' => array(
-				'value' => 'far fa-envelope'
+				'value' => 'fas fa-envelope'
 			),
 			'placeholder' => array(
 				'value' => __( 'Username / Email', 'easy-login-woocommerce' ),
@@ -1034,7 +1034,7 @@ class Xoo_El_Aff_Fields{
 			'label',
 			'cols',
 			'icon' => array(
-				'value' => 'far fa-envelope'
+				'value' => 'fas fa-envelope'
 			),
 			'placeholder' => array(
 				'value' => __( 'Username / Email', 'easy-login-woocommerce' ),

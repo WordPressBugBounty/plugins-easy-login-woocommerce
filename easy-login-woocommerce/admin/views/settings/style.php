@@ -16,6 +16,18 @@ $buttonThemesSettings = array(
 				'theme_id' => 'theme_default1',
 				'title' => 'Default Theme #1',
 				'width'         => 100,
+				'bgColor'       => '#8B684D',
+				'txtColor'      => '#ffffff',
+				'border' => array(
+					'color'     => '#8B684D',
+				),
+				'hover' => array(
+					'bgColor'       => '#fef3ee',
+					'txtColor'      => '#8B684D',
+					'border' => array(
+						'color'     => '#8B684D',
+					),
+				),
 			) ),
 		)
 	),
@@ -185,7 +197,7 @@ $settings = array(
 		'title' 		=> 'Sidebar Image',
 		'id' 			=> 'sy-sidebar-img',
 		'section_id' 	=> 'sy_popup',
-		'default' 		=> XOO_EL_URL.'/assets/images/login.jpg',
+		'default' 		=> XOO_EL_URL.'/assets/images/login-popup.jpg',
 	),
 
 
@@ -209,7 +221,7 @@ $settings = array(
 		'title' 		=> 'Sidebar width',
 		'id' 			=> 'sy-sidebar-width',
 		'section_id' 	=> 'sy_popup',
-		'default' 		=> 43,
+		'default' 		=> 41,
 		'desc' 			=> 'Width in percentage'
 	),
 
@@ -316,7 +328,7 @@ $settings = array(
 		'title' 		=> 'Tab Background Color',
 		'id' 			=> 'sy-tab-bgcolor',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '#dde6ed',
+		'default' 		=> '#fcf3ed',
 	),
 
 	array(
@@ -324,7 +336,7 @@ $settings = array(
 		'title' 		=> 'Tab Text Color',
 		'id' 			=> 'sy-tab-txtcolor',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '#27374d',
+		'default' 		=> '#8B684D',
 	),
 
 		array(
@@ -332,7 +344,7 @@ $settings = array(
 		'title' 		=> 'Active Tab Background Color',
 		'id' 			=> 'sy-taba-bgcolor',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '#27374d',
+		'default' 		=> '#8B684D',
 	),
 
 
@@ -341,7 +353,7 @@ $settings = array(
 		'title' 		=> 'Active Tab Text Color',
 		'id' 			=> 'sy-taba-txtcolor',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '#dde6ed',
+		'default' 		=> '#ffffff',
 	),
 
 	array(
@@ -358,8 +370,8 @@ $settings = array(
 		'title' 		=> 'Tab Padding',
 		'id' 			=> 'sy-tab-padding',
 		'section_id' 	=> 'sy_tab',
-		'default' 		=> '12px 20px',
-		'desc' 			=> '↨ ⟷ ( Default: 12px 20px )'
+		'default' 		=> '11px 20px',
+		'desc' 			=> '↨ ⟷ ( Default: 11px 20px )'
 	),
 
 		/* Form Style */

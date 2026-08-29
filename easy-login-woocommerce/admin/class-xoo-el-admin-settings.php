@@ -420,8 +420,8 @@ class Xoo_El_Admin_Settings{
 		ob_start();
 		?>
 		<p style="margin: 0 0 16px 0;">
-			<strong><span style="font-size: 20px;">Welcome Back 👋</span><br /></strong>
-			<span style="color: #939393; font-size: 15px;">Sign in to access your account and continue where you left off.</span>
+			<strong><span style="font-size: 20px; color: #8B684D;">Welcome Back</span><br /></strong>
+			<span style="color: #8B684D; font-size: 15px;">Sign in to access your account and continue where you left off.</span>
 		</p>
 		<?php
 		return ob_get_clean();
@@ -431,8 +431,10 @@ class Xoo_El_Admin_Settings{
 		ob_start();
 		?>
 		<p style="margin: 0 0 16px 0;">
-			<strong><span style="font-size: 20px;">Welcome aboard 🚀</span><br /></strong>
-			<span style="color: #939393; font-size: 15px;">Create your account to access everything you need.</span>
+			<p style="margin: 0 0 16px 0;">
+				<strong><span style="font-size: 20px;"><span style="color: #8B684D;">Welcome aboard</span></span><br /></strong>
+				<span style="color: #8B684D; font-size: 15px;">Create your account to access everything you need.</span>
+			</p>
 		</p>
 		<?php
 		return ob_get_clean();
