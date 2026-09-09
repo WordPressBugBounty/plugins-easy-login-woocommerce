@@ -5,6 +5,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $tabs = array(
+
+	'shortcodes' => array(
+		'title'			=> 'Shortcodes',
+		'id' 			=> 'shortcodes',
+		'option_key' 	=> '',
+		'args' 			=> array(
+			'priority' => 5
+		),
+		'icon' 			=> 'xoo-icon-code',
+	),
+
+
 	'general' => array(
 		'title'			=> 'General',
 		'id' 			=> 'general',
@@ -25,17 +37,6 @@ $tabs = array(
 		),
 		'icon' 			=> 'xoo-icon-brush',
 	),
-
-	'shortcodes' => array(
-		'title'			=> 'Shortcodes',
-		'id' 			=> 'shortcodes',
-		'option_key' 	=> '',
-		'args' 			=> array(
-			'priority' => 40
-		),
-		'icon' 			=> 'xoo-icon-code',
-	),
-
 
 	'addon' => array(
 		'title'			=> 'Add-ons',

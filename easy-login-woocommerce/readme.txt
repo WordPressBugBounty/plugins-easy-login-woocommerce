@@ -1,10 +1,10 @@
-=== Login & Register Forms – Popup, Slider, Profile & WooCommerce ===
+=== Login & Register Customizer – Forms, Popup, Profile & WooCommerce ===
 Contributors: XootiX, xootixsupport
 Donate link: https://www.paypal.me/xootix
-Tags: woocommerce login, login popup, social login, otp login, 2fa
+Tags: woocommerce login, login customizer, social login, otp login, custom login
 Requires at least: 3.0.1
 Tested up to: 7.0
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,9 @@ theme/templates/easy-login-woocommerce/globals/ For more info, check template he
 10. Shortcodes
 
 == Changelog ==
+
+= 4.0.4 =
+* Fix - WPML translation not working for few form texts.
 
 = 4.0.3 =
 * Default settings update

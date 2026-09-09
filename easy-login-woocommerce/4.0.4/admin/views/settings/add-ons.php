@@ -1,0 +1,78 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+$link = 'https://xootix.com/plugins/easy-login-for-woocommerce#sp-addons';
+
+$addons = array(
+
+	'social_login' => array(
+		'title' => 'Social Login',
+		'icon' 	=> 'dashicons-facebook',
+		'desc' 	=> 'Allow users to login & register using their social accounts ( Facebook, Google, Apple, Line & X ) with a single click.',
+		'link' 	=> $link,
+		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
+	),
+
+	'security' => array(
+		'title' => 'Security',
+		'icon' 	=> 'dashicons-shield-alt',
+		'desc' 	=> 'Protect your form from bots using (Google Recaptcha(v2/v3) / Turnstile / Friendly Captcha ) + Password strength meter + Limit login attempts',
+		'link' 	=> $link,
+		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
+	),
+
+	'email_verify' => array(
+		'title' => 'Email Verification/User approval',
+		'icon' 	=> 'dashicons-email',
+		'desc' 	=> 'Disable user access to the account. You have two options: either ask users to verify their email address by clicking on the verification link sent to them, or manually approve them from the admin panel.',
+		'link' 	=> $link,
+		'demo' 	=> 'https://demo.xootix.com/user-verification-for-woocommerce'
+	),
+
+	'otp_login' => array(
+		'title' => '2FA & One time password(OTP) Login',
+		'icon' 	=> 'dashicons-phone',
+		'desc' 	=> '- Allow users to login with OTP ( sent on their phone or email) removing the need to remember a password. <br>- Enable users to enhance their account security with two-factor authentication (2FA).',
+		'link' 	=> $link,
+		'demo' 	=> 'https://demo.xootix.com/mobile-login-for-woocommerce'
+	),
+
+	'fields' => array(
+		'title' 	=> 'Custom Registration fields',
+		'icon' 		=> 'dashicons-plus',
+		'desc' 		=> 'Add extra fields to registration form , display them on user profile & myaccount page. (See <a href="'.admin_url('admin.php?page=xoo-el-fields').'" target="__blank">Fields page</a> to know supported field types )',
+		'link' 	=> $link,
+		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
+	),
+
+
+	'autocomplete_address' => array(
+		'title' 	=> 'Autocomplete Address',
+		'icon' 		=> 'dashicons-plus',
+		'desc' 		=> "With the Google Places API, instantly get customers' accurate locations. Collect billing and shipping addresses seamlessly in your registration form. <br><b>**Requires Custom Registration Fields**</b>",
+		'link' 	=> $link,
+		'demo' 	=> 'https://demo.xootix.com/easy-login-for-woocommerce'
+	),
+
+);
+
+?>
+
+<div class="xoo-addon-container">
+	<?php foreach ( $addons as $id => $data ): ?>
+		<div class="xoo-addon">
+			<span class="dashicons <?php echo esc_attr( $data['icon'] ); ?>"></span>
+			<span class="xoo-ao-title"><?php echo wp_kses_post( $data['title'] ) ?></span>
+			<div class="xoo-ao-desc"><?php echo wp_kses_post( $data['desc'] ); ?></div>
+			<div class="xoo-ao-btns">
+				<a class="xoo-btn xoo-btn-primary" target="_blank" href="<?php echo esc_url( $data['link'] ) ?>">BUY</a>
+				<?php if( isset( $data['demo'] ) ): ?>
+					<a class="xoo-btn xoo-btn-secondary" target="_blank" href="<?php echo esc_url( $data['demo'] ) ?>">DEMO</a>
+				<?php endif; ?>
+			</div>
+		</div>
+	<?php endforeach; ?>
+</div>

@@ -9,8 +9,6 @@ class Xoo_El_Frontend{
 
 	protected static $_instance = null;
 
-	public $glSettings;
-
 	public static function get_instance(){
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
@@ -19,7 +17,6 @@ class Xoo_El_Frontend{
 	}
 
 	public function __construct(){
-		$this->glSettings = xoo_el_helper()->get_general_option();
 		$this->hooks();
 	}
 
@@ -40,26 +37,28 @@ class Xoo_El_Frontend{
 
 	public function add_form_text( $form, $args ){
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		if( $form === 'login' ){
-			if( $this->glSettings['txt-login-form'] ){
-				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $this->glSettings['txt-login-form'] ).'</div>';
+			if( $glSettings['txt-login-form'] ){
+				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $glSettings['txt-login-form'] ).'</div>';
 			}
 		}
 		else if( $form === 'register' ){
-			if( $this->glSettings['txt-register-form'] ){
-				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $this->glSettings['txt-register-form'] ).'</div>';
+			if( $glSettings['txt-register-form'] ){
+				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $glSettings['txt-register-form'] ).'</div>';
 			}
 		}
 		else if( $form === 'single' ){
-			if( $this->glSettings['txt-single-form'] ){
-				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $this->glSettings['txt-single-form'] ).'</div>';
+			if( $glSettings['txt-single-form'] ){
+				echo '<div class="xoo-el-form-desc">'.wp_kses_post( $glSettings['txt-single-form'] ).'</div>';
 			}
 		}
 
 	}
 
 	public function lostpw_attach_code_form( $form, $args ){
-		if( $form !== 'lostpw' || $this->glSettings['m-reset-pw'] !== 'code' ) return;
+		if( $form !== 'lostpw' || xoo_el_helper()->get_general_option('m-reset-pw') !== 'code' ) return;
 		xoo_el_code_forms()->forms['reset_password']->get_code_form();
 	}
 
@@ -79,6 +78,8 @@ class Xoo_El_Frontend{
 	//Enqueue javascript
 	public function enqueue_scripts(){
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		//Enqueue Form field framework scripts
 		xoo_el()->aff->enqueue_scripts();
 
@@ -96,21 +97,21 @@ class Xoo_El_Frontend{
 				)
 			),
 			'autoOpenPopup' 	=> $this->is_auto_open_page() ? 'yes' : 'no',
-			'autoOpenPopupOnce' => $this->glSettings['ao-once'],
-			'aoDelay' 			=> $this->glSettings['ao-delay'],
+			'autoOpenPopupOnce' => $glSettings['ao-once'],
+			'aoDelay' 			=> $glSettings['ao-delay'],
 			'loginClass' 		=> xoo_el_helper()->get_advanced_option('m-login-class'),
 			'registerClass' 	=> xoo_el_helper()->get_advanced_option('m-register-class'),
 			'errorLog' 			=> xoo_el_helper()->get_advanced_option('m-error-log'),
-			'resetPwPattern' 	=> $this->glSettings['m-reset-pw'],
+			'resetPwPattern' 	=> $glSettings['m-reset-pw'],
 			'resend_wait' 		=> 90,
-			'preventClosing' 	=> $this->glSettings['popup-force'] === "yes",
+			'preventClosing' 	=> $glSettings['popup-force'] === "yes",
 			'hasCodeForms' 		=> !empty( xoo_el_code_forms()->forms ),
 			'isLoggedIn' 		=> is_user_logged_in() ? 'yes' : 'no',
 		);
 
 		if( class_exists('woocommerce') ){
 			$localizeData['checkout'] =  array(
-				'loginEnabled' 		=> $this->glSettings['m-en-chkout'],
+				'loginEnabled' 		=> $glSettings['m-en-chkout'],
 				'loginRedirect' 	=> esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) )
 			);
 		}
@@ -124,14 +125,16 @@ class Xoo_El_Frontend{
 
 	public function is_auto_open_page(){
 
-		if( !trim( $this->glSettings['ao-pages'] ) ){
+		$glSettings = xoo_el_helper()->get_general_option();
+
+		if( !trim( $glSettings['ao-pages'] ) ){
 			$pages = array();
 		}
 		else{
-			$pages = array_map( 'trim', explode( ',', $this->glSettings['ao-pages'] ) );
+			$pages = array_map( 'trim', explode( ',', $glSettings['ao-pages'] ) );
 		}
 
-		$isPage = $this->glSettings['ao-enable'] === "yes" && ( empty( $pages ) || is_page( $pages ) || ( class_exists('woocommerce') && is_product() && in_array( get_the_id() , $pages ) ) );
+		$isPage = $glSettings['ao-enable'] === "yes" && ( empty( $pages ) || is_page( $pages ) || ( class_exists('woocommerce') && is_product() && in_array( get_the_id() , $pages ) ) );
 
 
 		foreach ( $pages as $page_id ) {
@@ -154,6 +157,8 @@ class Xoo_El_Frontend{
 
 
 	public function pop_shortcode( $atts ){
+
+		$glSettings = xoo_el_helper()->get_general_option();
 
 		$atts = shortcode_atts( array(
 			'type'				=> 'login',
@@ -185,7 +190,7 @@ class Xoo_El_Frontend{
 
 		    if( isset( $logout_match[1] ) ){
 
-		    	$logout_link 	= !empty( $this->glSettings['m-red-logout'] ) ? sanitize_url( $this->glSettings['m-red-logout'] ) : sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
+		    	$logout_link 	= !empty( $glSettings['m-red-logout'] ) ? sanitize_url( $glSettings['m-red-logout'] ) : sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 				$change_to_link = wp_logout_url( $logout_link );
 
 		    	foreach ($logout_match[1] as $index => $content ) {
@@ -257,6 +262,8 @@ class Xoo_El_Frontend{
 	//Shortcode
 	public function markup_shortcode($user_atts){
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		$atts = shortcode_atts( array(
 			'action' 			=> 'login', // For version < 1.3
 			'type'				=> 'login',
@@ -295,7 +302,7 @@ class Xoo_El_Frontend{
 				$change_to_text =  !empty( $change_to_text ) ? $change_to_text : __('My account','easy-login-woocommerce');
 			}
 			else if( $atts['change_to'] === 'logout' ){
-				$logout_link 	= !empty( $this->glSettings['m-red-logout'] ) ? $this->glSettings['m-red-logout'] : sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
+				$logout_link 	= !empty( $glSettings['m-red-logout'] ) ? $glSettings['m-red-logout'] : sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 				$change_to_link = wp_logout_url( $logout_link );
 				$change_to_text =  !empty( $change_to_text ) ? $change_to_text : __('Logout','easy-login-woocommerce');
 			}

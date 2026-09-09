@@ -10,6 +10,7 @@ class Xoo_El_Form_Handler{
 
 	public static $glSettings;
 
+
 	public static function init(){
 		self::$glSettings = xoo_el_helper()->get_general_option();
 		self::hooks();
@@ -17,10 +18,12 @@ class Xoo_El_Form_Handler{
 
 	public static function hooks(){
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		add_action( 'wp_ajax_xoo_el_form_action', array( __CLASS__, 'form_action' ) );
 		add_action( 'wp_ajax_nopriv_xoo_el_form_action', array( __CLASS__, 'form_action' ) );
 
-		if( self::$glSettings['m-reset-pw'] !== "disable" ){
+		if( $glSettings['m-reset-pw'] !== "disable" ){
 			add_action( 'template_redirect', array( __CLASS__, 'redirect_reset_password_link' ) );
 			add_action( 'template_redirect', array( __CLASS__, 'remove_query_args' ) );
 			add_filter( 'wp_new_user_notification_email', array( __CLASS__, 'newuser_notification_email' ), 20, 3 );
@@ -276,6 +279,8 @@ class Xoo_El_Form_Handler{
 	 */
 	public static function process_registration() {
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( isset($_POST['_xoo_el_form']) &&  $_POST['_xoo_el_form'] === 'register' ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing
@@ -288,7 +293,7 @@ class Xoo_El_Form_Handler{
 
 			try {
 
-				if( self::$glSettings['m-en-reg'] !== 'yes' ){
+				if( $glSettings['m-en-reg'] !== 'yes' ){
 					throw new Xoo_Exception( __( 'Registration is disabled', 'easy-login-woocommerce' )  );
 				}
 
@@ -401,7 +406,7 @@ class Xoo_El_Form_Handler{
 				}
 
 
-				if( self::$glSettings['m-auto-login'] === "yes" ){
+				if( $glSettings['m-auto-login'] === "yes" ){
 
 					if( class_exists( 'woocommerce' ) ){
 						wc_set_customer_auth_cookie( $new_customer );
@@ -464,6 +469,8 @@ class Xoo_El_Form_Handler{
 	//Create new user
 	public static function create_customer( $email = '', $username = '', $password = '', $extra_data = array() ){
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		// Check the email address.
 		if ( !empty( $email ) ) {
 
@@ -505,7 +512,7 @@ class Xoo_El_Form_Handler{
 			'user_login' => $username,
 			'user_pass'  => $password,
 			'user_email' => $email,
-			'role'       => isset( $extra_data['userRoleSelected'] ) ? $extra_data['userRoleSelected'] : esc_html( self::$glSettings['m-user-role'] ),
+			'role'       => isset( $extra_data['userRoleSelected'] ) ? $extra_data['userRoleSelected'] : esc_html( $glSettings['m-user-role'] ),
 		);
 		
 		$new_customer_data = apply_filters( 'xoo_el_register_new_customer_data', $customer_data );
@@ -644,6 +651,8 @@ class Xoo_El_Form_Handler{
 	// Process lost password form
 	public static function process_lost_password(){
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if( isset($_POST['_xoo_el_form']) &&  $_POST['_xoo_el_form'] === 'lostPassword' ){
 
@@ -651,7 +660,7 @@ class Xoo_El_Form_Handler{
 
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 				$user_login 		= trim( wp_unslash( $_POST['user_login'] ) );
-				$recover_pattern  	= self::$glSettings['m-reset-pw'];
+				$recover_pattern  	= $glSettings['m-reset-pw'];
 				$has_woocommmerce 	= class_exists('woocommerce');
 
 
@@ -764,7 +773,9 @@ class Xoo_El_Form_Handler{
 
 	public static function disable_wc_resetpw_email(){
 
-		if(  self::$glSettings['m-reset-pw'] === "code" ){
+		$glSettings = xoo_el_helper()->get_general_option();
+
+		if(  $glSettings['m-reset-pw'] === "code" ){
 			remove_action( 'woocommerce_reset_password_notification', array( WC_Emails::instance()->emails['WC_Email_Customer_Reset_Password'], 'trigger' ), 10, 2 );
 		}
 
@@ -773,9 +784,11 @@ class Xoo_El_Form_Handler{
 
 	public static function process_reset_password(){
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		try {
 
-			if( self::$glSettings['m-reset-pw'] === 'link' ){
+			if( $glSettings['m-reset-pw'] === 'link' ){
 
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$rp_key 	= isset( $_POST['rp_key'] ) ? wp_unslash( $_POST['rp_key'] ) : '';
@@ -872,6 +885,8 @@ class Xoo_El_Form_Handler{
 
 	public static function retrieve_password( $user_data ) {
 
+		$glSettings = xoo_el_helper()->get_general_option();
+
 		$errors    = new \WP_Error();
 
 		/**
@@ -955,7 +970,7 @@ class Xoo_El_Form_Handler{
 			$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 		}
 
-		$baseurl 	= self::$glSettings['m-reset-pw'] === "yes" ? '?action=reset_password&' : 'wp-login.php?action=rp&';
+		$baseurl 	= $glSettings['m-reset-pw'] !== "disable" ? '?action=reset_password&' : 'wp-login.php?action=rp&';
 
 		$message = __( 'Someone has requested a password reset for the following account:','easy-login-woocommerce' ) . "\r\n\r\n";
 		/* translators: %s: site name */
@@ -1069,7 +1084,10 @@ class Xoo_El_Form_Handler{
 
 
 	public function get_reset_password_link( $user_id ){
-		if( self::$glSettings['m-reset-pw'] !== "yes" ) return;
+
+		$glSettings = xoo_el_helper()->get_general_option();
+
+		if( $glSettings['m-reset-pw'] !== "yes" ) return;
 		$link = esc_url( add_query_arg( array( 'key' => $reset_key, 'id' => $user_id ), wc_get_endpoint_url( 'lost-password', '', wc_get_page_permalink( 'myaccount' ) ) ) );
 
 	}
