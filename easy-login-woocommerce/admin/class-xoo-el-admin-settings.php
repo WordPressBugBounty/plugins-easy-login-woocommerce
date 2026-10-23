@@ -118,7 +118,7 @@ class Xoo_El_Admin_Settings{
 
 	public function popup_begin( $tab_id, $tab_data ){
 
-		if( $tab_id !== 'general' ) return;
+		if( $tab_id !== 'shortcodes' ) return;
 
 		?>
 		<div class="xoo-el-admin-popup">

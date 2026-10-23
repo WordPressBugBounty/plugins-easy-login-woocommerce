@@ -1,6 +1,6 @@
 <?php
 /**
-* Plugin Name: Login & Register Forms – Popup, Slider, Profile & WooCommerce
+* Plugin Name: Login & Register Customizer – Forms, Popup, Profile & WooCommerce
 * Plugin URI: https://xootix.com/easy-login-for-woocommerce
 * Author: XootiX
 * Version: 4.0.4

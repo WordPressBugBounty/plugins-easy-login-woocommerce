@@ -3,7 +3,7 @@ Contributors: XootiX, xootixsupport
 Donate link: https://www.paypal.me/xootix
 Tags: woocommerce login, login customizer, social login, otp login, custom login
 Requires at least: 3.0.1
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 4.0.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

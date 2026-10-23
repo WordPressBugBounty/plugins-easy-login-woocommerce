@@ -308,6 +308,10 @@ textarea.xoo-elscg-sctext:focus {
     font-size: 16px;
 }
 
+.xoo-as-container[data-active_tab="addon"] .xoo-as-setsidebar {
+    display: none;
+}
+
 /* Pattern Popup */
 .xoo-settings-container {
     position: relative;
@@ -320,6 +324,7 @@ textarea.xoo-elscg-sctext:focus {
     bottom: 0;
     right: 0;
     z-index: 5;
+    min-height: 100vh;
 }
 
 .xoo-el-admin-popup > * {
